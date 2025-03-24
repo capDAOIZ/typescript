@@ -40,3 +40,27 @@
 .read-the-docs {
   color: #888;
 }
+
+body {
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  min-width: 320px;
+  min-height: 100vh;
+  flex-direction: column;
+  background-color: #f9fafb;
+  font-family: 'Arial', sans-serif;
+}
+
+h1 {
+  font-size: 2rem;
+  color: #e91e63;
+}
+
+button {
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #d81b60;
+}

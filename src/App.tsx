@@ -1,13 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import "tailwindcss/tailwind.css";  // Asegúrate de que Tailwind está bien configurado
+import "tailwindcss/tailwind.css";
 
 import Adoptables from "./components/Adoptables";
 import Base from "./components/Base";
 import Nosotros from "./components/Nosotros";
 import Contacto from "./components/Contacto";
+import LoginModal from "./components/LoginModal"; // Modal de inicio de sesión
 
 const App: React.FC = () => {
+  const [isLoginModalOpen, setLoginModalOpen] = useState(false);
+
+  const openLoginModal = () => setLoginModalOpen(true);
+  const closeLoginModal = () => setLoginModalOpen(false);
+
   return (
     <Router>
       <header className="bg-white shadow-md p-4 flex justify-between items-center w-full">
@@ -36,8 +42,11 @@ const App: React.FC = () => {
             </li>
           </ul>
         </nav>
-        <button className="bg-pink-600 text-white px-4 py-2 rounded-full">
-          DONA
+        <button
+          onClick={openLoginModal}
+          className="bg-pink-600 text-white px-4 py-2 rounded-full"
+        >
+          INICIAR SESION
         </button>
       </header>
 
@@ -49,6 +58,8 @@ const App: React.FC = () => {
           <Route path="/contacto" element={<Contacto />} />
         </Routes>
       </main>
+
+      <LoginModal isOpen={isLoginModalOpen} closeModal={closeLoginModal} />
     </Router>
   );
 };
