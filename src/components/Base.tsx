@@ -3,8 +3,11 @@ import { Link } from "react-router-dom";
 export default function Home() {
   return (
     <div
-      className="w-full min-h-screen bg-cover bg-center flex items-center justify-center relative"
-      style={{ backgroundImage: "url(/images/animales.jpg)" }}
+      className="w-full  min-h-screen bg-cover bg-center flex items-center justify-center relative"
+      style={{
+        backgroundImage: "url(/images/animales.jpg)",
+        backgroundSize: "cover",
+      }}
     >
       <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center text-center p-4 w-full">
         <h1 className="text-white text-4xl md:text-6xl font-bold">

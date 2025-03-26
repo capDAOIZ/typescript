@@ -24,11 +24,6 @@ export default function Header({ openLoginModal }: HeaderProps) {
               Sobre Nosotros
             </Link>
           </li>
-          <li>
-            <Link to="/contacto" className="hover:text-pink-600">
-              Contacto
-            </Link>
-          </li>
         </ul>
       </nav>
       <button

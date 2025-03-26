@@ -10,6 +10,10 @@ export default function Nosotros() {
         Nuestra misión es encontrar familias que les den una segunda oportunidad
         a estos animales, ayudándolos a recuperar la confianza y felicidad.
       </p>
+      <p className="text-gray-600 mt-4">
+        Grupo liderado por <strong>Mario Garrido</strong> y {""}
+        <strong>Jorge Zavaleta</strong>.
+      </p>
     </section>
   );
 }
