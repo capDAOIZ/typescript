@@ -1,10 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
 
-const LoginModal: React.FC<{ isOpen: boolean; closeModal: () => void }> = ({
-  isOpen,
-  closeModal,
-}) => {
+interface LoginModalProps {
+  isOpen: boolean;
+  closeModal: () => void;
+}
+
+export default function LoginModal({ isOpen, closeModal }: LoginModalProps) {
   const usernameRef = useRef<HTMLInputElement>(null);
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [passwordError, setPasswordError] = useState("");
@@ -64,12 +67,15 @@ const LoginModal: React.FC<{ isOpen: boolean; closeModal: () => void }> = ({
         className="bg-white p-6 rounded-lg shadow-lg max-w-xs w-full sm:max-w-sm md:max-w-md lg:max-w-lg"
         onClick={(e) => e.stopPropagation()}
       >
-        <h2 id="login-modal-title" className="text-center text-2xl font-semibold mb-4">
+        <h2
+          id="login-modal-title"
+          className="text-center text-2xl font-semibold mb-4 text-black"
+        >
           Iniciar Sesión
         </h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label htmlFor="username" className="block mb-2">
+            <label htmlFor="username" className="block mb-2 text-black">
               Usuario:
             </label>
             <input
@@ -84,7 +90,7 @@ const LoginModal: React.FC<{ isOpen: boolean; closeModal: () => void }> = ({
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="password" className="block mb-2">
+            <label htmlFor="password" className="block mb-2 text-black">
               Contraseña:
             </label>
             <input
@@ -122,6 +128,4 @@ const LoginModal: React.FC<{ isOpen: boolean; closeModal: () => void }> = ({
       </div>
     </div>
   );
-};
-
-export default LoginModal;
+}
