@@ -1,56 +1,61 @@
 import React, { useState, useEffect, useRef } from "react";
-
+import { useAuth } from "../components/context/AuthContext";
 interface LoginModalProps {
   isOpen: boolean;
   closeModal: () => void;
 }
 
 export default function LoginModal({ isOpen, closeModal }: LoginModalProps) {
-  const usernameRef = useRef<HTMLInputElement>(null);
+  const gmailRef = useRef<HTMLInputElement>(null);
 
-  const [username, setUsername] = useState("");
+  const [gmail, setGmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordError, setPasswordError] = useState("");
 
-  useEffect(() => {
-    if (isOpen && usernameRef.current) {
-      usernameRef.current.focus();
-    }
+  const { login } = useAuth();
 
+  useEffect(() => {
+    if (isOpen && gmailRef.current) {
+      gmailRef.current.focus();
+    }
+    setPasswordError("");
     const handleEsc = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         closeModal();
       }
     };
-
     window.addEventListener("keydown", handleEsc);
+
     return () => {
       window.removeEventListener("keydown", handleEsc);
     };
   }, [isOpen]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    // Validación de contraseña
-    const passwordRegex = /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/;
-    if (!passwordRegex.test(password)) {
-      setPasswordError(
-        "La contraseña debe tener al menos 8 caracteres, una mayúscula y un número."
-      );
-      return;
-    } else {
-      setPasswordError(""); // Resetea el error si la contraseña es válida
-    }
-
-    if (!username || !password) {
+    if (!gmail || !password) {
       alert("Por favor, llena todos los campos.");
       return;
     }
+    try {
+      await login(gmail, password);
+      alert("Inicio de sesión exitoso");
+      closeModal();
+    } catch (e: any) {
+      let errores = "";
 
-    // Aquí va la lógica de autenticación
-    alert("Inicio de sesión exitoso");
-    closeModal();
+      const errorObj = e.response.data.errors;
+      if (errorObj) {
+        Object.keys(errorObj).forEach((key) => {
+          errorObj[key].forEach((msg: string) => {
+            errores += `${msg}\n`;
+          });
+        });
+      }
+      console.log(errores);
+
+      setPasswordError(errores || "Errores desconocidos");
+    }
   };
 
   if (!isOpen) return null;
@@ -75,18 +80,18 @@ export default function LoginModal({ isOpen, closeModal }: LoginModalProps) {
         </h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label htmlFor="username" className="block mb-2 text-black">
-              Usuario:
+            <label htmlFor="gmail" className="block mb-2 text-black">
+              Gmail:
             </label>
             <input
               type="text"
-              id="username"
-              name="username"
+              id="gmail"
+              name="gmail"
               className="w-full p-2 border rounded"
               required
-              ref={usernameRef}
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              ref={gmailRef}
+              value={gmail}
+              onChange={(e) => setGmail(e.target.value)}
             />
           </div>
           <div className="mb-4">

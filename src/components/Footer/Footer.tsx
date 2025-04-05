@@ -9,11 +9,8 @@ export default function Footer() {
         <FooterRedesSociales />
         <FooterInformacion />
       </div>
-      <div className="w-full border-t-2 border-white mt-4"></div>
       <div className="w-full text-center mt-4">
-        <p className="text-black font-black">
-          ANIMAL RESCUE © 2025 Todos los derechos reservados a JORGE Y MARIO
-        </p>
+        <p className="text-black font-black">ANIMAL RESCUE © 2025</p>
       </div>
     </footer>
   );

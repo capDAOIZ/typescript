@@ -1,9 +1,11 @@
 import { Link } from "react-router-dom";
-
+import { useAuth } from "../components/context/AuthContext";
 interface HeaderProps {
   openLoginModal: () => void;
 }
 export default function Header({ openLoginModal }: HeaderProps) {
+  const { isAuthenticated, logout } = useAuth();
+
   return (
     <header className="bg-white shadow-md p-4 flex justify-between items-center w-full">
       <h1 className="text-pink-600 text-2xl font-bold">Animal Rescue</h1>
@@ -26,12 +28,25 @@ export default function Header({ openLoginModal }: HeaderProps) {
           </li>
         </ul>
       </nav>
-      <button
-        onClick={openLoginModal}
-        className="bg-pink-600 text-white px-4 py-2 rounded-full"
-      >
-        INICIAR SESION
-      </button>
+      <div className="flex items-center space-x-2">
+        <button
+          onClick={isAuthenticated ? logout : openLoginModal}
+          className="bg-pink-600 text-white px-4 py-2 rounded-full"
+        >
+          {isAuthenticated ? "CERRAR SESION" : "INICIAR SESION"}
+        </button>
+        {isAuthenticated && (
+          <button>
+            <Link to="/perfil">
+              <img
+                src="Goku.jpg"
+                alt="Imagen del perfil"
+                className="h-11 w-11 rounded-full border-2 border-pink-600"
+              ></img>
+            </Link>
+          </button>
+        )}
+      </div>
     </header>
   );
 }

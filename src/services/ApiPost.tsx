@@ -32,9 +32,13 @@ export async function getPost(id: number) {
   }
 }
 
-export async function createPost(post: Post) {
+export async function createPost(formData: FormData) {
   try {
-    const response = await api.post("/posts", post);
+    const response = await api.post("/posts", formData, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}` || "",
+      },
+    });
 
     return response.data;
   } catch (error) {
