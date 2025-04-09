@@ -75,6 +75,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
       setIsAuthenticated(false);
     } catch (error) {
       console.error("Error en cerrar sesion", error);
+      // En cualquier caso que no se pueda cerrar sesion por algun error, independientemente se cerrara sesion
+      if (localStorage.getItem("token")) {
+        localStorage.removeItem("token");
+        setUser(null);
+        setIsAuthenticated(false);
+      }
       throw error;
     }
   };

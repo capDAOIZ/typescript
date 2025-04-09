@@ -18,13 +18,13 @@ export default function Home() {
         </p>
         <div className="mt-6 flex gap-4">
           <Link
-            to="/adoptables"
+            to="/adoptables/perros"
             className="bg-pink-600 text-white px-6 py-3 rounded-full text-lg font-semibold"
           >
             ADOPTAR PERRO
           </Link>
           <Link
-            to="/adoptables"
+            to="/adoptables/gatos"
             className="bg-purple-600 text-white px-6 py-3 rounded-full text-lg font-semibold"
           >
             ADOPTAR GATO

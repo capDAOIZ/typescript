@@ -7,9 +7,9 @@ export default function Header({ openLoginModal }: HeaderProps) {
   const { isAuthenticated, logout } = useAuth();
 
   return (
-    <header className="bg-white shadow-md p-4 flex justify-between items-center w-full">
+    <header className="bg-white shadow-md p-4 flex justify-around items-center w-full">
       <h1 className="text-pink-600 text-2xl font-bold">Animal Rescue</h1>
-      <nav className="flex-1">
+      <nav className="">
         <ul className="flex space-x-6 text-gray-700 justify-center">
           <li>
             <Link to="/" className="hover:text-pink-600">

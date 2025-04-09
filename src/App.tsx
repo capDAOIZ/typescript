@@ -11,6 +11,7 @@ import Nosotros from "./components/Nosotros";
 import LoginModal from "./modals/LoginModal"; // Modal de inicio de sesión
 import Perfil from "./components/Perfil";
 import CrearPost from "./components/CrearPost";
+import Registrarse from "./components/Registrarse";
 
 export default function App() {
   const [isLoginModalOpen, setLoginModalOpen] = useState(false);
@@ -36,6 +37,7 @@ export default function App() {
               path="/crearPost"
               element={<RutaPrivada component={CrearPost} />}
             />
+            <Route path="/registrarse" element={<Registrarse />} />
           </Routes>
         </main>
         <Footer></Footer>

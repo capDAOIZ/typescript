@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useAuth } from "../components/context/AuthContext";
+import { useNavigate } from "react-router-dom";
 interface LoginModalProps {
   isOpen: boolean;
   closeModal: () => void;
@@ -13,6 +14,7 @@ export default function LoginModal({ isOpen, closeModal }: LoginModalProps) {
   const [passwordError, setPasswordError] = useState("");
 
   const { login } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (isOpen && gmailRef.current) {
@@ -52,11 +54,15 @@ export default function LoginModal({ isOpen, closeModal }: LoginModalProps) {
           });
         });
       }
-      console.log(errores);
 
-      setPasswordError(errores || "Errores desconocidos");
+      setPasswordError(errores || "Usuario no encontrado");
     }
   };
+
+  function handleRegisterClick() {
+    closeModal();
+    navigate("/registrarse");
+  }
 
   if (!isOpen) return null;
 
@@ -120,15 +126,22 @@ export default function LoginModal({ isOpen, closeModal }: LoginModalProps) {
         </form>
         <button
           className="mt-4 w-full text-center text-pink-600"
-          onClick={closeModal}
+          onClick={handleRegisterClick}
         >
-          Cerrar
+          ¿No tienes cuenta? Registrate{" "}
         </button>
+
         <button
           className="w-full text-center text-pink-600 mt-2"
           onClick={() => alert("Redirigiendo a recuperar contraseña...")}
         >
           ¿Olvidaste tu contraseña?
+        </button>
+        <button
+          className="mt-2 w-full text-center text-pink-600"
+          onClick={closeModal}
+        >
+          Cerrar
         </button>
       </div>
     </div>
