@@ -1,10 +1,11 @@
+import { useAuth } from "../context/AuthContext";
+import SideBar from "./SideBar";
 import { Link } from "react-router-dom";
-import { useAuth } from "../components/context/AuthContext";
 interface HeaderProps {
   openLoginModal: () => void;
 }
 export default function Header({ openLoginModal }: HeaderProps) {
-  const { isAuthenticated, logout } = useAuth();
+  const { isAuthenticated } = useAuth();
 
   return (
     <header className="bg-white shadow-md p-4 flex justify-around items-center w-full">
@@ -26,26 +27,28 @@ export default function Header({ openLoginModal }: HeaderProps) {
               Sobre Nosotros
             </Link>
           </li>
+          {isAuthenticated ? (
+            <li>
+              <Link to="/crearPost">
+                <button className="">Buscar Familia🐾</button>
+              </Link>
+            </li>
+          ) : (
+            ""
+          )}
         </ul>
       </nav>
+
       <div className="flex items-center space-x-2">
         <button
-          onClick={isAuthenticated ? logout : openLoginModal}
-          className="bg-pink-600 text-white px-4 py-2 rounded-full"
+          onClick={openLoginModal}
+          className={`${
+            isAuthenticated ? "hidden" : ""
+          } bg-pink-600 text-white px-4 py-2 rounded-full`}
         >
-          {isAuthenticated ? "CERRAR SESION" : "INICIAR SESION"}
+          INICIAR SESION
         </button>
-        {isAuthenticated && (
-          <button>
-            <Link to="/perfil">
-              <img
-                src="Goku.jpg"
-                alt="Imagen del perfil"
-                className="h-11 w-11 rounded-full border-2 border-pink-600"
-              ></img>
-            </Link>
-          </button>
-        )}
+        {isAuthenticated && <SideBar />}
       </div>
     </header>
   );

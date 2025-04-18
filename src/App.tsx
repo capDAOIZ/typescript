@@ -1,17 +1,19 @@
 import { useState } from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import RutaPrivada from "./components/RutaPrivada";
+import { RutaPrivada, RutaPrivadaAdmin } from "./components/RutaPrivada";
 
-import Header from "./components/Header";
+import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
 
-import Adoptables from "./components/Adoptables";
-import Base from "./components/Base";
-import Nosotros from "./components/Nosotros";
+import Adoptables from "./components/Header/Adoptables";
+import Base from "./components/Base/Base";
+import Nosotros from "./components/Header/Nosotros";
 import LoginModal from "./modals/LoginModal"; // Modal de inicio de sesión
-import Perfil from "./components/Perfil";
+import Perfil from "./Perfil/Perfil";
 import CrearPost from "./components/CrearPost";
 import Registrarse from "./components/Registrarse";
+import VistaPost from "./components/VistaPost";
+import MenuAdministrador from "./components/MenuAdministrador";
 
 export default function App() {
   const [isLoginModalOpen, setLoginModalOpen] = useState(false);
@@ -29,6 +31,9 @@ export default function App() {
             <Route path="/" element={<Base />} />
             <Route path="/adoptables" element={<Adoptables />} />
             <Route path="/nosotros" element={<Nosotros />} />
+            <Route path={"/adoptables/:id"} element={<VistaPost />}></Route>
+            <Route path="/registrarse" element={<Registrarse />} />
+
             <Route
               path="/perfil"
               element={<RutaPrivada component={Perfil} />}
@@ -37,7 +42,10 @@ export default function App() {
               path="/crearPost"
               element={<RutaPrivada component={CrearPost} />}
             />
-            <Route path="/registrarse" element={<Registrarse />} />
+            <Route
+              path="/menuAdmin"
+              element={<RutaPrivadaAdmin component={MenuAdministrador} />}
+            />
           </Routes>
         </main>
         <Footer></Footer>

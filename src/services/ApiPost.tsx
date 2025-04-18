@@ -31,6 +31,18 @@ export async function getPost(id: number) {
     throw error;
   }
 }
+// id?: number Al ponerlo asi no puedo usar la id de esta manera wait api.get(`/posts/ultimosPosts/${id}`), ya que si no hay id se devuelve como undefined
+export async function getLastPost(id?: number) {
+  try {
+    const response = id
+      ? await api.get(`/posts/ultimosPosts/${id}`)
+      : await api.get("/posts/ultimosPosts");
+    return response.data;
+  } catch (error) {
+    console.error("Error al obtener el post", error);
+    throw error;
+  }
+}
 
 export async function createPost(formData: FormData) {
   try {

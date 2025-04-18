@@ -12,6 +12,7 @@ interface User {
   biografia: string;
   role: string;
   password: string;
+  image: File;
 }
 
 interface AuthContextType {
@@ -49,6 +50,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       "user": {
         "id": 1,
         "name": "Moob",
+        "image": null,
         "email": "moob@gmail.com",
         "biografia": "Soy un programador programando",
         "role": "user",

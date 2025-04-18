@@ -1,9 +1,8 @@
 import { Link } from "react-router-dom";
-
-export default function Home() {
+export default function FotoPrincipal() {
   return (
     <div
-      className="w-full  min-h-screen bg-cover bg-center flex items-center justify-center relative"
+      className="w-full min-h-screen bg-cover bg-center flex items-center justify-center relative"
       style={{
         backgroundImage: "url(/images/animales.jpg)",
         backgroundSize: "cover",

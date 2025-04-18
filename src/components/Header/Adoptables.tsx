@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { getPosts } from "../services/ApiPost";
-import { useAuth } from "./context/AuthContext";
+import { getPosts } from "../../services/ApiPost";
+import { useAuth } from "../context/AuthContext";
 import { Link } from "react-router-dom";
 
 interface Post {
@@ -42,15 +42,6 @@ export default function Adoptables() {
     <section className="w-full min-h-screen py-12 bg-gray-100 text-center px-12">
       <h2 className="text-3xl font-bold text-gray-800">
         Mascotas en Adopción {""}
-        {isAuthenticated ? (
-          <span>
-            <Link to="/crearPost">
-              <button className="">📤</button>
-            </Link>
-          </span>
-        ) : (
-          ""
-        )}
       </h2>
       <p className="text-gray-600 mt-2">
         Aquí tienes algunas de las últimas mascotas en adopción.
@@ -67,14 +58,19 @@ export default function Adoptables() {
         ) : (
           posts.map((post) => (
             <div className="bg-white p-4 shadow-lg rounded-lg" key={post.id}>
-              <img
-                src={`data:image/jpeg;base64,${post.image}`}
-                alt={post.nameAnimal}
-              />
+              <Link to={`/adoptables/${post.id}`}>
+                <img
+                  className="rounded-lg cursor-pointer"
+                  src={`data:image/jpeg;base64,${post.image}`}
+                  alt={post.nameAnimal}
+                />
+              </Link>
               <h3 className="text-xl font-bold mt-4 truncate">
                 {post.nameAnimal}
               </h3>
-              <p className="text-gray-600">{post.typeAnimal}</p>
+              <p className="text-gray-600">
+                {post.typeAnimal == "perro" ? "Perro 🐶 " : "Gato 🐱 "}
+              </p>
             </div>
           ))
         )}
@@ -84,7 +80,7 @@ export default function Adoptables() {
         <button
           onClick={() => setPaginaActual(paginaActual - 1)}
           disabled={paginaActual === 1}
-          className="px-4 py-2 bg-gray-300 text-white rounded-l-md"
+          className="px-4 py-2 bg-blue-600 text-white rounded-l-md"
         >
           Anterior
         </button>
@@ -94,7 +90,7 @@ export default function Adoptables() {
         <button
           onClick={() => setPaginaActual(paginaActual + 1)}
           disabled={paginaActual === totalPaginas}
-          className="px-4 py-2 bg-gray-300 text-white rounded-r-md"
+          className="px-4 py-2 bg-blue-600 text-white rounded-r-md"
         >
           Siguiente
         </button>

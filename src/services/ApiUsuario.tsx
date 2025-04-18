@@ -88,3 +88,21 @@ export async function registrarse({ name, email, password }: CrearUsuario) {
     throw error;
   }
 }
+
+export async function actualizarUsuario(
+  id: number,
+  formData: FormData,
+  token: string
+) {
+  try {
+    const response = await api.post(`/usuarios/${id}?_method=PATCH`, formData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error al actualizar el usuario", error);
+    throw error;
+  }
+}
