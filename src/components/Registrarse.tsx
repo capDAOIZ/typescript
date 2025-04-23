@@ -42,7 +42,7 @@ export default function Registrarse() {
 
   return (
     <div className="flex flex-row  gap-4 m-5  ">
-      <picture className=" w-full lg:w-1/2">
+      <picture className=" w-full  lg:w-1/2">
         <img src="../images/Logo-PaginaAdopcion.png"></img>
       </picture>
       <section className="w-full lg:w-1/2 flex flex-col justify-center items-center">

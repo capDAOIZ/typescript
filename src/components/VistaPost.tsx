@@ -1,11 +1,13 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { getPost } from "../services/ApiPost";
 import { perfilUsuario } from "../services/ApiUsuario";
+import { useAuth } from "./context/AuthContext";
 interface Post {
   nameAnimal: string;
   typeAnimal: string;
   description: string;
+  race: string;
   image: File;
   user_id: number;
   adopted: boolean;
@@ -15,9 +17,15 @@ interface Usuario {
   email: string;
   image: File;
 }
-export default function VistaPost() {
+
+interface Props {
+  openLoginModal: () => void;
+}
+export default function VistaPost({ openLoginModal }: Props) {
   const [post, setPost] = useState<Post>();
   const [usuario, setUsuario] = useState<Usuario>();
+  const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
 
   const { id } = useParams();
   const idUsuario = post?.user_id;
@@ -47,6 +55,14 @@ export default function VistaPost() {
     }
     fetchUsuario();
   }, [idUsuario]);
+
+  function handleClick() {
+    if (!isAuthenticated) {
+      openLoginModal();
+    } else {
+      navigate("/firmarContrato");
+    }
+  }
 
   return (
     <div className=" flex lg:flex-row flex-col min-h-screen gap-6 m-12  ">
@@ -94,9 +110,9 @@ export default function VistaPost() {
                 Tipo de {post?.typeAnimal == "perro" ? "Perro" : "Gato"}
               </h3>
               <p className="text-center mb-3 font-semibold ">
-                La raza del animal es :{" "}
+                La raza del animal es :{}
               </p>
-              <p className="text-center font-black ">LABRADOR</p>
+              <p className="text-center font-black ">{post?.race}</p>
             </div>
           </div>
 
@@ -179,7 +195,10 @@ export default function VistaPost() {
                   Te gustaria darle otra oportunidad a {post?.nameAnimal}?
                 </h3>
                 <div className="relative inline-block">
-                  <button className="bg-white text-black px-6 py-3 rounded-full text-lg font-semibold relative">
+                  <button
+                    onClick={handleClick}
+                    className="bg-white text-black px-6 py-3 rounded-full text-lg font-semibold relative"
+                  >
                     Firma para una segunda oportunidad
                   </button>
                   <span className="absolute top-0 right-0 flex size-3">

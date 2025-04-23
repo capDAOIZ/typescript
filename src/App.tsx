@@ -14,6 +14,7 @@ import CrearPost from "./components/CrearPost";
 import Registrarse from "./components/Registrarse";
 import VistaPost from "./components/VistaPost";
 import MenuAdministrador from "./components/MenuAdministrador";
+import FirmaContrato from "./components/Contrato/FirmaContrato";
 
 export default function App() {
   const [isLoginModalOpen, setLoginModalOpen] = useState(false);
@@ -31,8 +32,13 @@ export default function App() {
             <Route path="/" element={<Base />} />
             <Route path="/adoptables" element={<Adoptables />} />
             <Route path="/nosotros" element={<Nosotros />} />
-            <Route path={"/adoptables/:id"} element={<VistaPost />}></Route>
+            <Route
+              path={"/adoptables/:id"}
+              element={<VistaPost openLoginModal={openLoginModal} />}
+            ></Route>
             <Route path="/registrarse" element={<Registrarse />} />
+
+            <Route path="/firmarContrato" element={<FirmaContrato />} />
 
             <Route
               path="/perfil"
