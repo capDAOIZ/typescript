@@ -59,9 +59,11 @@ export async function cerrarSesion(token: string) {
   }
 }
 
-export async function getUsuarios() {
+export async function getUsuarios(page: number = 1) {
   try {
-    const response = await api.get("/usuarios");
+    /*Recordemos que cuando utilizamos paginate en la api estamos dividiendo los datos en paginas 
+    para indicar en que pagina queremos estar tenemos que pasarle un parametro en la url llamado page*/
+    const response = await api.get(`/usuarios?page=${page}`);
     return response.data;
   } catch (error) {
     console.error("Error al obtener todos los usuarios", error);
@@ -84,7 +86,7 @@ export async function registrarse({ name, email, password }: CrearUsuario) {
     const response = await api.post(`/usuarios`, { name, email, password });
     return response.data;
   } catch (error) {
-    console.error("Error al crear usuario", error);
+    console.error("Error al registrar el usuario", error);
     throw error;
   }
 }
@@ -103,6 +105,59 @@ export async function actualizarUsuario(
     return response.data;
   } catch (error) {
     console.error("Error al actualizar el usuario", error);
+    throw error;
+  }
+}
+
+export async function banearUsuario(id: number, token: string) {
+  try {
+    const response = await api.post(`/usuarios/${id}/ban?_method=PATCH`, null, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: "application/json",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error al banear el usuario", error);
+    throw error;
+  }
+}
+
+export async function desbanearUsuario(id: number, token: string) {
+  try {
+    const response = await api.post(
+      `/usuarios/${id}/desban?_method=PATCH`,
+      null,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/json",
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error al desbanear el usuario", error);
+    throw error;
+  }
+}
+
+export async function makeAdmin(id: number, token: string) {
+  try {
+    const response = await api.post(
+      `/usuarios/${id}/admin?_method=PATCH`,
+      null,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/json",
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error al convertir en admin el usuario", error);
     throw error;
   }
 }

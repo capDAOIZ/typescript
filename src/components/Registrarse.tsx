@@ -1,34 +1,35 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { registrarse } from "../services/ApiUsuario";
+import { useNavigate } from "react-router-dom";
 export default function Registrarse() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [terms, setTerms] = useState(false);
+  const [error, setError] = useState("");
   const [mensaje, setMensaje] = useState("");
-
-  useEffect(() => {}, []);
+  const navigate = useNavigate();
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!terms) {
-      setMensaje("Debes aceptar los terminos y condiciones para continuar");
+      setError("Debes aceptar los terminos y condiciones para continuar");
       return;
     }
     if (!name || !email || !password) {
-      setMensaje("Por favor, llena todos los campos.");
+      setError("Por favor, llena todos los campos.");
       return;
     }
     try {
       const response = await registrarse({ name, email, password });
       setMensaje(response.mensaje);
-      setName("");
-      setEmail("");
-      setPassword("");
+      setTimeout(() => navigate("/"), 2000);
+      return;
     } catch (e: any) {
       let errores = "";
-
+      console.log(e);
       const errorObj = e.response.data.errors;
+
       if (errorObj) {
         Object.keys(errorObj).forEach((key) => {
           errorObj[key].forEach((msg: string) => {
@@ -36,18 +37,25 @@ export default function Registrarse() {
           });
         });
       }
-      setMensaje(errores);
+
+      setError(errores);
+    } finally {
+      setTimeout(() => setMensaje(""), 3000);
+      setTimeout(() => setError(""), 7000);
     }
   }
 
   return (
-    <div className="flex flex-row  gap-4 m-5  ">
-      <picture className=" w-full  lg:w-1/2">
-        <img src="../images/Logo-PaginaAdopcion.png"></img>
+    <div className="flex flex-col md:flex-row gap-4 m-5 p-10 min-h-screen  ">
+      <picture className="w-full md:w-1/2 lg:w-1/2 flex flex-col justify-center items-center ">
+        <img
+          src="../imagenes/Logo-PaginaAdopcion.png"
+          className="w-2/3 md:w-full"
+        ></img>
       </picture>
-      <section className="w-full lg:w-1/2 flex flex-col justify-center items-center">
+      <section className="w-full  md:w-1/2  flex flex-col justify-center items-center mb-10">
         <h1 className="text-4xl font-bold m-4">Registrate</h1>
-        <form className=" w-full lg:w-1/2 border-2 border-black rounded-lg p-11 flex flex-col gap-4">
+        <form className=" w-full xl:w-3/4 m-5 border-2 border-black rounded-lg p-11 flex flex-col gap-4">
           <label htmlFor="name" className="font-semibold">
             Nombre de usuario :{" "}
           </label>
@@ -84,10 +92,16 @@ export default function Registrarse() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           ></input>
-          {mensaje && <p className="text-red-600 font-medium">{mensaje}</p>}
+          {mensaje ? (
+            <p className="text-green-600 font-medium text-center">{mensaje}</p>
+          ) : (
+            error && (
+              <p className="text-red-600 font-medium text-center">{error}</p>
+            )
+          )}
           <button
             type="submit"
-            className="bg-blue-700 text-white py-3 rounded-full w-full "
+            className="bg-blue-700 text-white py-3 rounded-full w-full mt-2"
             onClick={handleSubmit}
           >
             Registrarse
@@ -96,7 +110,7 @@ export default function Registrarse() {
         <hr className="w-full  border-black m-10"></hr>
         <div>
           <h2 className="text-2xl font-semibold">Terminos y condiciones</h2>
-          <p>
+          <p className="mb-5">
             Para continuar, revisa y acepta los términos y condiciones y
             política de protección de datos
           </p>

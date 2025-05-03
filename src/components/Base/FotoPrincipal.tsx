@@ -4,7 +4,7 @@ export default function FotoPrincipal() {
     <div
       className="w-full min-h-screen bg-cover bg-center flex items-center justify-center relative"
       style={{
-        backgroundImage: "url(/images/animales.jpg)",
+        backgroundImage: "url(/imagenes/animales.jpg)",
         backgroundSize: "cover",
       }}
     >

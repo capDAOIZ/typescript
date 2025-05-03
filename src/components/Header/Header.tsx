@@ -5,7 +5,7 @@ interface HeaderProps {
   openLoginModal: () => void;
 }
 export default function Header({ openLoginModal }: HeaderProps) {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, user } = useAuth();
 
   return (
     <header className="bg-white shadow-md p-4 flex justify-around items-center w-full">
@@ -27,7 +27,7 @@ export default function Header({ openLoginModal }: HeaderProps) {
               Sobre Nosotros
             </Link>
           </li>
-          {isAuthenticated ? (
+          {isAuthenticated && !user?.is_banned ? (
             <li>
               <Link to="/crearPost">
                 <button className="">Buscar Familia🐾</button>

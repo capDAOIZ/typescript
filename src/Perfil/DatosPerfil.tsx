@@ -1,32 +1,28 @@
-import { useAuth } from "../components/context/AuthContext";
-
-interface DatosPerfilProps {
-  mensaje: string;
+interface Props {
+  user: any;
   setEditando: (value: boolean) => void;
+  mensaje: string;
 }
-export default function DatosPerfil({
-  mensaje,
-  setEditando,
-}: DatosPerfilProps) {
-  const { user } = useAuth();
+export default function DatosPerfil({ setEditando, user, mensaje }: Props) {
   return (
     <section className="grid grid-rows-2 gap-0">
       <div className="grid grid-cols-4 gap-x-4 md:block">
-        <div className="col-span-1">
+        <div className="col-span-1 md:mb-5">
           <img
             className="rounded-full object-cover w-40 h-40 border-4 col-span-1 border-black  md:w-72 md:h-72  md:justify-self-center md:self-start "
             src={
               user?.image
                 ? `data:image/jpeg;base64,${user.image}`
-                : "/images/fotoPredeterminada.jpg"
+                : "/imagenes/fotoPredeterminada.jpg"
             }
             alt={user?.name}
           />
         </div>
-        <div className=" col-span-3 self-center ">
+        <div className="col-span-3 self-center ">
           <h1 className="font-bold text-3xl">{user?.name}</h1>
+          <p>{user?.email} </p>
           <p>
-            {user?.email} || Tu acceso actual es{" "}
+            Tu acceso actual es{" "}
             <span className="font-semibold">{user?.role}</span>
           </p>
         </div>

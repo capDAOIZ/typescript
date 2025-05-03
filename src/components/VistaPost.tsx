@@ -27,6 +27,7 @@ export default function VistaPost({ openLoginModal }: Props) {
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
+  // Obtenemos la id del post de la url
   const { id } = useParams();
   const idUsuario = post?.user_id;
   // Obtenemos los datos del post con la id
@@ -60,14 +61,14 @@ export default function VistaPost({ openLoginModal }: Props) {
     if (!isAuthenticated) {
       openLoginModal();
     } else {
-      navigate("/firmarContrato");
+      navigate(`/firmarContrato/${id}`);
     }
   }
 
   return (
     <div className=" flex lg:flex-row flex-col min-h-screen gap-6 m-12  ">
       <picture className="w-full lg:w-1/2 flex flex-col items-center justify-center gap-6 ">
-        <img className="h-1/2 rounded-3xl" src="../images/animales.jpg"></img>
+        <img className="h-1/2 rounded-3xl" src="../imagenes/animales.jpg"></img>
         <p className="text-xl font-semibold ">
           {post?.typeAnimal == "perro" ? "Perro 🐶 " : "Gato 🐱 "}
         </p>
@@ -97,11 +98,11 @@ export default function VistaPost({ openLoginModal }: Props) {
                 src={
                   post?.adopted == true
                     ? post?.typeAnimal == "perro"
-                      ? "/images/perro-feliz.png"
-                      : "/images/gatito-feliz.png"
+                      ? "/imagenes/perro-feliz.png"
+                      : "/imagenes/gatito-feliz.png"
                     : post?.typeAnimal == "perro"
-                    ? "/images/perro-triste.png"
-                    : "/images/gatito-triste.png"
+                    ? "/imagenes/perro-triste.png"
+                    : "/imagenes/gatito-triste.png"
                 }
               ></img>
             </div>
@@ -211,7 +212,7 @@ export default function VistaPost({ openLoginModal }: Props) {
           )}
         </section>
         <hr className="mb-24 border-black "></hr>
-        <section className="absolute bottom-5  ">
+        <footer className="absolute bottom-5  ">
           <p className="my-2">Publicado por: </p>
           <div className="flex items-center gap-3">
             <img
@@ -219,7 +220,7 @@ export default function VistaPost({ openLoginModal }: Props) {
               src={
                 usuario?.image
                   ? `data:image/jpeg;base64,${usuario.image}`
-                  : "/images/fotoPredeterminada.jpg"
+                  : "/imagenes/fotoPredeterminada.jpg"
               }
               alt={usuario?.name}
             />
@@ -228,7 +229,7 @@ export default function VistaPost({ openLoginModal }: Props) {
               <p>{usuario?.email}</p>
             </div>
           </div>
-        </section>
+        </footer>
       </article>
     </div>
   );

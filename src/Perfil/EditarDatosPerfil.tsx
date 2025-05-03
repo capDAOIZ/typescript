@@ -1,6 +1,5 @@
-import { useAuth } from "../components/context/AuthContext";
-
-interface EditarPerfilProps {
+interface Props {
+  user: any;
   mensaje: string;
   error: string;
   loading: boolean;
@@ -9,14 +8,14 @@ interface EditarPerfilProps {
 }
 export default function EditarDatosPerfil({
   mensaje,
+  user,
   setEditando,
   error,
   loading,
   handleSubmit,
-}: EditarPerfilProps) {
-  const { user } = useAuth();
+}: Props) {
   return (
-    <section className="grid grid-rows-2 gap-0">
+    <section className="grid grid-rows-1 gap-0">
       <form encType="multipart/form-data" onSubmit={handleSubmit}>
         <div className="grid grid-cols-4 gap-x-4  md:block">
           <div className="col-span-1">
@@ -25,7 +24,7 @@ export default function EditarDatosPerfil({
               src={
                 user?.image
                   ? `data:image/jpeg;base64,${user.image}`
-                  : "/images/fotoPredeterminada.jpg"
+                  : "/imagenes/fotoPredeterminada.jpg"
               }
               alt={user?.name}
             />

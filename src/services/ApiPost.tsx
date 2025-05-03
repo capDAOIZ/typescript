@@ -7,10 +7,12 @@ const api = axios.create({
 });
 
 interface Post {
-  nameAnimal: string;
-  typeAnimal: string;
-  description: string;
-  image: File;
+  nameAnimal?: string;
+  typeAnimal?: string;
+  description?: string;
+  image?: File;
+  adopted?: boolean;
+  userAdopted_id?: number;
 }
 export async function getPosts(page: number = 1) {
   try {
@@ -61,7 +63,11 @@ export async function createPost(formData: FormData) {
 
 export async function updatePost(id: number, post: Post) {
   try {
-    const response = await api.patch(`/posts/${id}`, post);
+    const response = await api.patch(`/posts/${id}`, post, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}` || "",
+      },
+    });
     return response.data;
   } catch (error) {
     console.error("Error al actualizar el post", error);
@@ -75,6 +81,21 @@ export async function deletePost(id: number) {
     return response.data;
   } catch (error) {
     console.error("Error al eliminar el post", error);
+    throw error;
+  }
+}
+
+export async function adoptedPosts(id: number) {
+  try {
+    const response = await api.get(`/posts/adopted/${id}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}` || "",
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error("Error al encontrar posts adoptados", error);
     throw error;
   }
 }

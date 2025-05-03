@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getLastPost } from "../services/ApiPost";
+import { adoptedPosts } from "../services/ApiPost";
 interface Post {
   id: number;
   nameAnimal: string;
@@ -7,38 +7,39 @@ interface Post {
   description: string;
   image: File;
 }
+
 interface Props {
   user_id: number | undefined;
 }
 
-export default function AnimalesPosteados({ user_id }: Props) {
-  const [posts, setPosts] = useState<Post[]>([]);
+export function AnimalesAdoptados({ user_id }: Props) {
+  const [postsAdopted, setPostsAdopted] = useState<Post[]>([]);
   const [cargando, setCargando] = useState(true);
 
-  //Cargar los ultimos posts del usuario
+  //Cargar los ultimos animales adoptados del usuario
   useEffect(() => {
-    async function fetchLastPost() {
-      setCargando(true);
+    setCargando(true);
+    async function fetchAdoptedPosts() {
       try {
         if (!user_id) return;
-        const response = await getLastPost(user_id);
+        const response = await adoptedPosts(user_id);
         const data = response.posts;
-        setPosts(data);
+        setPostsAdopted(data);
       } catch (error) {
-        console.error("Error al obtener el post", error);
+        console.error("Error al obtener los posts", error);
       } finally {
         setCargando(false);
       }
     }
-    fetchLastPost();
+    fetchAdoptedPosts();
   }, [user_id]);
 
   return (
     <section>
       <h1 className="text-xl font-semibold my-2 mb-10">
-        Tus ultimos animales en adopcion 🐶🐾🐱
+        Animales adoptados 🎉🎉
       </h1>
-      {posts.length === 0 ? (
+      {postsAdopted.length === 0 ? (
         cargando ? (
           <div className=" text-black px-10 py-2  rounded-full w-full flex justify-center items-center gap-x-2">
             <div className=" w-6 h-6 border-4 border-gray-600 border-t-transparent rounded-full animate-spin"></div>
@@ -49,7 +50,7 @@ export default function AnimalesPosteados({ user_id }: Props) {
         )
       ) : (
         <div className="grid grid-cols-2 gap-3 grid-rows-2 ">
-          {posts.slice(0, 4).map((post) => (
+          {postsAdopted.map((post) => (
             <div
               className="border-pink-400 border-4 rounded-lg text-center"
               key={post.id}

@@ -13,6 +13,7 @@ interface User {
   role: string;
   password: string;
   image: File;
+  is_banned: boolean;
 }
 
 interface AuthContextType {

@@ -42,6 +42,7 @@ export default function LoginModal({ isOpen, closeModal }: LoginModalProps) {
     try {
       await login(gmail, password);
       alert("Inicio de sesión exitoso");
+      navigate("/");
       closeModal();
     } catch (e: any) {
       let errores = "";
