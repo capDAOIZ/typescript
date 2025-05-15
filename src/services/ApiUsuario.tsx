@@ -71,7 +71,7 @@ export async function getUsuarios(page: number = 1) {
   }
 }
 
-export async function perfilUsuario(id: number) {
+export async function getUsuario(id: number) {
   try {
     const response = await api.get(`/usuarios/${id}`);
     return response.data;

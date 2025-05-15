@@ -14,10 +14,17 @@ interface Post {
   adopted?: boolean;
   userAdopted_id?: number;
 }
-export async function getPosts(page: number = 1) {
+export async function getPosts(page: number = 1, idUsuario?: number) {
   try {
-    const response = await api.get(`/posts?page=${page}`);
-    return response.data;
+    if (idUsuario) {
+      const response = await api.get(
+        `/posts-usuario/${idUsuario}?page=${page}`
+      );
+      return response.data;
+    } else {
+      const response = await api.get(`/posts-usuario?page=${page}`);
+      return response.data;
+    }
   } catch (error) {
     console.error("Error al obtener los posts", error);
     throw error;
@@ -36,10 +43,13 @@ export async function getPost(id: number) {
 // id?: number Al ponerlo asi no puedo usar la id de esta manera wait api.get(`/posts/ultimosPosts/${id}`), ya que si no hay id se devuelve como undefined
 export async function getLastPost(id?: number) {
   try {
-    const response = id
-      ? await api.get(`/posts/ultimosPosts/${id}`)
-      : await api.get("/posts/ultimosPosts");
-    return response.data;
+    if (id) {
+      const response = await api.get(`/ultimosPosts/${id}`);
+      return response.data;
+    } else {
+      const response = await api.get("/ultimosPosts");
+      return response.data;
+    }
   } catch (error) {
     console.error("Error al obtener el post", error);
     throw error;
@@ -75,9 +85,13 @@ export async function updatePost(id: number, post: Post) {
   }
 }
 
-export async function deletePost(id: number) {
+export async function deletePost(id: number, token: string) {
   try {
-    const response = await api.delete(`/posts/${id}`);
+    const response = await api.delete(`/posts/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return response.data;
   } catch (error) {
     console.error("Error al eliminar el post", error);
@@ -87,11 +101,7 @@ export async function deletePost(id: number) {
 
 export async function adoptedPosts(id: number) {
   try {
-    const response = await api.get(`/posts/adopted/${id}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}` || "",
-      },
-    });
+    const response = await api.get(`/posts/adopted/${id}`);
 
     return response.data;
   } catch (error) {

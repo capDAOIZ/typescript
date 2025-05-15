@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { getUsuarios } from "../../services/ApiUsuario";
-import { Link } from "react-router-dom";
 import TarjetaUsuario from "./TarjetaUsuario";
+import debounce from "just-debounce-it";
 
 interface Usuario {
   id: number;
@@ -16,12 +16,18 @@ export default function GestionUsuarios() {
   const [usuarios, setUsuarios] = useState<Usuario[]>([]);
   const [loading, setLoading] = useState(true);
   const [recargarFecth, setRecargarFecth] = useState(false);
+  const [busqueda, setBusqueda] = useState("");
 
   const [totalPaginas, setTotalPaginas] = useState(1);
   const [actualPagina, setActualPagina] = useState(1);
   const [pagina, setPagina] = useState(1);
 
   const token = localStorage.getItem("token");
+
+  const usuariosFiltrados = usuarios.filter((usuario) =>
+    usuario.nombre.includes(busqueda)
+  );
+  const usuariosLength = usuariosFiltrados.length;
 
   //Fecth de obtencion de usuarios
   useEffect(() => {
@@ -67,19 +73,39 @@ export default function GestionUsuarios() {
     setPagina(actualPagina - 1);
   }
 
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+  }
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+    setBusqueda(e.target.value);
+    console.log(busqueda);
+  }
+
   return (
     <div className="min-h-screen flex flex-col items-center my-20 ">
-      <h1 className="text-2xl font-bold mb-2">
+      <h1 className="text-2xl font-bold mb-6">
         Todos los usuarios registrados
       </h1>
-      <p className="mb-7">Toca la foto de perfil para ver sus post</p>
+      <form className="flex gap-x-4 mb-6" onSubmit={handleSubmit}>
+        <input
+          type="text"
+          placeholder="Buscar usuario..."
+          className="py-2 px-4 rounded-lg border-2 border-pink-600 font-semibold"
+          value={busqueda}
+          onChange={handleChange}
+          required
+        ></input>
+        <button type="submit" className=" p-2 rounded-full">
+          🔎
+        </button>
+      </form>
       {loading ? (
         <div className=" flex justify-center items-center gap-x-2">
           <div className=" w-6 h-6 border-4 border-pink-400 border-t-transparent rounded-full animate-spin"></div>
           Cargando...
         </div>
       ) : (
-        usuarios.map((usuario) => (
+        usuariosFiltrados.map((usuario) => (
           <TarjetaUsuario
             key={usuario.id}
             usuario={usuario}
@@ -93,8 +119,8 @@ export default function GestionUsuarios() {
           disabled={actualPagina === 1}
           onClick={anteriorPagina}
           className={`${
-            actualPagina === 1 ? "bg-gray-400" : "bg-blue-400"
-          } p-4 rounded-full`}
+            actualPagina === 1 ? "bg-gray-500" : "bg-blue-600"
+          } px-4 py-3 text-white rounded-l-full `}
         >
           Anterior
         </button>
@@ -105,8 +131,8 @@ export default function GestionUsuarios() {
           disabled={actualPagina === totalPaginas}
           onClick={siguientePagina}
           className={`${
-            actualPagina === totalPaginas ? "bg-gray-400" : "bg-blue-400"
-          } p-4 rounded-full`}
+            actualPagina === totalPaginas ? "bg-gray-500" : "bg-blue-600"
+          } px-4 py-3 text-white rounded-r-full`}
         >
           Siguiente
         </button>

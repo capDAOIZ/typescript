@@ -12,6 +12,7 @@ interface Post {
 export default function UltimosPots() {
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   //Obtener los ultimos posts
   useEffect(() => {
@@ -24,6 +25,7 @@ export default function UltimosPots() {
         setPosts(data);
       } catch (error) {
         console.error("Error al obtener el post", error);
+        setError(true);
       } finally {
         setLoading(false);
       }
@@ -33,14 +35,13 @@ export default function UltimosPots() {
 
   return (
     <article className="flex flex-col items-center p-4 w-full ">
-      <h2 className="text-2xl font-semibold mb-16">
-        Nuestras ultimas mascotas en adopcion 😊
-      </h2>
       {loading ? (
         <div className=" flex justify-center items-center gap-x-2">
           <div className=" w-6 h-6 border-4 border-pink-400 border-t-transparent rounded-full animate-spin"></div>
           Cargando...
         </div>
+      ) : error ? (
+        <p className="text-red-600">Problemas en la red, intentalo mas tarde</p>
       ) : (
         <div className="flex flex-row justify-center gap-10 flex-wrap w-full text-center">
           {posts.map((post) => (

@@ -5,7 +5,7 @@ import { actualizarUsuario } from "../services/ApiUsuario";
 import DatosPerfil from "./DatosPerfil";
 import EditarDatosPerfil from "./EditarDatosPerfil";
 import AnimalesPosteados from "./AnimalesPosteados";
-import { AnimalesAdoptados } from "./AnimalesAdoptados";
+import AnimalesAdoptados from "./AnimalesAdoptados";
 
 export default function Perfil() {
   const { user } = useAuth();
@@ -64,14 +64,16 @@ export default function Perfil() {
   }
 
   return (
-    <div className="grid grid-rows-3 my-10 gap-2 min-h-screen md:grid-cols-3 ">
+    <div className="grid grid-rows-3 my-10 gap-2 min-h-screen md:grid-cols-3 mx-8">
       <div className="p-3 row-span-1 md:col-span-1 md:row-span-full">
         {!editando ? (
-          <DatosPerfil
-            mensaje={mensaje}
-            user={user}
-            setEditando={setEditando}
-          ></DatosPerfil>
+          user && (
+            <DatosPerfil
+              mensaje={mensaje}
+              user={user}
+              setEditando={setEditando}
+            ></DatosPerfil>
+          )
         ) : (
           <EditarDatosPerfil
             error={error}
@@ -83,11 +85,13 @@ export default function Perfil() {
           ></EditarDatosPerfil>
         )}
       </div>
-      <article className="flex flex-col gap-10 row-span-2 p-5 md:col-span-2 md:row-span-full ">
-        <AnimalesPosteados user_id={user_id}></AnimalesPosteados>
-        <hr className=" border-black"></hr>
-        <AnimalesAdoptados user_id={user_id}></AnimalesAdoptados>
-      </article>
+      {user_id && (
+        <article className="flex flex-col gap-10 row-span-2 p-5 md:col-span-2 md:row-span-full ">
+          <AnimalesPosteados user_id={user_id}></AnimalesPosteados>
+          <hr className=" border-black"></hr>
+          <AnimalesAdoptados user_id={user_id}></AnimalesAdoptados>
+        </article>
+      )}
     </div>
   );
 }

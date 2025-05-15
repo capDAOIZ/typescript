@@ -49,7 +49,7 @@ export default function Registrarse() {
     <div className="flex flex-col md:flex-row gap-4 m-5 p-10 min-h-screen  ">
       <picture className="w-full md:w-1/2 lg:w-1/2 flex flex-col justify-center items-center ">
         <img
-          src="../imagenes/Logo-PaginaAdopcion.png"
+          src="../imagenes/Logo-PaginaAdopcion2.png"
           className="w-2/3 md:w-full"
         ></img>
       </picture>
@@ -61,7 +61,7 @@ export default function Registrarse() {
           </label>
           <input
             type="text"
-            placeholder="Nombre de usuario..."
+            placeholder="Por ejemplo: Pepe, DiosX2..."
             className="border-2 border-black rounded-lg p-2"
             id="name"
             name="name"
@@ -73,7 +73,7 @@ export default function Registrarse() {
           </label>
           <input
             type="email"
-            placeholder="Email..."
+            placeholder="Por ejemplo: pepe@example.com..."
             className="border-2 border-black rounded-lg p-2"
             id="email"
             name="email"

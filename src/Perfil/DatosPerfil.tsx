@@ -1,9 +1,22 @@
-interface Props {
-  user: any;
-  setEditando: (value: boolean) => void;
-  mensaje: string;
+interface Usuario {
+  image: File;
+  name: string;
+  email: string;
+  biografia: string;
+  role: string;
 }
-export default function DatosPerfil({ setEditando, user, mensaje }: Props) {
+interface Props {
+  user: Usuario;
+  setEditando?: (value: boolean) => void;
+  mensaje?: string;
+  externo?: boolean;
+}
+export default function DatosPerfil({
+  setEditando = () => {},
+  user,
+  mensaje,
+  externo = false,
+}: Props) {
   return (
     <section className="grid grid-rows-2 gap-0">
       <div className="grid grid-cols-4 gap-x-4 md:block">
@@ -19,11 +32,11 @@ export default function DatosPerfil({ setEditando, user, mensaje }: Props) {
           />
         </div>
         <div className="col-span-3 self-center ">
-          <h1 className="font-bold text-3xl">{user?.name}</h1>
-          <p>{user?.email} </p>
+          <h1 className="font-bold text-3xl">{user.name}</h1>
+          <p className="my-2">{user?.email} </p>
           <p>
-            Tu acceso actual es{" "}
-            <span className="font-semibold">{user?.role}</span>
+            El acceso actual es{" "}
+            <span className="font-semibold">{user.role}</span>
           </p>
         </div>
       </div>
@@ -37,14 +50,18 @@ export default function DatosPerfil({ setEditando, user, mensaje }: Props) {
         {mensaje && (
           <p className="text-green-600 text-sm my-4 text-center">{mensaje}</p>
         )}
-        <button
-          className="bg-pink-600 text-black px-10 py-2 rounded-full w-full"
-          onClick={() => {
-            setEditando(true);
-          }}
-        >
-          Editar perfil
-        </button>
+        {externo ? (
+          ""
+        ) : (
+          <button
+            className="bg-pink-600 text-black px-10 py-2 rounded-full w-full"
+            onClick={() => {
+              setEditando(true);
+            }}
+          >
+            Editar perfil
+          </button>
+        )}
       </div>
     </section>
   );

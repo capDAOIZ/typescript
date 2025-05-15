@@ -48,6 +48,7 @@ export default function Header({ openLoginModal }: HeaderProps) {
         >
           INICIAR SESION
         </button>
+
         {isAuthenticated && <SideBar />}
       </div>
     </header>

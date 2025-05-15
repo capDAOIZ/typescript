@@ -1,18 +1,22 @@
 export default function FooterInformacion() {
   return (
-    <div className="w-full sm:w-full  md:w-1/3">
-      <h1 className="text-2xl font-bold text-black text-center">
-        Infomacion util
-      </h1>
-      <ul className="mt-4 text-center space-y-5 ">
+    <div>
+      <h3 className="text-lg text-pink-600 mb-4">Información útil</h3>
+      <ul className="text-sm space-y-2">
         <li>
-          <strong>Terminos y condiciones</strong>
+          <a href="#" className="hover:underline text-gray-700">
+            Términos y condiciones
+          </a>
         </li>
         <li>
-          <strong>Politica de privacidad</strong>
+          <a href="#" className="hover:underline text-gray-700">
+            Política de privacidad
+          </a>
         </li>
         <li>
-          <strong>Proteccion de datos</strong>
+          <a href="#" className="hover:underline text-gray-700">
+            Protección de datos
+          </a>
         </li>
       </ul>
     </div>

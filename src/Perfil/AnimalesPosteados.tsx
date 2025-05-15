@@ -8,7 +8,7 @@ interface Post {
   image: File;
 }
 interface Props {
-  user_id: number | undefined;
+  user_id: number;
 }
 
 export default function AnimalesPosteados({ user_id }: Props) {
@@ -20,7 +20,6 @@ export default function AnimalesPosteados({ user_id }: Props) {
     async function fetchLastPost() {
       setCargando(true);
       try {
-        if (!user_id) return;
         const response = await getLastPost(user_id);
         const data = response.posts;
         setPosts(data);
@@ -31,12 +30,12 @@ export default function AnimalesPosteados({ user_id }: Props) {
       }
     }
     fetchLastPost();
-  }, [user_id]);
+  }, []);
 
   return (
     <section>
       <h1 className="text-xl font-semibold my-2 mb-10">
-        Tus ultimos animales en adopcion 🐶🐾🐱
+        Ultimos animales en adopcion 🐶🐾🐱
       </h1>
       {posts.length === 0 ? (
         cargando ? (
@@ -45,7 +44,7 @@ export default function AnimalesPosteados({ user_id }: Props) {
             Cargando...
           </div>
         ) : (
-          <p className="text-center">No tienes animales en adopcion</p>
+          <p className="text-center">No hay animales en adopcion</p>
         )
       ) : (
         <div className="grid grid-cols-2 gap-3 grid-rows-2 ">

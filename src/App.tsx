@@ -1,6 +1,11 @@
 import { useState } from "react";
 import { useAuth } from "./components/context/AuthContext";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import { RutaPrivada, RutaPrivadaAdmin } from "./components/RutaPrivada";
 
 import Header from "./components/Header/Header";
@@ -13,10 +18,13 @@ import LoginModal from "./modals/LoginModal"; // Modal de inicio de sesión
 import Perfil from "./Perfil/Perfil";
 import CrearPost from "./components/CrearPost";
 import Registrarse from "./components/Registrarse";
-import VistaPost from "./components/VistaPost";
+import VistaPost from "./components/VistaDePosts/VistaPost";
 import MenuAdministrador from "./components/Administrador/MenuAdministrador";
 import FirmaContrato from "./components/Contrato/FirmaContrato";
 import GestionUsuarios from "./components/Administrador/GestionUsuarios";
+import GestionMascotas from "./components/Administrador/GestionMascotas";
+import VistaUsuario from "./Perfil/VistaUsuario";
+import Publicaciones from "./components/VistaDePosts/Publicaciones";
 
 export default function App() {
   const [isLoginModalOpen, setLoginModalOpen] = useState(false);
@@ -32,15 +40,19 @@ export default function App() {
         <main className="w-full flex-1">
           <Routes>
             <Route path="/" element={<Base />} />
+
             <Route path="/adoptables" element={<Adoptables />} />
-            <Route path="/nosotros" element={<Nosotros />} />
             <Route
               path={"/adoptables/:id"}
               element={<VistaPost openLoginModal={openLoginModal} />}
             ></Route>
+
+            <Route path="/nosotros" element={<Nosotros />} />
             <Route path="/registrarse" element={<Registrarse />} />
 
             <Route path="/firmarContrato/:id" element={<FirmaContrato />} />
+
+            <Route path="/perfilUsuario/:id" element={<VistaUsuario />} />
 
             <Route
               path="/perfil"
@@ -48,9 +60,10 @@ export default function App() {
             />
 
             <Route
-              path="/crearPost"
-              element={<RutaPrivada component={CrearPost} />}
-            />
+              path="/publicaciones"
+              element={<RutaPrivada component={Publicaciones} />}
+            ></Route>
+
             <Route
               path="/menuAdmin"
               element={<RutaPrivadaAdmin component={MenuAdministrador} />}
@@ -61,8 +74,15 @@ export default function App() {
             />
             <Route
               path="/menuAdmin/gestionarMascotas"
-              element={<RutaPrivadaAdmin component={MenuAdministrador} />}
+              element={<RutaPrivadaAdmin component={GestionMascotas} />}
             />
+            <Route
+              path="/crearPost"
+              element={<RutaPrivada component={CrearPost} />}
+            />
+
+            {/* Redirigir cualquier ruta no definida al inicio */}
+            <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </main>
         <Footer></Footer>

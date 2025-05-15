@@ -52,19 +52,21 @@ export default function MenuAdministrador() {
                 <Link to="/menuAdmin/gestionarUsuarios">
                   <img
                     src="/imagenes/grupoUsuarios.png"
-                    className="w-50 h-40 object-contain "
+                    className="w-50 h-40 object-contain mb-5 "
                     alt="Grupo de usuarios"
                   ></img>
                   <p>Gestionar Usuarios</p>
                 </Link>
               </section>
               <section className="w-1/2 flex flex-col items-center gap-y-5">
-                <img
-                  src="/imagenes/animales.jpg"
-                  className="w-50 h-40 object-cover rounded"
-                  alt="Animales"
-                ></img>
-                <p>Gestionar Mascotas</p>
+                <Link to={"/menuAdmin/gestionarMascotas"}>
+                  <img
+                    src="/imagenes/animales.jpg"
+                    className="w-50 h-40 object-cover rounded mb-5"
+                    alt="Animales"
+                  ></img>
+                  <p>Gestionar Mascotas</p>
+                </Link>
               </section>
             </div>
             <section className="w-full flex flex-col items-center gap-y-5">

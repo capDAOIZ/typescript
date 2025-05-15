@@ -18,9 +18,9 @@ export default function Nosotros() {
         </p>
       </section>
       <article className="flex flex-row lg:justify-center gap-6 py-12 px-12">
-        <picture className="w-1/2 lg:w-2/6 bg-pink-200 flex flex-col items-center gap-4 p-4 rounded-3xl">
+        <picture className="w-1/2 lg:w-2/6 bg-pink-200 flex flex-col items-center gap-4 p-4 rounded-3xl shadow-2xl">
           <img
-            src="../images/JorgeZavaleta.jpg"
+            src="../imagenes/JorgeZavaleta.jpg"
             className="w-1/2 rounded-xl"
           ></img>
           <section>
@@ -40,9 +40,9 @@ export default function Nosotros() {
             </p>
           </section>
         </picture>
-        <picture className="w-1/2 lg:w-2/6 bg-pink-200 flex flex-col items-center gap-4 p-4 rounded-3xl">
+        <picture className="w-1/2 lg:w-2/6 bg-pink-200 flex flex-col items-center gap-4 p-4 rounded-3xl shadow-2xl">
           <img
-            src="../images/JorgeZavaleta.jpg"
+            src="../imagenes/JorgeZavaleta.jpg"
             className="w-1/2 rounded-xl"
           ></img>
           <section>
@@ -65,7 +65,7 @@ export default function Nosotros() {
         <h3 className="font-bold text-xl sm:text-2xl pb-7 text-gray-700">
           Nuestros primeros amigos salvados
         </h3>
-        <img src="../images/AnimalesGrupo.jpg"></img>
+        <img src="../imagenes/AnimalesGrupo.jpg"></img>
       </section>
     </div>
   );

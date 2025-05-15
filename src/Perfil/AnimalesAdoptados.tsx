@@ -9,10 +9,10 @@ interface Post {
 }
 
 interface Props {
-  user_id: number | undefined;
+  user_id: number;
 }
 
-export function AnimalesAdoptados({ user_id }: Props) {
+export default function AnimalesAdoptados({ user_id }: Props) {
   const [postsAdopted, setPostsAdopted] = useState<Post[]>([]);
   const [cargando, setCargando] = useState(true);
 
@@ -21,7 +21,6 @@ export function AnimalesAdoptados({ user_id }: Props) {
     setCargando(true);
     async function fetchAdoptedPosts() {
       try {
-        if (!user_id) return;
         const response = await adoptedPosts(user_id);
         const data = response.posts;
         setPostsAdopted(data);
@@ -32,7 +31,7 @@ export function AnimalesAdoptados({ user_id }: Props) {
       }
     }
     fetchAdoptedPosts();
-  }, [user_id]);
+  }, []);
 
   return (
     <section>
@@ -46,7 +45,7 @@ export function AnimalesAdoptados({ user_id }: Props) {
             Cargando...
           </div>
         ) : (
-          <p className="text-center">No tienes animales en adopcion</p>
+          <p className="text-center">No hay animales adoptados</p>
         )
       ) : (
         <div className="grid grid-cols-2 gap-3 grid-rows-2 ">

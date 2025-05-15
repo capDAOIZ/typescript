@@ -13,9 +13,10 @@ export default function SideBar() {
 
   return (
     <div>
+      {/* Boton para abrir el sidebar, es la foto */}
       <button onClick={() => setIsOpen(true)}>
         <img
-          className="rounded-full object-cover w-12 h-12 border-2 border-pink-600"
+          className="rounded-full object-cover w-12 h-12 border-2 border-pink-600 "
           src={
             user?.image
               ? `data:image/jpeg;base64,${user.image}`
@@ -24,25 +25,24 @@ export default function SideBar() {
           alt={user?.name}
         />
       </button>
+      {/* Fondo negro que esta de fondo del sidebar */}
       <div
         className={`${
           !isOpen && "hidden"
         } bg-gray-600/50 min-h-screen w-full fixed top-0 right-0 backdrop-blur-0 z-10`}
         onClick={() => setIsOpen(false)}
       ></div>
+      {/* Sidebar */}
       <div
         className={`${
           isOpen ? "w-80 " : "w-0"
         } bg-pink-600 min-h-screen fixed top-0 right-0 z-50 transition-all duration-200 ease-in-out`}
       >
-        <div
-          className={`${
-            isOpen ? "" : "hidden"
-          } p-5 flex flex-row justify-between `}
-        >
-          <section className="flex flex-row gap-2">
+        {/* Parte de arriba donde aparece la info del usuario */}
+        <div className={`p-5 flex flex-row justify-between `}>
+          <section className="flex flex-row gap-2 items-center justify-center">
             <img
-              className="rounded-full object-cover w-10 h-10 "
+              className="rounded-full object-cover w-10 h-10 border-2 border-gray-700"
               src={
                 user?.image
                   ? `data:image/jpeg;base64,${user.image}`
@@ -72,10 +72,13 @@ export default function SideBar() {
             </svg>
           </button>
         </div>
+
         <hr className="mb-2"></hr>
+
+        {/* Enlaces */}
         <Link to="/perfil" onClick={() => setIsOpen(false)}>
           {" "}
-          <div className="text-lg hover:bg-white/70 cursor-pointer py-3 mb-2 px-4 flex flex-row justify-start gap-2 ">
+          <div className="text-lg hover:bg-white/70 cursor-pointer py-3 mb-2 px-4 flex flex-row justify-start gap-2 items-center">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -97,7 +100,7 @@ export default function SideBar() {
         {user?.role === "admin" && (
           <Link to="/menuAdmin" onClick={() => setIsOpen(false)}>
             {" "}
-            <div className="text-lg hover:bg-white/70 cursor-pointer py-3 mb-2 px-4 flex flex-row justify-start gap-2 ">
+            <div className="text-lg hover:bg-white/70 cursor-pointer py-3 mb-2 px-4 flex flex-row justify-start gap-2 items-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -118,35 +121,38 @@ export default function SideBar() {
           </Link>
         )}
 
-        <div className="text-lg hover:bg-white/70 cursor-pointer py-3 mb-2 px-4 flex flex-row justify-start gap-2 ">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth="1.5"
-            stroke="currentColor"
-            className="size-6"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M2.25 13.5h3.86a2.25 2.25 0 0 1 2.012 1.244l.256.512a2.25 2.25 0 0 0 2.013 1.244h3.218a2.25 2.25 0 0 0 2.013-1.244l.256-.512a2.25 2.25 0 0 1 2.013-1.244h3.859m-19.5.338V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18v-4.162c0-.224-.034-.447-.1-.661L19.24 5.338a2.25 2.25 0 0 0-2.15-1.588H6.911a2.25 2.25 0 0 0-2.15 1.588L2.35 13.177a2.25 2.25 0 0 0-.1.661Z"
-            />
-          </svg>
+        <Link to="/publicaciones" onClick={() => setIsOpen(false)}>
+          <div className="text-lg hover:bg-white/70 cursor-pointer py-3 mb-2 px-4 flex flex-row justify-start gap-2 items-center">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth="1.5"
+              stroke="currentColor"
+              className="size-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M2.25 13.5h3.86a2.25 2.25 0 0 1 2.012 1.244l.256.512a2.25 2.25 0 0 0 2.013 1.244h3.218a2.25 2.25 0 0 0 2.013-1.244l.256-.512a2.25 2.25 0 0 1 2.013-1.244h3.859m-19.5.338V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18v-4.162c0-.224-.034-.447-.1-.661L19.24 5.338a2.25 2.25 0 0 0-2.15-1.588H6.911a2.25 2.25 0 0 0-2.15 1.588L2.35 13.177a2.25 2.25 0 0 0-.1.661Z"
+              />
+            </svg>
 
-          <p>Tus publicaciones</p>
-        </div>
+            <p>Tus publicaciones</p>
+          </div>
+        </Link>
 
         <Link to="/crearPost">
-          <div className="text-lg hover:bg-white/70 cursor-pointer py-3 mb-2 px-4 flex flex-row justify-start gap-2 ">
+          <div className="text-lg hover:bg-white/70 cursor-pointer py-3 mb-2 px-4 flex flex-row justify-start gap-2 items-center">
             <p>🐾 Buscar Familia</p>
           </div>
         </Link>
 
         <hr className="mb-2"></hr>
+        {/* Enlaces para cerrar la sesion */}
         <div
           onClick={handleCerrarSesion}
-          className="text-lg hover:bg-white/70 cursor-pointer py-3 mb-2 px-4 flex flex-row justify-start gap-2 "
+          className="text-lg hover:bg-white/70 cursor-pointer py-3 mb-2 px-4 flex flex-row justify-start gap-2 items-center "
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

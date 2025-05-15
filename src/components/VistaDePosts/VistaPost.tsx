@@ -1,8 +1,9 @@
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { getPost } from "../services/ApiPost";
-import { perfilUsuario } from "../services/ApiUsuario";
-import { useAuth } from "./context/AuthContext";
+import { getPost } from "../../services/ApiPost";
+import { getUsuario } from "../../services/ApiUsuario";
+import { useAuth } from "../context/AuthContext";
+
 interface Post {
   nameAnimal: string;
   typeAnimal: string;
@@ -48,11 +49,11 @@ export default function VistaPost({ openLoginModal }: Props) {
     async function fetchUsuario() {
       try {
         if (!idUsuario) return;
-        const response = await perfilUsuario(idUsuario);
-        console.log(response);
-        const data = response;
-        setUsuario(data);
-      } catch (error) {}
+        const response = await getUsuario(idUsuario);
+        setUsuario(response.usuario);
+      } catch (error) {
+        console.log(error);
+      }
     }
     fetchUsuario();
   }, [idUsuario]);
@@ -215,15 +216,17 @@ export default function VistaPost({ openLoginModal }: Props) {
         <footer className="absolute bottom-5  ">
           <p className="my-2">Publicado por: </p>
           <div className="flex items-center gap-3">
-            <img
-              className="rounded-full object-cover w-10 h-10 border-2  border-black "
-              src={
-                usuario?.image
-                  ? `data:image/jpeg;base64,${usuario.image}`
-                  : "/imagenes/fotoPredeterminada.jpg"
-              }
-              alt={usuario?.name}
-            />
+            <Link to={`/perfilUsuario/${idUsuario}`}>
+              <img
+                className="rounded-full object-cover w-10 h-10 border-2  border-black "
+                src={
+                  usuario?.image
+                    ? `data:image/jpeg;base64,${usuario.image}`
+                    : "/imagenes/fotoPredeterminada.jpg"
+                }
+                alt={usuario?.name}
+              />
+            </Link>
             <div>
               <h6 className="font-semibold">{usuario?.name} </h6>
               <p>{usuario?.email}</p>

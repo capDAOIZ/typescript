@@ -17,13 +17,13 @@ export default function FotoPrincipal() {
         </p>
         <div className="mt-6 flex gap-4">
           <Link
-            to="/adoptables/perros"
+            to="/adoptables?animal=perro"
             className="bg-pink-600 text-white px-6 py-3 rounded-full text-lg font-semibold"
           >
             ADOPTAR PERRO
           </Link>
           <Link
-            to="/adoptables/gatos"
+            to="/adoptables?animal=gato"
             className="bg-purple-600 text-white px-6 py-3 rounded-full text-lg font-semibold"
           >
             ADOPTAR GATO

@@ -5,7 +5,7 @@ import {
   cerrarSesion,
 } from "../../services/ApiUsuario";
 import { ReactNode } from "react";
-interface User {
+interface Usuario {
   id: number;
   name: string;
   email: string;
@@ -17,7 +17,7 @@ interface User {
 }
 
 interface AuthContextType {
-  user: User | null;
+  user: Usuario | null;
   isAuthenticated: boolean;
   login: (email: string, password: string) => void;
   logout: () => void;
@@ -32,7 +32,7 @@ const AuthContext = createContext({} as AuthContextType); // La forma {} as Auth
 export function AuthProvider({ children }: AuthProviderProps) {
   const tokenLocalStorage = localStorage.getItem("token");
 
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<Usuario | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(
     !!tokenLocalStorage
   ); /* !!tokenLocalStorage es para convertir el valor a booleano. El primer signo de exclamación convierte el valor a booleano pero invertido y el segundo invierte el valor booleano correctamente
