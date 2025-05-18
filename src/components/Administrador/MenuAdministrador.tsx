@@ -70,12 +70,14 @@ export default function MenuAdministrador() {
               </section>
             </div>
             <section className="w-full flex flex-col items-center gap-y-5">
-              <img
-                src="/imagenes/checks.png"
-                className="w-50 h-40 object-cover rounded"
-                alt="Checks"
-              ></img>
-              <p>Verificacion de posts</p>
+              <Link to="/menuAdmin/gestionarPosts">
+                <img
+                  src="/imagenes/checks.png"
+                  className="w-50 h-40 object-cover rounded"
+                  alt="Checks"
+                ></img>
+                <p>Verificacion de posts</p>
+              </Link>
             </section>
           </div>
         </section>

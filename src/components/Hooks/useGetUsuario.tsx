@@ -10,6 +10,7 @@ interface Usuario {
   biografia: string;
   role: string;
 }
+
 export default function useGetUsuario(id: number) {
   const [user, setUser] = useState({} as Usuario);
 

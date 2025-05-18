@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { adoptedPosts } from "../services/ApiPost";
+import { Link } from "react-router-dom";
+
 interface Post {
   id: number;
   nameAnimal: string;
@@ -50,13 +52,15 @@ export default function AnimalesAdoptados({ user_id }: Props) {
       ) : (
         <div className="grid grid-cols-2 gap-3 grid-rows-2 ">
           {postsAdopted.map((post) => (
-            <div
-              className="border-pink-400 border-4 rounded-lg text-center"
-              key={post.id}
-            >
-              <img src="../imagenes/animales.jpg"></img>
-              <p className="font-semibold p-3">{post.nameAnimal}</p>
-            </div>
+            <Link to={`/adoptables/${post.id}`}>
+              <div
+                className="border-pink-400 border-4 rounded-lg text-center"
+                key={post.id}
+              >
+                <img src="../imagenes/animales.jpg"></img>
+                <p className="font-semibold p-3">{post.nameAnimal}</p>
+              </div>
+            </Link>
           ))}
         </div>
       )}

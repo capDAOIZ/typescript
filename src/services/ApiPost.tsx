@@ -63,7 +63,6 @@ export async function createPost(formData: FormData) {
         Authorization: `Bearer ${localStorage.getItem("token")}` || "",
       },
     });
-
     return response.data;
   } catch (error) {
     console.error("Error al crear el post", error);
@@ -71,9 +70,9 @@ export async function createPost(formData: FormData) {
   }
 }
 
-export async function updatePost(id: number, post: Post) {
+export async function updatePost(id: number, formData: FormData) {
   try {
-    const response = await api.patch(`/posts/${id}`, post, {
+    const response = await api.post(`/posts/${id}?_method=PATCH`, formData, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}` || "",
       },
@@ -101,7 +100,7 @@ export async function deletePost(id: number, token: string) {
 
 export async function adoptedPosts(id: number) {
   try {
-    const response = await api.get(`/posts/adopted/${id}`);
+    const response = await api.get(`/posts-adopted/${id}`);
 
     return response.data;
   } catch (error) {

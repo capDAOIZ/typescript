@@ -18,13 +18,15 @@ import LoginModal from "./modals/LoginModal"; // Modal de inicio de sesión
 import Perfil from "./Perfil/Perfil";
 import CrearPost from "./components/CrearPost";
 import Registrarse from "./components/Registrarse";
-import VistaPost from "./components/VistaDePosts/VistaPost";
+import VistaPost from "./components/CentroPosts/VistaPost";
 import MenuAdministrador from "./components/Administrador/MenuAdministrador";
 import FirmaContrato from "./components/Contrato/FirmaContrato";
 import GestionUsuarios from "./components/Administrador/GestionUsuarios";
 import GestionMascotas from "./components/Administrador/GestionMascotas";
 import VistaUsuario from "./Perfil/VistaUsuario";
-import Publicaciones from "./components/VistaDePosts/Publicaciones";
+import Publicaciones from "./components/CentroPosts/Publicaciones";
+import GestionPosts from "./components/Administrador/GestionPosts";
+import EditarPost from "./components/CentroPosts/Editar-Post/EditarPost";
 
 export default function App() {
   const [isLoginModalOpen, setLoginModalOpen] = useState(false);
@@ -77,8 +79,18 @@ export default function App() {
               element={<RutaPrivadaAdmin component={GestionMascotas} />}
             />
             <Route
+              path="/menuAdmin/gestionarPosts"
+              element={<RutaPrivadaAdmin component={GestionPosts} />}
+            />
+
+            <Route
               path="/crearPost"
               element={<RutaPrivada component={CrearPost} />}
+            />
+
+            <Route
+              path="/editarPost/:id"
+              element={<RutaPrivada component={EditarPost} />}
             />
 
             {/* Redirigir cualquier ruta no definida al inicio */}

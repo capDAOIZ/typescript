@@ -10,6 +10,7 @@ export default function CrearPost() {
     try {
       const response = await createPost(formData);
       alert("Post creado con éxito");
+      return;
     } catch (error) {
       console.log(error);
       alert("Error al crear el post");
@@ -39,10 +40,10 @@ export default function CrearPost() {
       </p>
 
       <form
-        method="POST"
         className="max-w-2xl mx-auto bg-white shadow-xl border border-pink-300 rounded-xl px-6 py-10 flex flex-col gap-6"
-        encType="multipart/form-data"
         onSubmit={handleSubmit}
+        encType="multipart/form-data"
+        method="POST"
       >
         <div className="text-left">
           <label
@@ -76,7 +77,7 @@ export default function CrearPost() {
             name="description"
             placeholder="Descríbenos al animal"
             minLength={10}
-            maxLength={100}
+            maxLength={200}
             rows={5}
             required
           />
@@ -113,7 +114,6 @@ export default function CrearPost() {
             type="file"
             name="image"
             id="image"
-            accept="image/*"
             onChange={handleImageChange}
             required
           />

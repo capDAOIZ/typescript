@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { deletePost } from "../../services/ApiPost";
 import { useState } from "react";
 import ConfirmacionModal from "../../modals/ConfirmacionModal";
+import useDeletePost from "../Hooks/useDeletePost";
 
 interface Post {
   id: number;
@@ -13,28 +14,16 @@ interface Post {
 interface Props {
   post: Post;
   refrescar: () => void;
+  children?: React.ReactNode;
 }
 
 /*{`${post.image? `data:image/jpeg;base64,${post.image}`: "/imagenes/animales.jpg"}`} */
-export default function TarjetaAnimales({ post, refrescar }: Props) {
-  const [loading, setLoading] = useState(false);
+export default function TarjetaAnimales({ post, refrescar, children }: Props) {
   const [showModal, setShowModal] = useState(false);
-
-  const token = localStorage.getItem("token");
-
-  async function fecthDeletePost() {
-    if (!token) return;
-    setLoading(true);
-    try {
-      const response = await deletePost(post.id, token);
-      refrescar();
-      return;
-    } catch (error: any) {
-      console.error("Error al eliminar el post", error);
-    } finally {
-      setLoading(false);
-    }
-  }
+  const { loading, error, fecthDeletePost } = useDeletePost({
+    id: post.id,
+    refrescar,
+  });
 
   function handleClick() {
     setShowModal(true);
@@ -73,6 +62,7 @@ export default function TarjetaAnimales({ post, refrescar }: Props) {
           >
             Eliminar
           </button>
+          {children}
           {showModal && (
             <ConfirmacionModal
               onConfirmar={() => onModalResult(true)}

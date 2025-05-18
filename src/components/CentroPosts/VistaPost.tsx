@@ -1,62 +1,21 @@
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { getPost } from "../../services/ApiPost";
-import { getUsuario } from "../../services/ApiUsuario";
 import { useAuth } from "../context/AuthContext";
 
-interface Post {
-  nameAnimal: string;
-  typeAnimal: string;
-  description: string;
-  race: string;
-  image: File;
-  user_id: number;
-  adopted: boolean;
-}
-interface Usuario {
-  name: string;
-  email: string;
-  image: File;
-}
+import useGetPost from "../Hooks/useGetPost";
+import CardUsuario from "./CardUsuario";
 
 interface Props {
   openLoginModal: () => void;
 }
 export default function VistaPost({ openLoginModal }: Props) {
-  const [post, setPost] = useState<Post>();
-  const [usuario, setUsuario] = useState<Usuario>();
-  const { isAuthenticated } = useAuth();
-  const navigate = useNavigate();
-
   // Obtenemos la id del post de la url
   const { id } = useParams();
-  const idUsuario = post?.user_id;
   // Obtenemos los datos del post con la id
-  useEffect(() => {
-    async function fetchPost() {
-      try {
-        const response = await getPost(Number(id));
-        const data = response.post;
-        console.log(data);
-        setPost(data);
-      } catch (error) {}
-    }
-    fetchPost();
-  }, []);
+  const { post, cargando, error } = useGetPost({ id: Number(id) });
 
-  // Obtenemos los datos del usuario que ha creado el post
-  useEffect(() => {
-    async function fetchUsuario() {
-      try {
-        if (!idUsuario) return;
-        const response = await getUsuario(idUsuario);
-        setUsuario(response.usuario);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    fetchUsuario();
-  }, [idUsuario]);
+  const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
 
   function handleClick() {
     if (!isAuthenticated) {
@@ -71,16 +30,16 @@ export default function VistaPost({ openLoginModal }: Props) {
       <picture className="w-full lg:w-1/2 flex flex-col items-center justify-center gap-6 ">
         <img className="h-1/2 rounded-3xl" src="../imagenes/animales.jpg"></img>
         <p className="text-xl font-semibold ">
-          {post?.typeAnimal == "perro" ? "Perro 🐶 " : "Gato 🐱 "}
+          {post.typeAnimal == "perro" ? "Perro 🐶 " : "Gato 🐱 "}
         </p>
       </picture>
       <article className="w-full lg:w-1/2 p-6 bg-pink-200 relative rounded-3xl shadow-lg">
         <h2 className="text-center font-bold text-4xl mb-6">
-          {post?.nameAnimal}
+          {post.nameAnimal}
         </h2>
         <section className="mb-6">
           <h3 className="font-semibold text-lg mb-3">
-            Conoce a {post?.nameAnimal}
+            Conoce a {post.nameAnimal}
           </h3>
           <p>{post?.description}</p>
         </section>
@@ -98,10 +57,10 @@ export default function VistaPost({ openLoginModal }: Props) {
                 className="w-1/4 m-auto"
                 src={
                   post?.adopted == true
-                    ? post?.typeAnimal == "perro"
+                    ? post.typeAnimal == "perro"
                       ? "/imagenes/perro-feliz.png"
                       : "/imagenes/gatito-feliz.png"
-                    : post?.typeAnimal == "perro"
+                    : post.typeAnimal == "perro"
                     ? "/imagenes/perro-triste.png"
                     : "/imagenes/gatito-triste.png"
                 }
@@ -109,12 +68,12 @@ export default function VistaPost({ openLoginModal }: Props) {
             </div>
             <div className="bg-red-400 p-6 w-1/2 border-2 border-black rounded-3xl">
               <h3 className="font-semibold text-2xl mb-3 text-center">
-                Tipo de {post?.typeAnimal == "perro" ? "Perro" : "Gato"}
+                Tipo de {post.typeAnimal == "perro" ? "Perro" : "Gato"}
               </h3>
               <p className="text-center mb-3 font-semibold ">
                 La raza del animal es :{}
               </p>
-              <p className="text-center font-black ">{post?.race}</p>
+              <p className="text-center font-black ">{post.race}</p>
             </div>
           </div>
 
@@ -215,23 +174,7 @@ export default function VistaPost({ openLoginModal }: Props) {
         <hr className="mb-24 border-black "></hr>
         <footer className="absolute bottom-5  ">
           <p className="my-2">Publicado por: </p>
-          <div className="flex items-center gap-3">
-            <Link to={`/perfilUsuario/${idUsuario}`}>
-              <img
-                className="rounded-full object-cover w-10 h-10 border-2  border-black "
-                src={
-                  usuario?.image
-                    ? `data:image/jpeg;base64,${usuario.image}`
-                    : "/imagenes/fotoPredeterminada.jpg"
-                }
-                alt={usuario?.name}
-              />
-            </Link>
-            <div>
-              <h6 className="font-semibold">{usuario?.name} </h6>
-              <p>{usuario?.email}</p>
-            </div>
-          </div>
+          {!cargando && <CardUsuario id={post.user_id}></CardUsuario>}
         </footer>
       </article>
     </div>

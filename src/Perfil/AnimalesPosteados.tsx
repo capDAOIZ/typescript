@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getLastPost } from "../services/ApiPost";
+import { Link } from "react-router-dom";
 interface Post {
   id: number;
   nameAnimal: string;
@@ -53,7 +54,9 @@ export default function AnimalesPosteados({ user_id }: Props) {
               className="border-pink-400 border-4 rounded-lg text-center"
               key={post.id}
             >
-              <img src="../imagenes/animales.jpg"></img>
+              <Link to={`/adoptables/${post.id}`}>
+                <img src="../imagenes/animales.jpg"></img>
+              </Link>
               <p className="font-semibold p-3">{post.nameAnimal}</p>
             </div>
           ))}

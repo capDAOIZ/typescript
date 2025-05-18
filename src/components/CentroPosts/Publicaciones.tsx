@@ -1,6 +1,8 @@
 import { useAuth } from "../context/AuthContext";
 import usePostsXPaginas from "../Hooks/usePostsXPaginas";
 import PasadoresDePaginas from "../PasadoresDePaginas";
+import TarjetaAnimales from "../Administrador/TarjetaAnimales";
+import BotonEditar from "./BotonEditar";
 import { Link } from "react-router-dom";
 export default function Publicaciones() {
   const { user } = useAuth();
@@ -12,6 +14,7 @@ export default function Publicaciones() {
     setPaginaActual,
     cargando,
     error,
+    refrescar,
   } = usePostsXPaginas(user.id);
   return (
     <section className="w-full min-h-screen py-12 bg-gray-100 text-center px-12">
@@ -30,21 +33,9 @@ export default function Publicaciones() {
           </p>
         ) : (
           posts.map((post) => (
-            <div className="bg-white p-4 shadow-lg rounded-lg" key={post.id}>
-              <Link to={`/adoptables/${post.id}`}>
-                <img
-                  className="rounded-lg cursor-pointer"
-                  src="/imagenes/animales.jpg"
-                  alt={post.nameAnimal}
-                />
-              </Link>
-              <h3 className="text-xl font-bold mt-4 truncate">
-                {post.nameAnimal}
-              </h3>
-              <p className="text-gray-600">
-                {post.typeAnimal == "perro" ? "Perro 🐶 " : "Gato 🐱 "}
-              </p>
-            </div>
+            <TarjetaAnimales post={post} key={post.id} refrescar={refrescar}>
+              <BotonEditar id={post.id}></BotonEditar>
+            </TarjetaAnimales>
           ))
         )}
       </div>
