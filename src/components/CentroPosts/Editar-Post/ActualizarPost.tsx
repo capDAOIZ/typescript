@@ -33,14 +33,23 @@ export default function ActualizarPost({ id }: Props) {
 
     try {
       setCargandoSubmit(true);
-      await updatePost(Number(id), cleaned);
+      const response = await updatePost(Number(id), cleaned);
+      console.log(response);
       setMensaje("Post actualizado correctamente");
       return;
-    } catch (error) {
-      console.error("Error al actualizar el post", error);
-      setErrorSubmit("Error al actualizar el post");
+    } catch (error: any) {
+      var mensaje = "";
+      const errorResponse = error.errores;
+      Object.keys(errorResponse).forEach((key) => {
+        errorResponse[key].forEach((msg: string) => {
+          mensaje += `${msg}\n`;
+        });
+      });
+      setErrorSubmit(mensaje);
     } finally {
-      setTimeout(() => window.location.reload(), 2000);
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
     }
   }
   return (
@@ -64,7 +73,7 @@ export default function ActualizarPost({ id }: Props) {
             name="nameAnimal"
             className="border-2 rounded-md p-2 focus:border-pink-600 outline-none"
             placeholder="Escribe el nuevo nombre del animal..."
-            min={3}
+            minLength={3}
           ></input>
         </div>
         <div className=" flex flex-col gap-y-3">
@@ -77,6 +86,7 @@ export default function ActualizarPost({ id }: Props) {
             className="border-2 rounded-md p-2 focus:border-pink-600 outline-none"
             placeholder="Escribe la nueva descripcion del animal..."
             rows={4}
+            minLength={10}
           ></textarea>
         </div>
         <div className=" flex flex-col gap-y-3">
@@ -128,7 +138,9 @@ export default function ActualizarPost({ id }: Props) {
           )}
         </button>
         {errorSubmit ? (
-          <p className="text-red-600 text-center">{errorSubmit}</p>
+          <pre className="text-red-600 text-center whitespace-break-spaces">
+            {errorSubmit}
+          </pre>
         ) : mensaje ? (
           <p className="text-green-600 text-center">{mensaje}</p>
         ) : null}

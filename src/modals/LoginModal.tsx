@@ -124,7 +124,7 @@ export default function LoginModal({ isOpen, closeModal }: LoginModalProps) {
               required
               autoComplete="current-password"
               value={password}
-              placeholder="Recuerda que tiene que ser una contraseña segura"
+              placeholder="Tu contraseña segura..."
               onChange={(e) => setPassword(e.target.value)}
             />
             {error ? (

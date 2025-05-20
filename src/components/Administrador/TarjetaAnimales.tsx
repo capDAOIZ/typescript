@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { deletePost } from "../../services/ApiPost";
 import { useState } from "react";
 import ConfirmacionModal from "../../modals/ConfirmacionModal";
 import useDeletePost from "../Hooks/useDeletePost";

@@ -142,7 +142,7 @@ export default function SideBar() {
           </div>
         </Link>
 
-        <Link to="/crearPost">
+        <Link to="/crearPost" onClick={() => setIsOpen(false)}>
           <div className="text-lg hover:bg-white/70 cursor-pointer py-3 mb-2 px-4 flex flex-row justify-start gap-2 items-center">
             <p>🐾 Buscar Familia</p>
           </div>

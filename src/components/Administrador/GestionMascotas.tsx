@@ -28,7 +28,11 @@ export default function GestionMascotas() {
           </p>
         ) : (
           posts.map((post) => (
-            <TarjetaAnimales post={post} key={post.id} refrescar={refrescar} />
+            <TarjetaAnimales
+              post={post}
+              key={post.id}
+              refrescar={refrescar}
+            ></TarjetaAnimales>
           ))
         )}
       </div>

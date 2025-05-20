@@ -6,14 +6,6 @@ const api = axios.create({
   baseURL: API_URL,
 });
 
-interface Post {
-  nameAnimal?: string;
-  typeAnimal?: string;
-  description?: string;
-  image?: File;
-  adopted?: boolean;
-  userAdopted_id?: number;
-}
 export async function getPosts(page: number = 1, idUsuario?: number) {
   try {
     if (idUsuario) {
@@ -77,6 +69,9 @@ export async function updatePost(id: number, formData: FormData) {
         Authorization: `Bearer ${localStorage.getItem("token")}` || "",
       },
     });
+    if (response.data.status === 422) {
+      throw response.data;
+    }
     return response.data;
   } catch (error) {
     console.error("Error al actualizar el post", error);
@@ -105,6 +100,38 @@ export async function adoptedPosts(id: number) {
     return response.data;
   } catch (error) {
     console.error("Error al encontrar posts adoptados", error);
+    throw error;
+  }
+}
+
+export async function validatePost(id: number) {
+  try {
+    const response = await api.post(
+      `/posts/${id}/validarPost?_method=PATCH`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}` || "",
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error al validar el post", error);
+    throw error;
+  }
+}
+
+export async function getPostNotValid() {
+  try {
+    const response = await api.get(`/posts/noVerificados`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}` || "",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error al obtener los posts no verificados", error);
     throw error;
   }
 }

@@ -85,7 +85,7 @@ export default function Registrarse() {
           </label>
           <input
             type="password"
-            placeholder="Contraseña..."
+            placeholder="Recuerda!!! Contraseña segura"
             className="border-2 border-black rounded-lg p-2"
             id="password"
             name="password"

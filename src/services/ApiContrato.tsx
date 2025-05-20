@@ -1,5 +1,9 @@
 const API_URL = "http://localhost/ApiContrato_PF/public/api";
 
+// Recordar que fecth hay que pasarle el metodo, el body y el header
+// El body debe ser en JSON por lo que usamos la funcion JSON.stringify("contenido")
+// Hay que comprobar si la respuesta es correcta con response.ok
+// Hay que hacer con await el response.json() para obtener los datos
 async function getContratos() {
   try {
     const response = await fetch(`${API_URL}/contratos`, {
