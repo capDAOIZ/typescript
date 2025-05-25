@@ -13,5 +13,5 @@ export default function useImagenPreview() {
       setImagePreview(null);
     }
   }
-  return { imagePreview, handleImageChange };
+  return { imagePreview, setImagePreview, handleImageChange };
 }

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { getPostNotValid } from "../../services/ApiPost";
-import TarjetaAnimales from "./TarjetaAnimales";
-import BotonVerificar from "./BotonVerificar";
+import TarjetaAnimales from "../Tarjetas/TarjetaAnimales";
+import BotonVerificar from "../Tarjetas/BotonVerificar";
 interface Post {
   id: number;
   nameAnimal: string;
@@ -30,9 +30,7 @@ export default function PasadoresDePaginas() {
     }
     getPostNotValido();
   }, []);
-  function refrescar() {
-    console.log("refrescar");
-  }
+
   return (
     <section className="w-full min-h-screen py-12 bg-gray-100 text-center px-12">
       <h1 className="text-2xl font-bold mb-2">
@@ -49,7 +47,7 @@ export default function PasadoresDePaginas() {
           </p>
         ) : (
           posts.map((post) => (
-            <TarjetaAnimales post={post} key={post.id} refrescar={refrescar}>
+            <TarjetaAnimales post={post} key={post.id}>
               <BotonVerificar id={post.id}></BotonVerificar>
             </TarjetaAnimales>
           ))

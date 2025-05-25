@@ -1,5 +1,6 @@
 import usePostsXPaginas from "../Hooks/usePostsXPaginas";
-import TarjetaAnimales from "./TarjetaAnimales";
+import TarjetaAnimales from "../Tarjetas/TarjetaAnimales";
+import BotonEliminar from "../Tarjetas/BotonEliminar";
 export default function GestionMascotas() {
   const {
     posts,
@@ -28,11 +29,9 @@ export default function GestionMascotas() {
           </p>
         ) : (
           posts.map((post) => (
-            <TarjetaAnimales
-              post={post}
-              key={post.id}
-              refrescar={refrescar}
-            ></TarjetaAnimales>
+            <TarjetaAnimales post={post} key={post.id}>
+              <BotonEliminar id={post.id} refrescar={refrescar} />
+            </TarjetaAnimales>
           ))
         )}
       </div>

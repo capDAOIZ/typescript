@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../components/context/AuthContext";
 export default function SideBar() {
   const [isOpen, setIsOpen] = useState(false);
   const { logout, user } = useAuth();

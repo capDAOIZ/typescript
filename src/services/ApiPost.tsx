@@ -55,6 +55,9 @@ export async function createPost(formData: FormData) {
         Authorization: `Bearer ${localStorage.getItem("token")}` || "",
       },
     });
+    if (response.data.status === 422) {
+      throw response.data;
+    }
     return response.data;
   } catch (error) {
     console.error("Error al crear el post", error);
@@ -79,11 +82,11 @@ export async function updatePost(id: number, formData: FormData) {
   }
 }
 
-export async function deletePost(id: number, token: string) {
+export async function deletePost(id: number) {
   try {
     const response = await api.delete(`/posts/${id}`, {
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${localStorage.getItem("token")}` || "",
       },
     });
     return response.data;

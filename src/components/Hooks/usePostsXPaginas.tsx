@@ -16,29 +16,26 @@ export default function usePostsXPaginas(idUsuario?: number) {
   const [refrescarFetch, setRefrescarFetch] = useState(false);
 
   //Obtener todos los posts
-  const fetchPosts = useCallback(
-    async (paginaActual: number, idUsuario?: number) => {
-      setCargando(true);
-      setError(false);
-      try {
-        const response = await getPosts(paginaActual, idUsuario);
-        const data = response.posts.data;
-        setPosts(data);
-        setPaginaActual(response.posts.current_page);
-        setTotalPaginas(response.posts.last_page);
-        setCargando(false);
-        return;
-      } catch (e: any) {
-        setError(true);
-      } finally {
-        setCargando(false);
-      }
-    },
-    []
-  );
+  async function fetchPosts() {
+    setCargando(true);
+    setError(false);
+    try {
+      const response = await getPosts(paginaActual, idUsuario);
+      const data = response.posts.data;
+      setPosts(data);
+      setPaginaActual(response.posts.current_page);
+      setTotalPaginas(response.posts.last_page);
+      setCargando(false);
+      return;
+    } catch (e: any) {
+      setError(true);
+    } finally {
+      setCargando(false);
+    }
+  }
 
   useEffect(() => {
-    fetchPosts(paginaActual, idUsuario);
+    fetchPosts();
   }, [paginaActual, refrescarFetch]);
 
   function refrescar() {

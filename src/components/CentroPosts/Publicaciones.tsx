@@ -1,12 +1,14 @@
 import { useAuth } from "../context/AuthContext";
 import usePostsXPaginas from "../Hooks/usePostsXPaginas";
 import PasadoresDePaginas from "../PasadoresDePaginas";
-import TarjetaAnimales from "../Administrador/TarjetaAnimales";
-import BotonEditar from "./BotonEditar";
-import { Link } from "react-router-dom";
+import TarjetaAnimales from "../Tarjetas/TarjetaAnimales";
+
+import BotonEditar from "../Tarjetas/BotonEditar";
+import BotonEliminar from "../Tarjetas/BotonEliminar";
+
 export default function Publicaciones() {
   const { user } = useAuth();
-  if (!user) return null;
+
   const {
     posts,
     paginaActual,
@@ -15,7 +17,8 @@ export default function Publicaciones() {
     cargando,
     error,
     refrescar,
-  } = usePostsXPaginas(user.id);
+  } = usePostsXPaginas(user?.id);
+
   return (
     <section className="w-full min-h-screen py-12 bg-gray-100 text-center px-12">
       <h1 className="text-3xl font-bold text-gray-800 mb-10">
@@ -33,8 +36,9 @@ export default function Publicaciones() {
           </p>
         ) : (
           posts.map((post) => (
-            <TarjetaAnimales post={post} key={post.id} refrescar={refrescar}>
+            <TarjetaAnimales post={post} key={post.id}>
               <BotonEditar id={post.id}></BotonEditar>
+              <BotonEliminar id={post.id} refrescar={refrescar}></BotonEliminar>
             </TarjetaAnimales>
           ))
         )}

@@ -1,33 +1,18 @@
-import React, { useState } from "react";
-import { createPost } from "../services/ApiPost";
-
+import useCreatePost from "../Hooks/useCreatePost";
+import useImagenPreview from "../Hooks/useImagenPreview";
+import BotonCargando from "../../modals/BotonCargando";
+import { useRef } from "react";
 export default function CrearPost() {
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
-
-  async function handleSubmit(e: React.FormEvent) {
+  const { error, cargando, mensaje, fecthCreatePost } = useCreatePost();
+  const { handleImageChange, imagePreview, setImagePreview } =
+    useImagenPreview();
+  const formRef = useRef<HTMLFormElement>(null);
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const formData = new FormData(e.target as HTMLFormElement);
-    try {
-      const response = await createPost(formData);
-      alert("Post creado con éxito");
-      return;
-    } catch (error) {
-      console.log(error);
-      alert("Error al crear el post");
-    }
-  }
-
-  function handleImageChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagePreview(reader.result as string);
-      };
-      reader.readAsDataURL(file);
-    } else {
-      setImagePreview(null);
-    }
+    const formData = new FormData(e.currentTarget);
+    await fecthCreatePost(formData);
+    formRef.current?.reset();
+    setImagePreview(null);
   }
 
   return (
@@ -44,7 +29,9 @@ export default function CrearPost() {
         onSubmit={handleSubmit}
         encType="multipart/form-data"
         method="POST"
+        ref={formRef}
       >
+        {/* NOMBRE */}
         <div className="text-left">
           <label
             htmlFor="nameAnimal"
@@ -58,12 +45,12 @@ export default function CrearPost() {
             id="nameAnimal"
             name="nameAnimal"
             placeholder="Nombre del animal"
-            minLength={2}
+            minLength={3}
             maxLength={50}
             required
           />
         </div>
-
+        {/* DESCRIPCION */}
         <div className="text-left">
           <label
             htmlFor="description"
@@ -82,7 +69,7 @@ export default function CrearPost() {
             required
           />
         </div>
-
+        {/* TIPO DE ANIMAL */}
         <div className="text-left">
           <label
             htmlFor="typeAnimal"
@@ -101,7 +88,7 @@ export default function CrearPost() {
             <option value="gato">Gato 🐱</option>
           </select>
         </div>
-
+        {/* IMAGEN DEL ANIMAL */}
         <div className="text-left">
           <label
             htmlFor="image"
@@ -126,12 +113,23 @@ export default function CrearPost() {
           )}
         </div>
 
-        <button
-          type="submit"
-          className="bg-pink-600 hover:bg-pink-700 text-white font-bold py-3 px-6 rounded-full shadow-md transition duration-300 ease-in-out w-full"
-        >
-          Publicar
-        </button>
+        {cargando ? (
+          <BotonCargando></BotonCargando>
+        ) : (
+          <button
+            type="submit"
+            className="bg-pink-600 hover:bg-pink-700 text-white font-bold py-3 px-6 rounded-full shadow-md transition duration-300 ease-in-out w-full"
+          >
+            Publicar
+          </button>
+        )}
+        {error ? (
+          <pre className="text-red-600 font-semibold text-md whitespace-pre-wrap break-words">
+            {error}
+          </pre>
+        ) : mensaje ? (
+          <div className="text-green-600 font-semibold text-lg">{mensaje}</div>
+        ) : null}
       </form>
     </div>
   );

@@ -16,8 +16,8 @@ import Base from "./components/Base/Base";
 import Nosotros from "./components/Header/Nosotros";
 import LoginModal from "./modals/LoginModal"; // Modal de inicio de sesión
 import Perfil from "./Perfil/Perfil";
-import CrearPost from "./components/CrearPost";
-import Registrarse from "./components/Registrarse";
+import CrearPost from "./components/Header/CrearPost";
+import Registrarse from "./components/Header/Registro/Registrarse";
 import VistaPost from "./components/CentroPosts/VistaPost";
 import MenuAdministrador from "./components/Administrador/MenuAdministrador";
 import FirmaContrato from "./components/Contrato/FirmaContrato";
