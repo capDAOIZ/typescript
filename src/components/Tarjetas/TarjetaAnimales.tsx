@@ -15,7 +15,10 @@ interface Props {
 /*{`${post.image? `data:image/jpeg;base64,${post.image}`: "/imagenes/animales.jpg"}`} */
 export default function TarjetaAnimales({ post, children }: Props) {
   return (
-    <div className="bg-white p-4 shadow-lg rounded-lg" key={post.id}>
+    <div
+      className="bg-white p-4 shadow-lg rounded-lg text-center"
+      key={post.id}
+    >
       <Link to={`/adoptables/${post.id}`}>
         <img
           className="rounded-lg cursor-pointer"

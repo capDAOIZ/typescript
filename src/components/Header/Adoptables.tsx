@@ -1,5 +1,4 @@
 import usePostsXPaginas from "../Hooks/usePostsXPaginas";
-import { Link, useLocation, useNavigate } from "react-router-dom";
 import PasadoresDePaginas from "../PasadoresDePaginas";
 import TarjetaAnimales from "../Tarjetas/TarjetaAnimales";
 

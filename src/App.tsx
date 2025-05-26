@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useAuth } from "./components/context/AuthContext";
 import {
   BrowserRouter as Router,
   Routes,
@@ -12,7 +11,7 @@ import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
 
 import Adoptables from "./components/Header/Adoptables";
-import Base from "./components/Base/Base";
+import Base from "./components/Header/Inicio/Base";
 import Nosotros from "./components/Header/Nosotros";
 import LoginModal from "./modals/LoginModal"; // Modal de inicio de sesión
 import Perfil from "./Perfil/Perfil";

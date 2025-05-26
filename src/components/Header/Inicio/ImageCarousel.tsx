@@ -10,7 +10,7 @@ export default function ImageCarousel({ imagenes }: Props) {
   const duplicatedImages = [...imagenes, ...imagenes]; // duplicación para efecto infinito
 
   return (
-    <div className="w-full overflow-hidden py-12 relative">
+    <div className="w-full overflow-hidden mb-20 relative">
       <div
         className="flex w-max animate-scroll"
         style={{
