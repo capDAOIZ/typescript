@@ -7,7 +7,10 @@ interface Post {
   description: string;
   image: File;
 }
-export default function useGetLastPosts() {
+interface Props {
+  user_id?: number;
+}
+export default function useGetLastPosts({ user_id }: Props = {}) {
   const [posts, setPosts] = useState<Post[]>([]);
   const [cargando, setCargando] = useState(false);
   const [error, setError] = useState("");

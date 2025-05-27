@@ -1,6 +1,7 @@
 import { useAuth } from "../components/context/AuthContext";
 import { useState } from "react";
 import { actualizarUsuario } from "../services/ApiUsuario";
+import useUpdateUser from "../components/Hooks/useUpdateUser";
 
 import DatosPerfil from "./DatosPerfil";
 import EditarDatosPerfil from "./EditarDatosPerfil";
@@ -11,18 +12,15 @@ export default function Perfil() {
   const { user } = useAuth();
   const user_id = user?.id;
 
+  const { mensaje, error, loading, fecthUpdateuser } = useUpdateUser();
+
   const [editando, setEditando] = useState(false);
-  const [error, setError] = useState("");
-  const [mensaje, setMensaje] = useState("");
-  const [loading, setLoading] = useState(false);
 
   //Logica para mandar los datos del formulario sin errores
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    setLoading(true);
 
     const formData = new FormData(e.target as HTMLFormElement);
-    const token = localStorage.getItem("token");
 
     // Eliminar campos vacíos
     for (let [key, value] of formData.entries()) {
@@ -34,61 +32,39 @@ export default function Perfil() {
       }
     }
 
-    if (user_id && token) {
-      try {
-        const response = await actualizarUsuario(user_id, formData, token);
-
-        //El mensaje de exito se mostrara por 1 segundo en el componente DatosPerfil y luego se recargara la pagina
-        setMensaje("Usuario actualizado correctamente");
-        setTimeout(() => {
-          setMensaje("");
-          window.location.reload();
-        }, 1000);
-
-        //
-      } catch (error: any) {
-        let errores = "";
-        const errorObj = error.response.data.errores;
-        if (errorObj) {
-          Object.keys(errorObj).forEach((key) => {
-            errorObj[key].forEach((msg: string) => {
-              errores += `${msg}\n`;
-            });
-          });
-        }
-        setError(errores || "Error al actualizar el usuario");
-      } finally {
-        setLoading(false);
-      }
-    }
+    await fecthUpdateuser({ user_id: user_id!, formData });
   }
 
   return (
-    <div className="grid grid-rows-3 my-10 gap-2 min-h-screen md:grid-cols-3 mx-8">
-      <div className="p-3 row-span-1 md:col-span-1 md:row-span-full">
+    <div className="grid grid-rows-1 lg:grid-cols-2 my-10 gap-10 min-h-screen  mx-20">
+      <div>
         {!editando ? (
           user && (
-            <DatosPerfil
-              mensaje={mensaje}
-              user={user}
-              setEditando={setEditando}
-            ></DatosPerfil>
+            <DatosPerfil user={user}>
+              <button
+                className="bg-pink-600 text-black px-10 py-2 rounded-full w-full"
+                onClick={() => {
+                  setEditando(true);
+                }}
+              >
+                Editar perfil
+              </button>
+            </DatosPerfil>
           )
         ) : (
           <EditarDatosPerfil
             error={error}
             user={user}
             loading={loading}
-            handleSubmit={handleSubmit}
             mensaje={mensaje}
+            handleSubmit={handleSubmit}
             setEditando={setEditando}
           ></EditarDatosPerfil>
         )}
       </div>
       {user_id && (
-        <article className="flex flex-col gap-10 row-span-2 p-5 md:col-span-2 md:row-span-full ">
+        <article className=" grid lg:grid-rows-2 gap-y-10">
           <AnimalesPosteados user_id={user_id}></AnimalesPosteados>
-          <hr className=" border-black"></hr>
           <AnimalesAdoptados user_id={user_id}></AnimalesAdoptados>
         </article>
       )}

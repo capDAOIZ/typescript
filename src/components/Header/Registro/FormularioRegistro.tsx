@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import useRegisterUser from "../../Hooks/useRegisterUser";
-import BotonCargando from "../../../modals/BotonCargando";
+import { BotonCargando } from "../../../modals/Cargando";
 
 /* En React useRef es un hook que te permite tener un contenedor mutable cuyos cambios no provocan re-renders y
  que persiste durante todo el ciclo de vida del componente. UseState si provoca un re-render */

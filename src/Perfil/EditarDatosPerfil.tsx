@@ -1,35 +1,44 @@
+import { useState } from "react";
+import { BotonCargando } from "../modals/Cargando";
 interface Props {
   user: any;
-  mensaje: string;
   error: string;
   loading: boolean;
   setEditando: (value: boolean) => void;
   handleSubmit: (e: React.FormEvent) => void;
+  mensaje: string;
 }
 export default function EditarDatosPerfil({
-  mensaje,
   user,
   setEditando,
   error,
   loading,
   handleSubmit,
+  mensaje,
 }: Props) {
+  const [mostrarContraseña, setMostrarContraseña] = useState(false);
+  const [password, setPassword] = useState("");
+  function handleClick(e: React.FormEvent) {
+    e.preventDefault();
+    setMostrarContraseña(!mostrarContraseña);
+  }
   return (
-    <section className="grid grid-rows-1 gap-0">
-      <form encType="multipart/form-data" onSubmit={handleSubmit}>
-        <div className="grid grid-cols-4 gap-x-4  md:block">
-          <div className="col-span-1">
-            <img
-              className="rounded-full object-cover w-40 h-40 border-4 col-span-1 border-black  md:w-72 md:h-72  md:justify-self-center md:self-start "
-              src={
-                user?.image
-                  ? `data:image/jpeg;base64,${user.image}`
-                  : "/imagenes/fotoPredeterminada.jpg"
-              }
-              alt={user?.name}
-            />
-          </div>
-          <div className=" col-span-3 self-center flex flex-col gap-2 p-5 rounded-lg">
+    <form encType="multipart/form-data" onSubmit={handleSubmit}>
+      {/*Foto */}
+      <div className="flex flex-col w-full">
+        <img
+          className="rounded-full object-cover  w-72 h-72 border-4 border-black self-center"
+          src={
+            user.image
+              ? `data:image/jpeg;base64,${user.image}`
+              : "/imagenes/fotoPredeterminada.jpg"
+          }
+          alt={user.name}
+        />
+        {/*Nombre , email, contraseña*/}
+        <div className="p-5 space-y-4">
+          {/* Nombre*/}
+          <div className="flex flex-col gap-y-2">
             <label htmlFor="name" className="text-xl font-semibold ">
               Nombre:
             </label>
@@ -37,9 +46,12 @@ export default function EditarDatosPerfil({
               type="text"
               name="name"
               placeholder="Escribe tu nombre..."
-              defaultValue={user?.name}
-              className="border-2 border-black rounded-lg p-2"
+              defaultValue={user.name}
+              className="border-2 w-full border-black rounded-lg p-2 focus:outline-none focus:border-pink-600"
             ></input>
+          </div>
+          {/* Email */}
+          <div className="flex flex-col gap-y-2">
             <label htmlFor="email" className="text-xl font-semibold ">
               Email:
             </label>
@@ -47,18 +59,80 @@ export default function EditarDatosPerfil({
               type="email"
               name="email"
               placeholder="Escribe tu nuevo email..."
-              defaultValue={user?.email}
-              className="border-2 border-black rounded-lg p-2"
+              defaultValue={user.email}
+              className="border-2 w-full border-black rounded-lg p-2 focus:outline-none focus:border-pink-600"
             ></input>
+          </div>
+          {/* Contraseña */}
+          <div className="flex flex-col gap-y-2 ">
             <label htmlFor="password" className="text-xl font-semibold ">
-              Password:
+              Contraseña :
             </label>
-            <input
-              type="password"
-              name="password"
-              placeholder="Escribe tu nueva contraseña..."
-              className="border-2 border-black rounded-lg p-2"
-            ></input>
+            <div className="flex items-center gap-x-2">
+              <input
+                type={mostrarContraseña ? "text" : "password"}
+                placeholder="Recuerda!!! Contraseña segura"
+                className="border-2 w-full border-black rounded-lg p-2 focus:outline-none focus:border-pink-600"
+                id="password"
+                name="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              ></input>
+              <button
+                onClick={handleClick}
+                className="border-2 border-black rounded-lg p-2"
+              >
+                {mostrarContraseña ? (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-6 w-6 text-gray-700"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M3 3l18 18"
+                    />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M13.875 18.825A10.05 10.05 0 0112 19c-4.968 0-9.1-3.21-10.94-7.5a10.056 
+                    10.056 0 012.573-3.522M6.159 6.159A10.056 10.056 0 0112 5c4.968 
+                    0 9.1 3.21 10.94 7.5a10.056 10.056 0 01-1.05 1.993M15 
+                    12a3 3 0 11-6 0 3 3 0 016 0"
+                    />
+                  </svg>
+                ) : (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-6 w-6 text-gray-700"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                    />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 
+                    0 8.268 2.943 9.542 7-1.274 4.057-5.064 
+                    7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                    />
+                  </svg>
+                )}
+              </button>
+            </div>
+          </div>
+          {/* Foto */}
+          <div className="flex flex-col">
             <label
               htmlFor="image"
               className="bg-pink-500 text-white px-4 py-2 rounded-full cursor-pointer hover:bg-pink-600 text-center mt-3"
@@ -72,30 +146,31 @@ export default function EditarDatosPerfil({
               className="hidden"
             ></input>
           </div>
-        </div>
-        <div>
-          <section className="my-5 flex flex-col gap-2">
+          {/* Biografía */}
+          <section className="flex flex-col gap-y-2 pb-4">
             <label htmlFor="biografia">
               <h1 className="text-xl font-semibold">Sobre mi</h1>
             </label>
             <textarea
               id="biografia"
-              className="border-2 border-black rounded-lg p-2"
+              className="border-2 w-full border-black rounded-lg p-2 focus:outline-none focus:border-pink-600"
               name="biografia"
               placeholder="Escribe algo sobre ti..."
-              defaultValue={user?.biografia ? user?.biografia : ""}
+              defaultValue={user.biografia ? user.biografia : ""}
             ></textarea>
           </section>
-          {error && (
-            <p className="text-red-600 text-sm my-6 text-center">{error}</p>
-          )}
+          {error ? (
+            <p className="text-red-600 text-sm pb-4 text-center">{error}</p>
+          ) : mensaje ? (
+            <p className="text-green-600 text-sm my-4 text-center">{mensaje}</p>
+          ) : null}
           {!loading ? (
-            <div>
+            <div className="flex gap-x-4">
               <button
                 className="bg-green-600 text-black relative  px-10 py-2  rounded-full w-1/2"
                 type="submit"
               >
-                Save
+                Guardar
               </button>
 
               <button
@@ -104,17 +179,14 @@ export default function EditarDatosPerfil({
                   setEditando(false);
                 }}
               >
-                Cancel
+                Cancelar
               </button>
             </div>
           ) : (
-            <div className="bg-gray-500 text-white px-10 py-2  rounded-full w-full flex justify-center items-center gap-x-2">
-              <div className=" w-6 h-6 border-4 border-pink-400 border-t-transparent rounded-full animate-spin"></div>
-              Cargando...
-            </div>
+            <BotonCargando></BotonCargando>
           )}
         </div>
-      </form>
-    </section>
+      </div>
+    </form>
   );
 }

@@ -7,31 +7,22 @@ interface Usuario {
 }
 interface Props {
   user: Usuario;
-  setEditando?: (value: boolean) => void;
-  mensaje?: string;
-  externo?: boolean;
+  children?: React.ReactNode;
 }
-export default function DatosPerfil({
-  setEditando = () => {},
-  user,
-  mensaje,
-  externo = false,
-}: Props) {
+export default function DatosPerfil({ user, children }: Props) {
   return (
-    <section className="grid grid-rows-2 gap-0">
-      <div className="grid grid-cols-4 gap-x-4 md:block">
-        <div className="col-span-1 md:mb-5">
-          <img
-            className="rounded-full object-cover w-40 h-40 border-4 col-span-1 border-black  md:w-72 md:h-72  md:justify-self-center md:self-start "
-            src={
-              user?.image
-                ? `data:image/jpeg;base64,${user.image}`
-                : "/imagenes/fotoPredeterminada.jpg"
-            }
-            alt={user?.name}
-          />
-        </div>
-        <div className="col-span-3 self-center ">
+    <div className="grid grid-rows-2 gap-y-5 lg:grid-rows-1">
+      <div className="flex items-center gap-x-5 lg:grid lg:grid-rows-1 gap-y-5 ">
+        <img
+          className="rounded-full object-cover w-40 h-40 border-4 border-black lg:w-72 lg:h-72 lg:justify-self-center "
+          src={
+            user?.image
+              ? `data:image/jpeg;base64,${user.image}`
+              : "/imagenes/fotoPredeterminada.jpg"
+          }
+          alt={user?.name}
+        />
+        <div className="lg:px-10 xl:px-20">
           <h1 className="font-bold text-3xl">{user.name}</h1>
           <p className="my-2">{user?.email} </p>
           <p>
@@ -40,29 +31,16 @@ export default function DatosPerfil({
           </p>
         </div>
       </div>
-      <div>
-        <section className="my-5 flex flex-col gap-2">
+
+      <section className="lg:px-10 xl:px-20">
+        <div className="mb-10">
           <h1 className="text-xl font-semibold">Sobre mi</h1>
           <p id="biografia">
             {user?.biografia ? user?.biografia : "Pensando..."}
           </p>
-        </section>
-        {mensaje && (
-          <p className="text-green-600 text-sm my-4 text-center">{mensaje}</p>
-        )}
-        {externo ? (
-          ""
-        ) : (
-          <button
-            className="bg-pink-600 text-black px-10 py-2 rounded-full w-full"
-            onClick={() => {
-              setEditando(true);
-            }}
-          >
-            Editar perfil
-          </button>
-        )}
-      </div>
-    </section>
+        </div>
+        {children}
+      </section>
+    </div>
   );
 }

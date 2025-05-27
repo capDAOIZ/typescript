@@ -19,20 +19,11 @@ export default function VistaUsuario() {
   */
 
   const { user } = useGetUsuario(user_id);
-  const externo = true;
 
   return (
-    <div className="grid grid-rows-3 my-10 gap-2 min-h-screen md:grid-cols-3 mx-5">
-      <div className="p-3 row-span-1 md:col-span-1 md:row-span-full">
-        <DatosPerfil user={user} externo={externo}></DatosPerfil>
-      </div>
-      {user_id && (
-        <article className="flex flex-col gap-10 row-span-2 p-5 md:col-span-2 md:row-span-full ">
-          <AnimalesPosteados user_id={user_id}></AnimalesPosteados>
-          <hr className=" border-black"></hr>
-          <AnimalesAdoptados user_id={user_id}></AnimalesAdoptados>
-        </article>
-      )}
+    <div className="grid lg:grid-cols-2 mb-40 mt-10 gap-x-10 mx-10 ">
+      <DatosPerfil user={user}></DatosPerfil>
+      {user_id && <AnimalesPosteados user_id={user_id}></AnimalesPosteados>}
     </div>
   );
 }

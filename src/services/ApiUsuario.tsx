@@ -91,15 +91,11 @@ export async function registrarse({ name, email, password }: CrearUsuario) {
   }
 }
 
-export async function actualizarUsuario(
-  id: number,
-  formData: FormData,
-  token: string
-) {
+export async function actualizarUsuario(id: number, formData: FormData) {
   try {
     const response = await api.post(`/usuarios/${id}?_method=PATCH`, formData, {
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${localStorage.getItem("token") || ""}`,
       },
     });
     return response.data;
