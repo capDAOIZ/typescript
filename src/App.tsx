@@ -24,7 +24,7 @@ import GestionUsuarios from "./components/Administrador/GestionUsuarios";
 import GestionMascotas from "./components/Administrador/GestionMascotas";
 import VistaUsuario from "./Perfil/VistaUsuario";
 import Publicaciones from "./components/CentroPosts/Publicaciones";
-import GestionPosts from "./components/Administrador/GestionPosts";
+import GestionVerificacion from "./components/Administrador/GestionVerificacion";
 import EditarPost from "./components/CentroPosts/Editar-Post/EditarPost";
 
 export default function App() {
@@ -79,7 +79,7 @@ export default function App() {
             />
             <Route
               path="/menuAdmin/gestionarPosts"
-              element={<RutaPrivadaAdmin component={GestionPosts} />}
+              element={<RutaPrivadaAdmin component={GestionVerificacion} />}
             />
 
             <Route

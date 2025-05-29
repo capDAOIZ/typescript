@@ -12,13 +12,12 @@ export default function usePostsXPaginas(idUsuario?: number) {
   const [paginaActual, setPaginaActual] = useState(1);
   const [totalPaginas, setTotalPaginas] = useState(1);
   const [cargando, setCargando] = useState(true);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState("");
   const [refrescarFetch, setRefrescarFetch] = useState(false);
 
   //Obtener todos los posts
   async function fetchPosts() {
     setCargando(true);
-    setError(false);
     try {
       const response = await getPosts(paginaActual, idUsuario);
       const data = response.posts.data;
@@ -28,7 +27,7 @@ export default function usePostsXPaginas(idUsuario?: number) {
       setCargando(false);
       return;
     } catch (e: any) {
-      setError(true);
+      setError(e.mensaje);
     } finally {
       setCargando(false);
     }

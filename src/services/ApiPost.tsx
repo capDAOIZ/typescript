@@ -125,9 +125,9 @@ export async function validatePost(id: number) {
   }
 }
 
-export async function getPostNotValid() {
+export async function getPostNotVerified(page: number = 1) {
   try {
-    const response = await api.get(`/posts/noVerificados`, {
+    const response = await api.get(`/posts/noVerificados?page=${page}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}` || "",
       },

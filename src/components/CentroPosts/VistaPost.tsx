@@ -2,7 +2,7 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 import useGetPost from "../Hooks/useGetPost";
-import CardUsuario from "./CardUsuario";
+import TarjetaUsuarioMini from "./TarjetaUsuarioMini";
 import { Cargando, CargandoConMensaje } from "../../modals/Cargando";
 
 interface Props {
@@ -215,7 +215,7 @@ export default function VistaPost({ openLoginModal }: Props) {
           {cargando ? (
             <Cargando></Cargando>
           ) : (
-            <CardUsuario id={post.user_id}></CardUsuario>
+            <TarjetaUsuarioMini id={post.user_id}></TarjetaUsuarioMini>
           )}
         </footer>
       </article>

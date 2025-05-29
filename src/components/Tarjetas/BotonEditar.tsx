@@ -1,12 +1,12 @@
 import { useNavigate } from "react-router-dom";
 
 interface Props {
-  id: number;
+  idPost: number;
 }
-export default function BotonEditar({ id }: Props) {
+export default function BotonEditar({ idPost }: Props) {
   const navigate = useNavigate();
   function handleClick() {
-    navigate(`/editarPost/${id}`);
+    navigate(`/editarPost/${idPost}`);
   }
   return (
     <button

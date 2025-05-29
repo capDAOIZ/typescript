@@ -36,7 +36,7 @@ export default function Perfil() {
   }
 
   return (
-    <div className="grid grid-rows-1 lg:grid-cols-2 my-10 gap-10 min-h-screen  mx-20">
+    <div className="grid grid-rows-1 lg:grid-cols-2 mt-10 mb-40 lg:mb-0 gap-10 min-h-screen  mx-20">
       <div>
         {!editando ? (
           user && (

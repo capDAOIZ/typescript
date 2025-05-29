@@ -1,13 +1,17 @@
 import { useState } from "react";
 import useDeletePost from "../Hooks/useDeletePost";
 import ConfirmacionModal from "../../modals/ConfirmacionModal";
+import ModalBloqueante from "../../modals/ModalBloqueante";
 interface Props {
-  id: number;
+  idPost: number;
   refrescar?: () => void;
 }
-export default function BotonEliminar({ id, refrescar }: Props) {
+export default function BotonEliminar({ idPost, refrescar }: Props) {
   const [showModal, setShowModal] = useState(false);
-  const { error, fecthDeletePost } = useDeletePost({ id, refrescar });
+  const { errorDelete, fecthDeletePost, loading } = useDeletePost({
+    idPost,
+    refrescar,
+  });
 
   function handleClick() {
     setShowModal(true);
@@ -35,6 +39,8 @@ export default function BotonEliminar({ id, refrescar }: Props) {
           onCancelar={() => onModalResult(false)}
         />
       )}
+
+      {loading && <ModalBloqueante />}
     </>
   );
 }

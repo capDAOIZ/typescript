@@ -105,29 +105,29 @@ export async function actualizarUsuario(id: number, formData: FormData) {
   }
 }
 
-export async function banearUsuario(id: number, token: string) {
+export async function banearUsuario(id: number) {
   try {
     const response = await api.post(`/usuarios/${id}/ban?_method=PATCH`, null, {
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${localStorage.getItem("token") || ""}`,
         Accept: "application/json",
       },
     });
     return response.data;
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error al banear el usuario", error);
     throw error;
   }
 }
 
-export async function desbanearUsuario(id: number, token: string) {
+export async function desbanearUsuario(id: number) {
   try {
     const response = await api.post(
       `/usuarios/${id}/desban?_method=PATCH`,
       null,
       {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${localStorage.getItem("token") || ""}`,
           Accept: "application/json",
         },
       }
@@ -139,14 +139,14 @@ export async function desbanearUsuario(id: number, token: string) {
   }
 }
 
-export async function makeAdmin(id: number, token: string) {
+export async function makeAdmin(id: number) {
   try {
     const response = await api.post(
       `/usuarios/${id}/admin?_method=PATCH`,
       null,
       {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${localStorage.getItem("token") || ""}`,
           Accept: "application/json",
         },
       }

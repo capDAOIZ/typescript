@@ -10,10 +10,15 @@ interface Post {
 interface Props {
   post: Post;
   children?: React.ReactNode;
+  errorDelete?: string;
 }
 
 /*{`${post.image? `data:image/jpeg;base64,${post.image}`: "/imagenes/animales.jpg"}`} */
-export default function TarjetaAnimales({ post, children }: Props) {
+export default function TarjetaAnimales({
+  post,
+  children,
+  errorDelete,
+}: Props) {
   return (
     <div
       className="bg-white p-4 shadow-lg rounded-lg text-center"
@@ -30,7 +35,13 @@ export default function TarjetaAnimales({ post, children }: Props) {
       <p className="text-gray-600">
         {post.typeAnimal == "perro" ? "Perro 🐶 " : "Gato 🐱 "}
       </p>
-      <section className="flex gap-x-4 m-4 justify-center">{children}</section>
+      {errorDelete ? (
+        <p>{errorDelete}</p>
+      ) : (
+        <section className="flex gap-x-4 m-4 justify-center">
+          {children}
+        </section>
+      )}
     </div>
   );
 }

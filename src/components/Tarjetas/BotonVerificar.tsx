@@ -1,26 +1,33 @@
 import { validatePost } from "../../services/ApiPost";
+import { useState } from "react";
+import ModalBloqueante from "../../modals/ModalBloqueante";
 interface Props {
   id: number;
+  refrescar: () => void;
 }
-export default function BotonVerificar({ id }: Props) {
+export default function BotonVerificar({ id, refrescar }: Props) {
+  const [cargando, setCargando] = useState(false);
   async function handleClick() {
     try {
+      setCargando(true);
       await validatePost(id);
-      alert("Post verificado correctamente");
+      refrescar();
     } catch (error) {
       console.error("Error al validar el post", error);
     } finally {
-      setTimeout(() => {
-        window.location.reload();
-      }, 2000);
+      setCargando(false);
     }
   }
   return (
-    <button
-      onClick={handleClick}
-      className="bg-blue-600 p-3 text-white rounded-full"
-    >
-      Verificar
-    </button>
+    <>
+      <button
+        onClick={handleClick}
+        className="bg-blue-600 p-3 text-white rounded-full"
+      >
+        Verificar
+      </button>
+
+      {cargando && <ModalBloqueante />}
+    </>
   );
 }

@@ -1,20 +1,20 @@
 import { useState } from "react";
-import { updatePost } from "../../../services/ApiPost";
 import useImagenPreview from "../../Hooks/useImagenPreview";
+import useUpdatePost from "../../Hooks/useUpdatePost";
+import { BotonCargando } from "../../../modals/Cargando";
 interface Props {
   id: number;
 }
 export default function ActualizarPost({ id }: Props) {
-  const [cargandoSubmit, setCargandoSubmit] = useState(false);
-  const [errorSubmit, setErrorSubmit] = useState("");
-  const [mensaje, setMensaje] = useState("");
-
+  const { fecthUpdatePost, cargandoUpdate, mensajeUpdate, errorSubmit } =
+    useUpdatePost();
   const { imagePreview, handleImageChange } = useImagenPreview();
+  const [mensaje, setMensaje] = useState("");
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     const original = new FormData(e.target as HTMLFormElement);
-    const cleaned = new FormData();
+    const formDataCleaned = new FormData();
 
     // destructuramos el FormData original
     for (const [key, value] of original) {
@@ -22,35 +22,16 @@ export default function ActualizarPost({ id }: Props) {
       const fileVacio = value instanceof File && value.size === 0;
       if (!stringVacio && !fileVacio) {
         // ③ solo copiamos si NO está vacío
-        cleaned.append(key, value);
+        formDataCleaned.append(key, value);
       }
     }
     // Convertir un iterador en un array || Si cleaned tiene las claves "title" y "content", el iterador produce "title" → "content".
-    if (![...cleaned.keys()].length) {
+    if (![...formDataCleaned.keys()].length) {
       setMensaje("No se detectaron cambios");
       return;
     }
 
-    try {
-      setCargandoSubmit(true);
-      const response = await updatePost(Number(id), cleaned);
-      console.log(response);
-      setMensaje("Post actualizado correctamente");
-      return;
-    } catch (error: any) {
-      var mensaje = "";
-      const errorResponse = error.errores;
-      Object.keys(errorResponse).forEach((key) => {
-        errorResponse[key].forEach((msg: string) => {
-          mensaje += `${msg}\n`;
-        });
-      });
-      setErrorSubmit(mensaje);
-    } finally {
-      setTimeout(() => {
-        window.location.reload();
-      }, 2000);
-    }
+    await fecthUpdatePost({ id, formDataCleaned });
   }
   return (
     <>
@@ -121,28 +102,25 @@ export default function ActualizarPost({ id }: Props) {
             />
           )}
         </div>
-        <button
-          type="submit"
-          className={`${
-            cargandoSubmit ? "bg-gray-400" : "bg-pink-300"
-          } py-2 rounded-lg mt-4 font-bold`}
-          disabled={cargandoSubmit}
-        >
-          {cargandoSubmit ? (
-            <div className=" flex justify-center items-center col-span-full gap-x-2">
-              <div className=" w-6 h-6 border-4 border-pink-400 border-t-transparent rounded-full animate-spin"></div>
-              Cargando...
-            </div>
-          ) : (
+        {cargandoUpdate ? (
+          <BotonCargando />
+        ) : (
+          <button
+            type="submit"
+            className="bg-pink-300 py-2 rounded-lg mt-4 font-bold"
+          >
             "ACTUALIZAR"
-          )}
-        </button>
+          </button>
+        )}
+
         {errorSubmit ? (
           <pre className="text-red-600 text-center whitespace-break-spaces">
             {errorSubmit}
           </pre>
+        ) : mensajeUpdate ? (
+          <p className="text-green-600 text-center">{mensajeUpdate}</p>
         ) : mensaje ? (
-          <p className="text-green-600 text-center">{mensaje}</p>
+          <p className="text-blue-600 text-center">{mensaje}</p>
         ) : null}
       </form>
     </>

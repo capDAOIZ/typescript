@@ -1,29 +1,37 @@
 import { deletePost } from "../../services/ApiPost";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 interface Props {
-  id: number;
+  idPost: number;
   refrescar?: () => void;
 }
-export default function useDeletePost({ id, refrescar }: Props) {
+export default function useDeletePost({ idPost, refrescar }: Props) {
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
+  const [errorDelete, setErrorDelete] = useState(false);
+
+  const timeout = useRef<number>();
 
   async function fecthDeletePost() {
     setLoading(true);
     try {
-      const response = await deletePost(id - 100);
+      const response = await deletePost(idPost);
       refrescar && refrescar();
       return;
     } catch (error: any) {
       console.error("Error al eliminar el post", error);
-      setError(true);
+      setErrorDelete(true);
     } finally {
       setLoading(false);
-      setTimeout(() => {
-        setError(false);
-      }, 2000);
+      timeout.current = window.setTimeout(() => {
+        setErrorDelete(false);
+      }, 3000);
     }
   }
 
-  return { loading, error, fecthDeletePost };
+  useEffect(() => {
+    return () => {
+      timeout.current && clearTimeout(timeout.current);
+    };
+  }, []);
+
+  return { loading, errorDelete, fecthDeletePost };
 }

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 interface Props {
   id: number;
 }
-export default function CardUsuario({ id }: Props) {
+export default function TarjetaUsuarioMini({ id }: Props) {
   const { user } = useGetUsuario(id);
   return (
     <div className="flex items-center gap-3">
