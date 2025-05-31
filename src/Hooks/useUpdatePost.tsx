@@ -1,4 +1,4 @@
-import { updatePost } from "../../services/ApiPost";
+import { updatePost } from "../services/ApiPost";
 import { useState } from "react";
 
 interface PropsFetch {

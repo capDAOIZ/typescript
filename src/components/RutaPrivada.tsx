@@ -1,5 +1,5 @@
 import { Route, Navigate } from "react-router-dom";
-import { useAuth } from "./context/AuthContext";
+import { useAuth } from "../Hooks/useAuth";
 import { ComponentType } from "react";
 
 interface PrivateRouteProps {

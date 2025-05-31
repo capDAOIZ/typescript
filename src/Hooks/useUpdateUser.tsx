@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { actualizarUsuario } from "../../services/ApiUsuario";
+import { actualizarUsuario } from "../services/ApiUsuario";
 
 interface PropsFetch {
   user_id: number;

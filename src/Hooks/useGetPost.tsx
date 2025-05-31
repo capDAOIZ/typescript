@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getPost } from "../../services/ApiPost";
+import { getPost } from "../services/ApiPost";
 interface Props {
   id: number;
 }

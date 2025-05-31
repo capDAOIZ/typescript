@@ -1,7 +1,6 @@
-import { useAuth } from "../components/context/AuthContext";
+import { useAuth } from "../../Hooks/useAuth";
 import { useState } from "react";
-import { actualizarUsuario } from "../services/ApiUsuario";
-import useUpdateUser from "../components/Hooks/useUpdateUser";
+import useUpdateUser from "../../Hooks/useUpdateUser";
 
 import DatosPerfil from "./DatosPerfil";
 import EditarDatosPerfil from "./EditarDatosPerfil";

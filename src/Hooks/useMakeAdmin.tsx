@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { makeAdmin } from "../../services/ApiUsuario";
+import { makeAdmin } from "../services/ApiUsuario";
 interface PropsMakeAdmin {
   id: number;
   refrescar: () => void;

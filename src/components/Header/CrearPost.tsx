@@ -1,6 +1,6 @@
-import useCreatePost from "../Hooks/useCreatePost";
-import useImagenPreview from "../Hooks/useImagenPreview";
-import { BotonCargando } from "../../modals/Cargando";
+import useCreatePost from "../../Hooks/useCreatePost";
+import useImagenPreview from "../../Hooks/useImagenPreview";
+import { BotonCargando } from "../modals/Cargando";
 import { useRef } from "react";
 export default function CrearPost() {
   const { error, cargando, mensaje, fecthCreatePost } = useCreatePost();

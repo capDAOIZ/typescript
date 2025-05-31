@@ -1,4 +1,4 @@
-import useGetUsuario from "../Hooks/useGetUsuario";
+import useGetUsuario from "../../Hooks/useGetUsuario";
 import { Link } from "react-router-dom";
 interface Props {
   id: number;

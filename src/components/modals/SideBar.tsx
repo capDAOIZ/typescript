@@ -1,15 +1,17 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { useAuth } from "../components/context/AuthContext";
+import { useAuth } from "../../Hooks/useAuth";
+import useLogout from "../../Hooks/useLogout";
+import ModalBloqueante from "./ModalBloqueante";
 export default function SideBar() {
   const [isOpen, setIsOpen] = useState(false);
-  const { logout, user } = useAuth();
-
+  const { user } = useAuth();
+  const { fecthLogout, cargandoLogout } = useLogout();
   // Funcion para cerrar sesion
-  const handleCerrarSesion = () => {
-    logout();
+  async function handleCerrarSesion() {
+    await fecthLogout();
     setIsOpen(false);
-  };
+  }
 
   return (
     <div>
@@ -174,6 +176,7 @@ export default function SideBar() {
           <p>Cerrar sesion</p>
         </div>
       </div>
+      {cargandoLogout && <ModalBloqueante />}
     </div>
   );
 }

@@ -1,7 +1,7 @@
 import { useState } from "react";
-import useDeletePost from "../Hooks/useDeletePost";
-import ConfirmacionModal from "../../modals/ConfirmacionModal";
-import ModalBloqueante from "../../modals/ModalBloqueante";
+import useDeletePost from "../../Hooks/useDeletePost";
+import ConfirmacionModal from "../modals/ConfirmacionModal";
+import ModalBloqueante from "../modals/ModalBloqueante";
 interface Props {
   idPost: number;
   refrescar?: () => void;

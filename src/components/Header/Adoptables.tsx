@@ -1,4 +1,4 @@
-import usePostsXPaginas from "../Hooks/usePostsXPaginas";
+import usePostsXPaginas from "../../Hooks/usePostsXPaginas";
 import PasadoresDePaginas from "../PasadoresDePaginas";
 import TarjetaAnimales from "../Tarjetas/TarjetaAnimales";
 

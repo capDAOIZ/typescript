@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { getUsuario } from "../../services/ApiUsuario";
+import { getUsuario } from "../services/ApiUsuario";
 
 interface Usuario {
   id: number;

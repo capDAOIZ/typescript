@@ -1,8 +1,8 @@
 import { useState } from "react";
 import TarjetaUsuario from "./TarjetaUsuario";
-import { Cargando } from "../../modals/Cargando";
+import { Cargando } from "../modals/Cargando";
 import PasadoresDePaginas from "../PasadoresDePaginas";
-import useUsuariosXPaginas from "../Hooks/useUsuariosXPaginas";
+import useUsuariosXPaginas from "../../Hooks/useUsuariosXPaginas";
 
 export default function GestionUsuarios() {
   const {

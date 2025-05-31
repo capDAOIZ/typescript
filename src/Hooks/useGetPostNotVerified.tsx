@@ -1,4 +1,4 @@
-import { getPostNotVerified } from "../../services/ApiPost";
+import { getPostNotVerified } from "../services/ApiPost";
 import { useState, useEffect } from "react";
 interface Post {
   id: number;

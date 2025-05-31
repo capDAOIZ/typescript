@@ -1,7 +1,7 @@
-import usePostsXPaginas from "../Hooks/usePostsXPaginas";
+import usePostsXPaginas from "../../Hooks/usePostsXPaginas";
 import TarjetaAnimales from "../Tarjetas/TarjetaAnimales";
 import BotonEliminar from "../Tarjetas/BotonEliminar";
-import { Cargando } from "../../modals/Cargando";
+import { Cargando } from "../modals/Cargando";
 import PasadoresDePaginas from "../PasadoresDePaginas";
 export default function GestionMascotas() {
   const {

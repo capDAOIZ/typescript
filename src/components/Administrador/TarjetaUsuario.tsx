@@ -1,7 +1,7 @@
-import useBanUser from "../Hooks/useBanUser";
-import useDesbanUser from "../Hooks/useDesbanUser";
-import useMakeAdmin from "../Hooks/useMakeAdmin";
-import { BotonCargando } from "../../modals/Cargando";
+import useBanUser from "../../Hooks/useBanUser";
+import useDesbanUser from "../../Hooks/useDesbanUser";
+import useMakeAdmin from "../../Hooks/useMakeAdmin";
+import { BotonCargando } from "../modals/Cargando";
 interface Usuario {
   id: number;
   image: File;

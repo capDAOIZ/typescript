@@ -35,7 +35,10 @@ export async function iniciarSesion(usuario: IniciarSesion) {
   try {
     const response = await api.post(`/login`, usuario);
     return response.data;
-  } catch (error) {
+  } catch (error: any) {
+    if (error.response.status === 422) {
+      throw error.response.data;
+    }
     console.error("Error al iniciar sesion", error);
     throw error;
   }

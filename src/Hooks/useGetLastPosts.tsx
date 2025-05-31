@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getLastPost } from "../../services/ApiPost";
+import { getLastPost } from "../services/ApiPost";
 interface Post {
   id: number;
   nameAnimal: string;

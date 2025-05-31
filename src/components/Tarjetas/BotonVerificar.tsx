@@ -1,6 +1,6 @@
 import { validatePost } from "../../services/ApiPost";
 import { useState } from "react";
-import ModalBloqueante from "../../modals/ModalBloqueante";
+import ModalBloqueante from "../modals/ModalBloqueante";
 interface Props {
   id: number;
   refrescar: () => void;

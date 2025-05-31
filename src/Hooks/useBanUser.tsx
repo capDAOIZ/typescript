@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { banearUsuario } from "../../services/ApiUsuario";
+import { banearUsuario } from "../services/ApiUsuario";
 interface PropsBanUser {
   id: number;
   refrescar: () => void;

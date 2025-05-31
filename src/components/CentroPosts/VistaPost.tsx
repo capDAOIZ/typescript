@@ -1,9 +1,9 @@
 import { useParams, useNavigate, Link } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../../Hooks/useAuth";
 
-import useGetPost from "../Hooks/useGetPost";
+import useGetPost from "../../Hooks/useGetPost";
 import TarjetaUsuarioMini from "./TarjetaUsuarioMini";
-import { Cargando, CargandoConMensaje } from "../../modals/Cargando";
+import { Cargando, CargandoConMensaje } from "../modals/Cargando";
 
 interface Props {
   openLoginModal: () => void;

@@ -1,11 +1,11 @@
-import { useAuth } from "../context/AuthContext";
-import usePostsXPaginas from "../Hooks/usePostsXPaginas";
+import { useAuth } from "../../Hooks/useAuth";
+import usePostsXPaginas from "../../Hooks/usePostsXPaginas";
 import PasadoresDePaginas from "../PasadoresDePaginas";
 import TarjetaAnimales from "../Tarjetas/TarjetaAnimales";
 
 import BotonEditar from "../Tarjetas/BotonEditar";
 import BotonEliminar from "../Tarjetas/BotonEliminar";
-import { Cargando } from "../../modals/Cargando";
+import { Cargando } from "../modals/Cargando";
 export default function Publicaciones() {
   const { user } = useAuth();
 

@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { desbanearUsuario } from "../../services/ApiUsuario";
+import { desbanearUsuario } from "../services/ApiUsuario";
 
 interface PropsDesbanUser {
   id: number;

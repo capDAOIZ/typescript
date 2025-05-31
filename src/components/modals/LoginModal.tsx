@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useAuth } from "../components/context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { BotonCargando } from "./Cargando";
+import { useAuth } from "../../Hooks/useAuth";
+import ModalBloqueante from "./ModalBloqueante";
 interface LoginModalProps {
   isOpen: boolean;
   closeModal: () => void;
@@ -11,18 +13,16 @@ export default function LoginModal({ isOpen, closeModal }: LoginModalProps) {
 
   const [gmail, setGmail] = useState("");
   const [password, setPassword] = useState("");
-  const [passwordError, setPasswordError] = useState("");
-  const [error, setError] = useState(false);
 
-  const { login } = useAuth();
   const navigate = useNavigate();
+
+  const { fecthLogin, cargandoLogin, errorLogin } = useAuth();
 
   // Hace focus en el input de gmail y tambien hace una suscripcion a la tecla escape
   useEffect(() => {
     if (isOpen && gmailRef.current) {
       gmailRef.current.focus();
     }
-    setPasswordError("");
     const handleEsc = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         closeModal();
@@ -42,28 +42,9 @@ export default function LoginModal({ isOpen, closeModal }: LoginModalProps) {
       alert("Por favor, llena todos los campos.");
       return;
     }
-    try {
-      await login(gmail, password);
-      alert("Inicio de sesión exitoso");
-      navigate("/");
-      closeModal();
-    } catch (e: any) {
-      let errores = "";
-      console.log(e);
-      if (e.message === "Network Error") {
-        setError(true);
-        return;
-      }
-      const errorObj = e.response.data.errors;
-      if (errorObj) {
-        Object.keys(errorObj).forEach((key) => {
-          errorObj[key].forEach((msg: string) => {
-            errores += `${msg}\n`;
-          });
-        });
-      }
 
-      setPasswordError(errores || "Usuario no encontrado");
+    if (await fecthLogin(gmail, password)) {
+      closeModal();
     }
   }
 
@@ -127,23 +108,27 @@ export default function LoginModal({ isOpen, closeModal }: LoginModalProps) {
               placeholder="Tu contraseña segura..."
               onChange={(e) => setPassword(e.target.value)}
             />
-            {error ? (
-              <p className="text-red-600 text-sm mt-3 text-center">
-                Problemas en la red, intentalo mas tarde
-              </p>
-            ) : (
+
+            {errorLogin ? (
               <p className="text-red-600 text-sm mt-3  text-center">
-                {passwordError}
+                {errorLogin}
               </p>
-            )}
+            ) : null}
           </div>
           {/* Boton de iniciar sesion */}
-          <button
-            type="submit"
-            className="w-full bg-pink-600 text-white py-2 rounded-full"
-          >
-            Iniciar sesión
-          </button>
+          {cargandoLogin ? (
+            <div>
+              <ModalBloqueante></ModalBloqueante>
+              <BotonCargando></BotonCargando>
+            </div>
+          ) : (
+            <button
+              type="submit"
+              className="w-full bg-pink-600 text-white py-2 rounded-full"
+            >
+              Iniciar sesión
+            </button>
+          )}
         </form>
         {/* Boton de registrarse */}
         <button
@@ -152,13 +137,7 @@ export default function LoginModal({ isOpen, closeModal }: LoginModalProps) {
         >
           ¿No tienes cuenta? Registrate{" "}
         </button>
-        {/* Recuperar contreseña. EN PROCESO */}
-        <button
-          className="w-full text-center text-pink-600 mt-2"
-          onClick={() => alert("Redirigiendo a recuperar contraseña...")}
-        >
-          ¿Olvidaste tu contraseña?
-        </button>
+
         {/* Cerrar modal*/}
         <button
           className="mt-2 w-full text-center text-pink-600"

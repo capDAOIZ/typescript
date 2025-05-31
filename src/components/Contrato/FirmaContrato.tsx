@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 
 import { postContrato } from "../../services/ApiContrato";
 import { updatePost } from "../../services/ApiPost";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../../Hooks/useAuth";
 
 import BarraDeCarga from "./BarraDeCarga";
 import ContratoFaseIntermedia from "./FasesDelContrato/ContratoFaseIntermedia";

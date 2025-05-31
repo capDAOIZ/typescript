@@ -1,12 +1,13 @@
-import { useAuth } from "../context/AuthContext";
-import SideBar from "../../modals/SideBar";
+import { useAuth } from "../../Hooks/useAuth";
+import SideBar from "../modals/SideBar";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import ModalBloqueante from "../modals/ModalBloqueante";
 interface HeaderProps {
   openLoginModal: () => void;
 }
 export default function Header({ openLoginModal }: HeaderProps) {
-  const { isAuthenticated, user } = useAuth();
+  const { isAuthenticated, user, cargandoContext } = useAuth();
   const [abrirNav, setAbrirNav] = useState(false);
   return (
     <header className="bg-white shadow-md pt-4 flex flex-col min-w-full">
@@ -47,16 +48,21 @@ export default function Header({ openLoginModal }: HeaderProps) {
             </li>
           </ul>
         </nav>
-        <button
-          onClick={openLoginModal}
-          className={`${
-            isAuthenticated ? "hidden" : ""
-          } bg-pink-600 text-white px-4 py-2 rounded-full `}
-        >
-          INICIAR SESION
-        </button>
 
-        {isAuthenticated && <SideBar />}
+        {cargandoContext ? (
+          <ModalBloqueante />
+        ) : isAuthenticated ? (
+          <SideBar />
+        ) : (
+          <button
+            onClick={openLoginModal}
+            className={`${
+              isAuthenticated ? "hidden" : ""
+            } bg-pink-600 text-white px-4 py-2 rounded-full `}
+          >
+            INICIAR SESION
+          </button>
+        )}
       </div>
       <div
         className={`${

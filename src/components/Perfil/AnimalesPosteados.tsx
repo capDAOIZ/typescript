@@ -1,5 +1,5 @@
-import useGetLastPosts from "../components/Hooks/useGetLastPosts";
-import TarjetaAnimalesMini from "../components/Tarjetas/TarjetaAnimalesMini";
+import useGetLastPosts from "../../Hooks/useGetLastPosts";
+import TarjetaAnimalesMini from "../Tarjetas/TarjetaAnimalesMini";
 import { Cargando } from "../modals/Cargando";
 interface Props {
   user_id: number;

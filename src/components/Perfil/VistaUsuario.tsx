@@ -1,4 +1,4 @@
-import useGetUsuario from "../components/Hooks/useGetUsuario";
+import useGetUsuario from "../../Hooks/useGetUsuario";
 import { useParams } from "react-router-dom";
 
 import DatosPerfil from "./DatosPerfil";

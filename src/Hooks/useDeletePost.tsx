@@ -1,4 +1,4 @@
-import { deletePost } from "../../services/ApiPost";
+import { deletePost } from "../services/ApiPost";
 import { useState, useEffect, useRef } from "react";
 interface Props {
   idPost: number;

@@ -1,6 +1,6 @@
 import { Cargando } from "../modals/Cargando";
-import useGetAdoptedPosts from "../components/Hooks/useGetAdoptedPosts";
-import TarjetaAnimalesMini from "../components/Tarjetas/TarjetaAnimalesMini";
+import useGetAdoptedPosts from "../../Hooks/useGetAdoptedPosts";
+import TarjetaAnimalesMini from "../Tarjetas/TarjetaAnimalesMini";
 interface Props {
   user_id: number;
 }

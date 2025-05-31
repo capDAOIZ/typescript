@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import TarjetaAnimales from "../Tarjetas/TarjetaAnimales";
 import BotonVerificar from "../Tarjetas/BotonVerificar";
-import { Cargando } from "../../modals/Cargando";
+import { Cargando } from "../modals/Cargando";
 import PasadoresDePaginas from "../PasadoresDePaginas";
-import useGetPostNotVerified from "../Hooks/useGetPostNotVerified";
+import useGetPostNotVerified from "../../Hooks/useGetPostNotVerified";
 
 export default function GestionVerificacion() {
   const {

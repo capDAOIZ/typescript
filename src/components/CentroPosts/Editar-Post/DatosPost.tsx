@@ -1,4 +1,4 @@
-import useGetPost from "../../Hooks/useGetPost";
+import useGetPost from "../../../Hooks/useGetPost";
 interface Props {
   id: number;
 }

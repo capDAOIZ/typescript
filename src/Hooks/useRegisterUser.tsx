@@ -1,4 +1,4 @@
-import { registrarse } from "../../services/ApiUsuario";
+import { registrarse } from "../services/ApiUsuario";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -33,9 +33,9 @@ export default function useRegisterUser({ name, email, password }: Props) {
         });
       }
       setError(errores);
+      setCargando(false);
     } finally {
       setTimeout(() => setError(""), 7000);
-      setCargando(false);
     }
   }
 

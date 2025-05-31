@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
-import useRegisterUser from "../../Hooks/useRegisterUser";
-import { BotonCargando } from "../../../modals/Cargando";
+import useRegisterUser from "../../../Hooks/useRegisterUser";
+import { BotonCargando } from "../../modals/Cargando";
+import ModalBloqueante from "../../modals/ModalBloqueante";
 
 /* En React useRef es un hook que te permite tener un contenedor mutable cuyos cambios no provocan re-renders y
  que persiste durante todo el ciclo de vida del componente. UseState si provoca un re-render */
@@ -182,7 +183,10 @@ export default function FormularioRegistro({ terms }: Props) {
       )}
 
       {cargando ? (
-        <BotonCargando></BotonCargando>
+        <div>
+          <ModalBloqueante></ModalBloqueante>
+          <BotonCargando></BotonCargando>
+        </div>
       ) : (
         <button
           type="submit"

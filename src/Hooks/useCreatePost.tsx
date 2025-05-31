@@ -1,4 +1,4 @@
-import { createPost } from "../../services/ApiPost";
+import { createPost } from "../services/ApiPost";
 import { useState } from "react";
 export default function useCreatePost() {
   const [error, setError] = useState("");

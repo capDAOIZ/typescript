@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getUsuarios } from "../../services/ApiUsuario";
+import { getUsuarios } from "../services/ApiUsuario";
 interface Usuario {
   id: number;
   image: File;

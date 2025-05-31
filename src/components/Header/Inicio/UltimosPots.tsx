@@ -1,6 +1,6 @@
-import useGetLastPosts from "../../Hooks/useGetLastPosts";
+import useGetLastPosts from "../../../Hooks/useGetLastPosts";
 import TarjetaAnimales from "../../Tarjetas/TarjetaAnimales";
-import { Cargando } from "../../../modals/Cargando";
+import { Cargando } from "../../modals/Cargando";
 
 export default function UltimosPots() {
   const { posts, cargando, error } = useGetLastPosts();

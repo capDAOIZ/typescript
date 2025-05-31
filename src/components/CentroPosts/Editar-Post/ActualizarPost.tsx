@@ -1,7 +1,7 @@
 import { useState } from "react";
-import useImagenPreview from "../../Hooks/useImagenPreview";
-import useUpdatePost from "../../Hooks/useUpdatePost";
-import { BotonCargando } from "../../../modals/Cargando";
+import useImagenPreview from "../../../Hooks/useImagenPreview";
+import useUpdatePost from "../../../Hooks/useUpdatePost";
+import { BotonCargando } from "../../modals/Cargando";
 interface Props {
   id: number;
 }
