@@ -24,7 +24,6 @@ export default function usePostsXPaginas(idUsuario?: number) {
       setPosts(data);
       setPaginaActual(response.posts.current_page);
       setTotalPaginas(response.posts.last_page);
-      setCargando(false);
       return;
     } catch (e: any) {
       setError(e.mensaje);

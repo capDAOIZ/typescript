@@ -4,21 +4,6 @@ const API_URL = "http://localhost/ApiContrato_PF/public/api";
 // El body debe ser en JSON por lo que usamos la funcion JSON.stringify("contenido")
 // Hay que comprobar si la respuesta es correcta con response.ok
 // Hay que hacer con await el response.json() para obtener los datos
-async function getContratos() {
-  try {
-    const response = await fetch(`${API_URL}/contratos`, {
-      method: "GET",
-    });
-    if (!response.ok) {
-      throw new Error("Error al obtener los contratos");
-    }
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error("Error al obtener los contratos", error);
-    throw error;
-  }
-}
 
 async function postContrato(formData: FormData) {
   try {
@@ -59,9 +44,9 @@ async function validacionCampos(formData: FormData) {
   }
 }
 
-async function getContrato(id: number) {
+async function getContratoForPostID(PostId: number) {
   try {
-    const response = await fetch(`${API_URL}/contratos/${id}`, {
+    const response = await fetch(`${API_URL}/contratos/${PostId}`, {
       method: "GET",
     });
     if (!response.ok) {
@@ -75,4 +60,4 @@ async function getContrato(id: number) {
   }
 }
 
-export { getContratos, postContrato, getContrato, validacionCampos };
+export { postContrato, getContratoForPostID, validacionCampos };

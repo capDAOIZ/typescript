@@ -17,7 +17,9 @@ export default function AnimalesPosteados({ user_id }: Props) {
         cargando ? (
           <Cargando />
         ) : (
-          <p className="text-center">No hay animales en adopcion</p>
+          <p className="text-blue-600 flex justify-center items-center ">
+            No hay animales en adopcion
+          </p>
         )
       ) : (
         <div className="grid grid-cols-2 gap-3">

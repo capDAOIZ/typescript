@@ -26,6 +26,7 @@ import VistaUsuario from "./components/Perfil/VistaUsuario";
 import Publicaciones from "./components/CentroPosts/Publicaciones";
 import GestionVerificacion from "./components/Administrador/GestionVerificacion";
 import EditarPost from "./components/CentroPosts/Editar-Post/EditarPost";
+import TusAdoptados from "./components/CentroPosts/TusAdoptados";
 
 export default function App() {
   const [isLoginModalOpen, setLoginModalOpen] = useState(false);
@@ -66,6 +67,11 @@ export default function App() {
             <Route
               path="/publicaciones"
               element={<RutaPrivada component={Publicaciones} />}
+            ></Route>
+
+            <Route
+              path="/animalesAdoptados"
+              element={<RutaPrivada component={TusAdoptados} />}
             ></Route>
 
             <Route

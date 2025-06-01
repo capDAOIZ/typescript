@@ -96,9 +96,9 @@ export async function deletePost(id: number) {
   }
 }
 
-export async function adoptedPosts(id: number) {
+export async function adoptedPosts(id: number, page: number = 1) {
   try {
-    const response = await api.get(`/posts-adopted/${id}`);
+    const response = await api.get(`/posts-adopted/${id}?page=${page}`);
 
     return response.data;
   } catch (error) {
