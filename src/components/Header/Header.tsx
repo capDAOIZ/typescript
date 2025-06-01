@@ -69,7 +69,7 @@ export default function Header({ openLoginModal }: HeaderProps) {
           abrirNav ? "block" : "hidden"
         } lg:hidden bg-orange-100 w-full py-5`}
       >
-        <ul className="flex space-x-10 text-gray-700 justify-center">
+        <ul className="flex space-x-10 text-gray-700 justify-center mx-10">
           <li>
             <Link to="/" className="hover:text-pink-600">
               Inicio

@@ -14,19 +14,15 @@ import Firma from "./Firma";
 export default function FirmaContrato() {
   const [faseIntermedia, setFaseIntermedia] = useState(false);
   const [faseFinal, setFaseFinal] = useState(false);
-  const [datosContrato, setDatosContrato] = useState<Record<string, string>>();
+  const [datosContrato, setDatosContrato] = useState<FormData | null>(null);
 
   const { id } = useParams();
   const { user } = useAuth();
 
   // Funcion para cambiar de fase intermedia
-  function handleFaseIntermedia(
-    e: React.FormEvent,
-    data: Record<string, string>
-  ) {
+  function handleFaseIntermedia(e: React.FormEvent, formData: FormData) {
     e.preventDefault();
-
-    setDatosContrato(data);
+    setDatosContrato(formData);
     setFaseIntermedia(true);
   }
 
@@ -34,13 +30,19 @@ export default function FirmaContrato() {
   function handleFirma(dataUrl: string) {
     /* Como queremos agregar la firma, tenemos que coger el estado anterior con prevData y sobreescribirlo
     esto se hace con ...prevData que es el estado anterior y añadimos firma y post_id*/
-    if (!id) return;
-    setDatosContrato((prevData) => ({
-      ...prevData,
-      firma: dataUrl,
-      post_id: id,
-    }));
+    if (!datosContrato) {
+      return;
+    }
+    const formDataConFirma = new FormData();
 
+    for (const [key, value] of datosContrato.entries()) {
+      formDataConFirma.append(key, value);
+    }
+
+    formDataConFirma.append("firma", dataUrl);
+    formDataConFirma.append("post_id", String(id));
+
+    setDatosContrato(formDataConFirma);
     if (faseIntermedia) {
       setFaseFinal(true);
     }
@@ -48,21 +50,21 @@ export default function FirmaContrato() {
 
   //Funcion para crear el contrato
   async function handleCrearContrato(): Promise<boolean> {
-    if (datosContrato && user) {
-      const postId = Number(datosContrato.post_id);
+    if (datosContrato && user && id) {
       try {
-        const response = await postContrato(datosContrato);
-        const responseUpdatePost = await updatePost(postId, {
-          adopted: true,
-          userAdopted_id: user.id,
-        });
+        const postId = Number(id);
+        const formDataUpdatePost = new FormData();
+        formDataUpdatePost.append("adopted", "1"); // Recuerda: FormData solo acepta strings o Blobs
+        await updatePost(postId, formDataUpdatePost);
+        await postContrato(datosContrato);
+
         return true;
       } catch (error) {
         console.log("Error al crear el contrato " + error);
         return false;
       }
     }
-    return true;
+    return false;
   }
 
   return (

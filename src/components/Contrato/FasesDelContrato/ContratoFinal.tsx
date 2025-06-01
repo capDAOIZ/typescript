@@ -2,13 +2,12 @@ import { useAuth } from "../../../Hooks/useAuth";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Confetti from "react-confetti";
-import { useWindowSize } from "react-use";
-
+import { BotonCargando } from "../../modals/Cargando";
 import { getPost } from "../../../services/ApiPost";
 
 interface Props {
   handleCrearContrato: () => Promise<boolean>;
-  datosContrato?: Record<string, string>;
+  datosContrato: FormData | null;
 }
 interface Post {
   nombre: string;
@@ -39,6 +38,7 @@ export default function ContratoFinal({
   const [post, setPost] = useState<Post>();
   const [cargando, setCargando] = useState(false);
   const [mostrarConfeti, setMostrarConfeti] = useState(false);
+  const [error, setError] = useState(false);
 
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -46,17 +46,22 @@ export default function ContratoFinal({
   //Datos del adoptante
   useEffect(() => {
     const adoptante = {
-      nombre: datosContrato?.nombre || "nombre del adoptante",
+      nombre:
+        (datosContrato?.get("nombre") as string) || "nombre del adoptante",
       primerApellido:
-        datosContrato?.primerApellido || "primer apellido del adoptante",
+        (datosContrato?.get("primerApellido") as string) ||
+        "primer apellido del adoptante",
       segundoApellido:
-        datosContrato?.segundoApellido || "segundo apellido del adoptante",
-      email: datosContrato?.email || "email del adoptante",
-      telefono: datosContrato?.telefono || "telefono del adoptante",
+        (datosContrato?.get("segundoApellido") as string) ||
+        "segundo apellido del adoptante",
+      email: (datosContrato?.get("email") as string) || "email del adoptante",
+      telefono:
+        (datosContrato?.get("telefono") as string) || "telefono del adoptante",
       fecha_nacimiento:
-        datosContrato?.fecha_nacimiento || "fecha de nacimiento del adoptante",
-      firma: datosContrato?.firma || "firma del adoptante",
-      postId: datosContrato?.post_id || "0",
+        (datosContrato?.get("fecha_nacimiento") as string) ||
+        "fecha de nacimiento del adoptante",
+      firma: (datosContrato?.get("firma") as string) || "firma del adoptante",
+      postId: (datosContrato?.get("post_id") as string) || "0",
     };
     setAdoptante(adoptante);
   }, []);
@@ -64,9 +69,9 @@ export default function ContratoFinal({
   //Datos del animal adoptado
   useEffect(() => {
     async function datosAnimal() {
-      if (!adoptante) return;
+      const postId = Number(datosContrato?.get("post_id") as string);
       try {
-        const response = await getPost(Number(adoptante.postId));
+        const response = await getPost(postId);
         const data = response.post;
         //Porque hariamos esto? Porque existe la posibilidad de que el nombre de los datos que nos viene de la api cambie, asi que asi lo tenemos encapsulado
         const nuevoData: Post = {
@@ -80,18 +85,19 @@ export default function ContratoFinal({
       } catch (error) {}
     }
     datosAnimal();
-  }, [adoptante]);
+  }, []);
 
   async function handleClick() {
     setCargando(true);
     const confirmacionContrato = await handleCrearContrato();
     if (confirmacionContrato) {
+      setError(false);
       setMostrarConfeti(true);
       setTimeout(() => {
         navigate("/");
       }, 5000);
     } else {
-      alert("Error al crear el contrato");
+      setError(true);
       setCargando(false);
     }
   }
@@ -128,9 +134,6 @@ export default function ContratoFinal({
                 Fecha nacimiento:{" "}
                 <span className="font-bold">{adoptante?.fecha_nacimiento}</span>
               </p>
-              <p>
-                DNI: <span className="font-bold">DNI</span>
-              </p>
             </section>
             <section className="flex flex-col items-center w-1/2">
               <p className="mb-2 font-bold">Firma:</p>
@@ -162,31 +165,31 @@ export default function ContratoFinal({
             <section className="flex flex-col items-center w-1/2 ">
               <p className="mb-2 font-bold ">Imagen del animal:</p>
               <img
-                src="/images/animales.jpg"
+                src="/imagenes/animales.jpg"
                 alt="Imagen del adoptado"
                 className="border p-2 rounded w-10/12"
               />
             </section>
           </div>
         </div>
-        <button
-          onClick={handleClick}
-          className={
-            cargando
-              ? "bg-gray-600 text-white py-2 px-4 rounded  mt-10"
-              : "bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-800 mt-10"
-          }
-          disabled={cargando}
-        >
-          {cargando ? (
-            <div className=" flex justify-center items-center gap-x-2">
-              <div className=" w-6 h-6 border-4 border-pink-400 border-t-transparent rounded-full animate-spin"></div>
-              Cargando...
-            </div>
-          ) : (
-            "Finalizar adopcion"
+        <div className="">
+          {error && (
+            <p className="text-red-600 flex justify-center mb-5">
+              Problemas en la red, intentalo mas tarde
+            </p>
           )}
-        </button>
+          {cargando ? (
+            <BotonCargando />
+          ) : (
+            <button
+              onClick={handleClick}
+              className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-800 w-full"
+              disabled={cargando}
+            >
+              "Finalizar adopcion"
+            </button>
+          )}
+        </div>
       </div>
       {mostrarConfeti && (
         <Confetti width={window.innerWidth} height={window.innerHeight} />

@@ -4,10 +4,21 @@ import { validarToken } from "../services/ApiUsuario";
 
 import useLogin from "../Hooks/useLogin";
 
+interface Usuario {
+  id: number;
+  name: string;
+  email: string;
+  biografia: string;
+  role: string;
+  password: string;
+  image: File;
+  is_banned: boolean;
+}
+
 interface AuthContextType {
   isAuthenticated: boolean;
   desloguearse: () => void;
-  user: any;
+  user: Usuario | undefined;
   fecthLogin: (email: string, password: string) => Promise<boolean>;
   errorLogin: string;
   cargandoLogin: boolean;

@@ -14,8 +14,9 @@ export default function VistaPost({ openLoginModal }: Props) {
   // Obtenemos los datos del post con la id
   const { post, cargando, error } = useGetPost({ id: Number(id) });
 
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, user } = useAuth();
   const navigate = useNavigate();
+  console.log(user?.is_banned);
 
   function handleClick() {
     if (!isAuthenticated) {
@@ -187,7 +188,7 @@ export default function VistaPost({ openLoginModal }: Props) {
           </div>
 
           {/* Boton para firmar la adopcion */}
-          {post?.adopted == false && !cargando && (
+          {post?.adopted == false && !cargando && user?.is_banned == false && (
             <div className="w-full flex gap-6 justify-center">
               <div className="p-6 text-black rounded-3xl text-center ">
                 <h3 className="font-bold text-2xl mb-10">

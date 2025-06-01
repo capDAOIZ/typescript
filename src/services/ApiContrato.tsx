@@ -20,14 +20,11 @@ async function getContratos() {
   }
 }
 
-async function postContrato(datos: Record<string, string>) {
+async function postContrato(formData: FormData) {
   try {
     const response = await fetch(`${API_URL}/contratos`, {
       method: "POST",
-      headers: {
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify(datos),
+      body: formData,
     });
 
     // Comprobar si la respuesta es correcta o si hay otro tipo de error como validaciones
@@ -43,14 +40,11 @@ async function postContrato(datos: Record<string, string>) {
   }
 }
 
-async function validacionCampos(datos: Record<string, string>) {
+async function validacionCampos(formData: FormData) {
   try {
     const response = await fetch(`${API_URL}/validacion-campos-store`, {
       method: "POST",
-      headers: {
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify(datos),
+      body: formData,
     });
 
     // Comprobar si la respuesta es correcta o si hay otro tipo de error como validaciones

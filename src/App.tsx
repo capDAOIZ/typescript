@@ -51,7 +51,10 @@ export default function App() {
             <Route path="/nosotros" element={<Nosotros />} />
             <Route path="/registrarse" element={<Registrarse />} />
 
-            <Route path="/firmarContrato/:id" element={<FirmaContrato />} />
+            <Route
+              path="/firmarContrato/:id"
+              element={<RutaPrivada component={FirmaContrato} />}
+            />
 
             <Route path="/perfilUsuario/:id" element={<VistaUsuario />} />
 
