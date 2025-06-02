@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import useImagenPreview from "../../../Hooks/useImagenPreview";
 import useUpdatePost from "../../../Hooks/useUpdatePost";
 import { BotonCargando } from "../../modals/Cargando";
+import { getPost } from "../../../services/ApiPost";
+
 interface Props {
   id: number;
 }
@@ -10,6 +12,23 @@ export default function ActualizarPost({ id }: Props) {
     useUpdatePost();
   const { imagePreview, handleImageChange } = useImagenPreview();
   const [mensaje, setMensaje] = useState("");
+
+   const [selectedVaccines, setSelectedVaccines] = useState<string[]>([]);
+
+  // — Al montar, traemos el post y rellenamos selectedVaccines:
+  useEffect(() => {
+    async function fetchPost() {
+      try {
+        const data = await getPost(id); // devuelve { post: { ..., vaccines: ["rabia","moquillo"], ... } }
+        const p = data.post;
+        setSelectedVaccines(p.vaccines || []);
+        // (opcional: podrías precargar otros campos si lo necesitas)
+      } catch (err) {
+        console.error("Error al cargar post:", err);
+      }
+    }
+    fetchPost();
+  }, [id]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -102,6 +121,63 @@ export default function ActualizarPost({ id }: Props) {
             />
           )}
         </div>
+        <fieldset className="text-left border border-pink-300 rounded-lg p-4">
+          <legend className="text-sm font-semibold text-pink-700 mb-2">
+            Selecciona las vacunas 🩺
+          </legend>
+          <div className="grid grid-cols-2 gap-4">
+            <label className="inline-flex items-center">
+              <input
+                type="checkbox"
+                name="vaccines[]"
+                value="rabia"
+                className="form-checkbox h-5 w-5 text-pink-600"
+                defaultChecked={selectedVaccines.includes("rabia")}
+              />
+              <span className="ml-2">Rabia</span>
+            </label>
+            <label className="inline-flex items-center">
+              <input
+                type="checkbox"
+                name="vaccines[]"
+                value="parvovirus"
+                className="form-checkbox h-5 w-5 text-pink-600"
+                defaultChecked={selectedVaccines.includes("parvovirus")}
+              />
+              <span className="ml-2">Parvovirus</span>
+            </label>
+            <label className="inline-flex items-center">
+              <input
+                type="checkbox"
+                name="vaccines[]"
+                value="moquillo"
+                className="form-checkbox h-5 w-5 text-pink-600"
+                defaultChecked={selectedVaccines.includes("moquillo")}
+              />
+              <span className="ml-2">Moquillo</span>
+            </label>
+            <label className="inline-flex items-center">
+              <input
+                type="checkbox"
+                name="vaccines[]"
+                value="leucemia"
+                className="form-checkbox h-5 w-5 text-pink-600"
+                defaultChecked={selectedVaccines.includes("leucemia")}
+              />
+              <span className="ml-2">Leucemia</span>
+            </label>
+            <label className="inline-flex items-center">
+              <input
+                type="checkbox"
+                name="vaccines[]"
+                value="parainfluen"
+                className="form-checkbox h-5 w-5 text-pink-600"
+                defaultChecked={selectedVaccines.includes("parainfluen")}
+              />
+              <span className="ml-2">Parainfluenza</span>
+            </label>
+          </div>
+        </fieldset>
         {cargandoUpdate ? (
           <BotonCargando />
         ) : (

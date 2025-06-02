@@ -88,6 +88,59 @@ export default function CrearPost() {
             <option value="gato">Gato 🐱</option>
           </select>
         </div>
+          {/* VACUNAS (checkboxes) */}
+        <fieldset className="text-left border border-pink-300 rounded-lg p-4">
+          <legend className="text-sm font-semibold text-pink-700 mb-2">
+            Selecciona las vacunas 🩺
+          </legend>
+          <div className="grid grid-cols-2 gap-4">
+            <label className="inline-flex items-center">
+              <input
+                type="checkbox"
+                name="vaccines[]"
+                value="rabia"
+                className="form-checkbox h-5 w-5 text-pink-600"
+              />
+              <span className="ml-2">Rabia</span>
+            </label>
+            <label className="inline-flex items-center">
+              <input
+                type="checkbox"
+                name="vaccines[]"
+                value="parvovirus"
+                className="form-checkbox h-5 w-5 text-pink-600"
+              />
+              <span className="ml-2">Parvovirus</span>
+            </label>
+            <label className="inline-flex items-center">
+              <input
+                type="checkbox"
+                name="vaccines[]"
+                value="moquillo"
+                className="form-checkbox h-5 w-5 text-pink-600"
+              />
+              <span className="ml-2">Moquillo</span>
+            </label>
+            <label className="inline-flex items-center">
+              <input
+                type="checkbox"
+                name="vaccines[]"
+                value="leucemia"
+                className="form-checkbox h-5 w-5 text-pink-600"
+              />
+              <span className="ml-2">Leucemia</span>
+            </label>
+            <label className="inline-flex items-center">
+              <input
+                type="checkbox"
+                name="vaccines[]"
+                value="parainfluen"
+                className="form-checkbox h-5 w-5 text-pink-600"
+              />
+              <span className="ml-2">Parainfluenza</span>
+            </label>
+          </div>
+        </fieldset>
         {/* IMAGEN DEL ANIMAL */}
         <div className="text-left">
           <label
@@ -112,7 +165,6 @@ export default function CrearPost() {
             />
           )}
         </div>
-
         {cargando ? (
           <BotonCargando></BotonCargando>
         ) : (

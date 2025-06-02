@@ -11,6 +11,7 @@ interface Post {
   image: File;
   user_id: number;
   adopted: boolean;
+   vaccines: string[]; 
 }
 export default function useGetPost({ id }: Props) {
   const [post, setPost] = useState<Post>({} as Post);

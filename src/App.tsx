@@ -26,7 +26,6 @@ import VistaUsuario from "./components/Perfil/VistaUsuario";
 import Publicaciones from "./components/CentroPosts/Publicaciones";
 import GestionVerificacion from "./components/Administrador/GestionVerificacion";
 import EditarPost from "./components/CentroPosts/Editar-Post/EditarPost";
-
 export default function App() {
   const [isLoginModalOpen, setLoginModalOpen] = useState(false);
 
