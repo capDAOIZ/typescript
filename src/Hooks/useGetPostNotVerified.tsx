@@ -1,5 +1,5 @@
 import { getPostNotVerified } from "../services/ApiPost";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 interface Post {
   id: number;
   nameAnimal: string;
@@ -10,29 +10,39 @@ interface Post {
 export default function useGetPostNotVerified() {
   const [posts, setPosts] = useState<Post[]>([]);
   const [cargando, setCargando] = useState(false);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState("");
   const [paginaActual, setPaginaActual] = useState(1);
   const [totalPaginas, setTotalPaginas] = useState(1);
   const [refrescarFetch, setRefrescarFetch] = useState(false);
-  async function fecthPostNotVerified() {
-    try {
-      setCargando(true);
-      const response = await getPostNotVerified(paginaActual);
-      const data = response.posts;
-      setTotalPaginas(data.last_page);
-      setPaginaActual(data.current_page);
-      console.log(response.posts);
-      setPosts(data.data);
-    } catch {
-      setError(true);
-    } finally {
-      setCargando(false);
-    }
-  }
+
+  const [textoBusqueda, setTextoBusqueda] = useState("");
+  const anteriorBusquedaRef = useRef(textoBusqueda);
+
+  const fecthPostNotVerified = useCallback(
+    async (page: number, search?: string) => {
+      if (search && anteriorBusquedaRef.current == search) return;
+      try {
+        if (search) {
+          anteriorBusquedaRef.current = search;
+        }
+        setCargando(true);
+        const response = await getPostNotVerified(page, search);
+        const data = response.posts.data;
+        setPosts(data);
+        setTotalPaginas(response.posts.last_page);
+        setPaginaActual(response.posts.current_page);
+      } catch (e: any) {
+        setError(e.mensaje);
+      } finally {
+        setCargando(false);
+      }
+    },
+    []
+  );
 
   useEffect(() => {
-    fecthPostNotVerified();
-  }, [refrescarFetch, paginaActual]);
+    fecthPostNotVerified(paginaActual, textoBusqueda);
+  }, [refrescarFetch, paginaActual, fecthPostNotVerified]);
 
   function refrescar() {
     setRefrescarFetch((prevData) => !prevData);
@@ -45,5 +55,7 @@ export default function useGetPostNotVerified() {
     paginaActual,
     totalPaginas,
     setPaginaActual,
+    setTextoBusqueda,
+    fecthPostNotVerified,
   };
 }

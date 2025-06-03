@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useCallback } from "react";
 import TarjetaUsuario from "./TarjetaUsuario";
 import { Cargando } from "../modals/Cargando";
 import PasadoresDePaginas from "../PasadoresDePaginas";
 import useUsuariosXPaginas from "../../Hooks/useUsuariosXPaginas";
+import debounce from "just-debounce-it";
 
 export default function GestionUsuarios() {
   const {
@@ -12,10 +13,29 @@ export default function GestionUsuarios() {
     actualPagina,
     setActualPagina,
     setRefrescarFecth,
+    setTextoBusqueda,
+    fechtGetUsuariosXPaginas,
   } = useUsuariosXPaginas();
 
-  function handleSubmit(e: React.FormEvent) {
+  const debouncedFetchPosts = useCallback(
+    debounce((busqueda: string) => {
+      fechtGetUsuariosXPaginas(1, busqueda);
+    }, 400),
+    []
+  );
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const busqueda = formData.get("buscador") as string;
+    setTextoBusqueda(busqueda);
+    await fechtGetUsuariosXPaginas(1, busqueda);
+  }
+
+  async function handleChangeForm(e: React.ChangeEvent<HTMLInputElement>) {
+    const busqueda = e.target.value;
+    setTextoBusqueda(busqueda);
+    debouncedFetchPosts(busqueda);
   }
 
   return (
@@ -26,9 +46,11 @@ export default function GestionUsuarios() {
       <form className="flex gap-x-4 mb-6" onSubmit={handleSubmit}>
         <input
           type="text"
+          name="buscador"
           placeholder="Buscar usuario..."
           className="py-2 px-4 rounded-lg border-2 font-semibold focus:border-pink-600 focus:outline-none "
           required
+          onChange={handleChangeForm}
         ></input>
         <button type="submit" className=" p-2 rounded-full">
           🔎

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { getUsuarios } from "../services/ApiUsuario";
 interface Usuario {
   id: number;
@@ -14,27 +14,38 @@ export default function useUsuariosXPaginas() {
   const [totalPaginas, setTotalPaginas] = useState(1);
   const [actualPagina, setActualPagina] = useState(1);
   const [refrescarFecth, setRefrescarFecth] = useState(false);
-  async function fechtGetUsuariosXPaginas() {
-    try {
-      setCargando(true);
-      const response = await getUsuarios(actualPagina);
-      const data = response.usuarios.data;
 
-      console.log(response.usuarios);
+  const [textoBusqueda, setTextoBusqueda] = useState("");
+  const anteriorBusquedaRef = useRef(textoBusqueda);
 
-      setTotalPaginas(response.usuarios.last_page);
-      setActualPagina(response.usuarios.current_page);
-      setUsuarios(data);
-    } catch (error) {
-      console.error("Error al obtener todos los usuarios", error);
-    } finally {
-      setCargando(false);
-    }
-  }
+  const fechtGetUsuariosXPaginas = useCallback(
+    async (page: number = 1, search?: string) => {
+      if (search && anteriorBusquedaRef.current == search) return;
+      try {
+        if (search) {
+          anteriorBusquedaRef.current = search;
+        }
+        setCargando(true);
+        const response = await getUsuarios(page, search);
+        const data = response.usuarios.data;
+
+        console.log(response.usuarios);
+
+        setTotalPaginas(response.usuarios.last_page);
+        setActualPagina(response.usuarios.current_page);
+        setUsuarios(data);
+      } catch (error) {
+        console.error("Error al obtener todos los usuarios", error);
+      } finally {
+        setCargando(false);
+      }
+    },
+    []
+  );
 
   useEffect(() => {
-    fechtGetUsuariosXPaginas();
-  }, [actualPagina, refrescarFecth]);
+    fechtGetUsuariosXPaginas(actualPagina);
+  }, [actualPagina, refrescarFecth, fechtGetUsuariosXPaginas]);
 
   return {
     usuarios,
@@ -44,5 +55,6 @@ export default function useUsuariosXPaginas() {
     setActualPagina,
     setRefrescarFecth,
     fechtGetUsuariosXPaginas,
+    setTextoBusqueda,
   };
 }

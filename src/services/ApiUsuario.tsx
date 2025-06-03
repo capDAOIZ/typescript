@@ -62,11 +62,16 @@ export async function cerrarSesion(token: string) {
   }
 }
 
-export async function getUsuarios(page: number = 1) {
+export async function getUsuarios(page: number = 1, search?: string) {
   try {
     /*Recordemos que cuando utilizamos paginate en la api estamos dividiendo los datos en paginas 
     para indicar en que pagina queremos estar tenemos que pasarle un parametro en la url llamado page*/
-    const response = await api.get(`/usuarios?page=${page}`);
+    let url = `/usuarios?page=${page}`;
+
+    if (search && search.trim() !== "") {
+      url += `&search=${encodeURIComponent(search)}`;
+    }
+    const response = await api.get(url);
     return response.data;
   } catch (error) {
     console.error("Error al obtener todos los usuarios", error);

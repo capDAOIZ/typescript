@@ -1,6 +1,9 @@
 import usePostsXPaginas from "../../Hooks/usePostsXPaginas";
 import PasadoresDePaginas from "../PasadoresDePaginas";
 import TarjetaAnimales from "../Tarjetas/TarjetaAnimales";
+import { Cargando } from "../modals/Cargando";
+import { useCallback } from "react";
+import debounce from "just-debounce-it";
 
 export default function Adoptables() {
   const {
@@ -10,7 +13,41 @@ export default function Adoptables() {
     setPaginaActual,
     paginaActual,
     totalPaginas,
+    fetchPosts,
+    setTipoBusqueda,
+    setTextoBusqueda,
+    tipoBusqueda,
+    textoBusqueda,
   } = usePostsXPaginas();
+
+  const debouncedFetchPosts = useCallback(
+    debounce((busqueda: string) => {
+      fetchPosts(1, busqueda, tipoBusqueda);
+    }, 400),
+    []
+  );
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const texto = formData.get("buscador") as string;
+    setTextoBusqueda(texto);
+    await fetchPosts(1, texto, tipoBusqueda);
+  }
+
+  async function handleChangeSelect(e: React.ChangeEvent<HTMLSelectElement>) {
+    // Valor seleccionado entre perros || gatos || todos
+    const valorSeleccionado = e.target.value;
+
+    setTipoBusqueda(valorSeleccionado);
+    await fetchPosts(1, textoBusqueda, valorSeleccionado);
+  }
+
+  async function handleChangeForm(e: React.ChangeEvent<HTMLInputElement>) {
+    const busqueda = e.target.value;
+    setTextoBusqueda(busqueda);
+    debouncedFetchPosts(busqueda);
+  }
 
   return (
     <section className="w-full min-h-screen py-12 bg-gray-100 text-center px-12">
@@ -28,18 +65,19 @@ export default function Adoptables() {
           <select
             // onFocus onBlur
             className="py-2 px-4 rounded-lg border-2 border-pink-600 font-semibold"
+            onChange={handleChangeSelect}
           >
             <option value="">Todos</option>
             <option value="perro">Perros</option>
             <option value="gato">Gatos</option>
           </select>
-          <form className="flex gap-x-4">
+          <form className="flex gap-x-4" onSubmit={handleSubmit}>
             <input
               type="text"
               placeholder=" Buscar animal..."
               className="py-2 px-4 rounded-lg border-2 border-pink-600 font-semibold"
-              minLength={3}
-              required
+              name="buscador"
+              onChange={handleChangeForm}
             ></input>
             <button type="submit" className=" p-2 rounded-full">
               🔎
@@ -50,9 +88,8 @@ export default function Adoptables() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6 max-w-7xl mx-auto">
         {cargando ? (
-          <div className=" flex justify-center items-center col-span-full gap-x-2">
-            <div className=" w-6 h-6 border-4 border-pink-400 border-t-transparent rounded-full animate-spin"></div>
-            Cargando...
+          <div className="col-span-full">
+            <Cargando></Cargando>
           </div>
         ) : error ? (
           <p className="text-red-600 flex justify-center items-center col-span-full">

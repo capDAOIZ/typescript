@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from "react";
-import { getPosts } from "../services/ApiPost";
+import { getPostsVerifiedUser } from "../services/ApiPost";
 interface Post {
   id: number;
   nameAnimal: string;
@@ -7,7 +7,7 @@ interface Post {
   description: string;
   image: File;
 }
-export default function usePostsXPaginas() {
+export default function usePostsVerifiedUser(idUser: number, search?: string) {
   const [posts, setPosts] = useState<Post[]>([]);
   const [paginaActual, setPaginaActual] = useState(1);
   const [totalPaginas, setTotalPaginas] = useState(1);
@@ -16,25 +16,24 @@ export default function usePostsXPaginas() {
   const [refrescarFetch, setRefrescarFetch] = useState(false);
 
   const [textoBusqueda, setTextoBusqueda] = useState("");
-  const [tipoBusqueda, setTipoBusqueda] = useState("");
   const anteriorBusquedaRef = useRef(textoBusqueda);
 
   //Obtener todos los posts
-  const fetchPosts = useCallback(
-    async (page: number, search?: string, searchType?: string) => {
+  const fetchPostsVerifiedUser = useCallback(
+    async (UserId: number, page = 1, search?: string) => {
       if (search && anteriorBusquedaRef.current == search) return;
-
       setCargando(true);
       try {
         if (search) {
           anteriorBusquedaRef.current = search;
         }
 
-        const response = await getPosts(page, search, searchType);
+        const response = await getPostsVerifiedUser(UserId, page, search);
         const data = response.posts.data;
         setPosts(data);
         setPaginaActual(response.posts.current_page);
         setTotalPaginas(response.posts.last_page);
+        return;
       } catch (e: any) {
         setError(e.mensaje);
       } finally {
@@ -45,8 +44,8 @@ export default function usePostsXPaginas() {
   );
 
   useEffect(() => {
-    fetchPosts(paginaActual, textoBusqueda, tipoBusqueda);
-  }, [paginaActual, refrescarFetch, fetchPosts]);
+    fetchPostsVerifiedUser(idUser, paginaActual, textoBusqueda);
+  }, [paginaActual, refrescarFetch, idUser, fetchPostsVerifiedUser]);
 
   function refrescar() {
     setRefrescarFetch(!refrescarFetch);
@@ -60,10 +59,8 @@ export default function usePostsXPaginas() {
     cargando,
     error,
     refrescar,
-    fetchPosts,
     setTextoBusqueda,
-    setTipoBusqueda,
     textoBusqueda,
-    tipoBusqueda,
+    fetchPostsVerifiedUser,
   };
 }

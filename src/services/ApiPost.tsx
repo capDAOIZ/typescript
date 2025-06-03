@@ -6,19 +6,49 @@ const api = axios.create({
   baseURL: API_URL,
 });
 
-export async function getPosts(page: number = 1, idUsuario?: number) {
+export async function getPosts(
+  page: number = 1,
+  search?: string,
+  searchType?: string
+) {
   try {
-    if (idUsuario) {
-      const response = await api.get(
-        `/posts-usuario/${idUsuario}?page=${page}`
-      );
-      return response.data;
-    } else {
-      const response = await api.get(`/posts-usuario?page=${page}`);
-      return response.data;
+    let url = `/posts?page=${page}`;
+
+    // Si search tiene valor y no está vacío, lo añadimos como query param
+    if (search && search.trim() !== "") {
+      url += `&search=${encodeURIComponent(search)}`;
     }
+
+    if (searchType && searchType.trim() !== "") {
+      url += `&searchType=${encodeURIComponent(searchType)}`;
+    }
+
+    console.log(url);
+    const response = await api.get(url);
+    return response.data;
   } catch (error) {
     console.error("Error al obtener los posts", error);
+    throw error;
+  }
+}
+
+export async function getPostsVerifiedUser(
+  idUser: number,
+  page: number = 1,
+  search?: string
+) {
+  try {
+    let url = `/posts/verifiedUser/${idUser}?page=${page}`;
+
+    // Si search tiene valor y no está vacío, lo añadimos como query param
+    if (search && search.trim() !== "") {
+      url += `&search=${encodeURIComponent(search)}`;
+    }
+
+    const response = await api.get(url);
+    return response.data;
+  } catch (error) {
+    console.error("Error al obtener los posts del usuario" + error);
     throw error;
   }
 }
@@ -33,15 +63,14 @@ export async function getPost(id: number) {
   }
 }
 // id?: number Al ponerlo asi no puedo usar la id de esta manera wait api.get(`/posts/ultimosPosts/${id}`), ya que si no hay id se devuelve como undefined
-export async function getLastPost(id?: number) {
+export async function getLastPost(idUser?: number) {
   try {
-    if (id) {
-      const response = await api.get(`/ultimosPosts/${id}`);
-      return response.data;
-    } else {
-      const response = await api.get("/ultimosPosts");
-      return response.data;
+    let url = `/posts/ultimosPosts`;
+    if (idUser) {
+      url += `/${idUser}`;
     }
+    const response = await api.get(url);
+    return response.data;
   } catch (error) {
     console.error("Error al obtener el post", error);
     throw error;
@@ -98,7 +127,7 @@ export async function deletePost(id: number) {
 
 export async function adoptedPosts(id: number, page: number = 1) {
   try {
-    const response = await api.get(`/posts-adopted/${id}?page=${page}`);
+    const response = await api.get(`/posts/adopted/${id}?page=${page}`);
 
     return response.data;
   } catch (error) {
@@ -125,9 +154,14 @@ export async function validatePost(id: number) {
   }
 }
 
-export async function getPostNotVerified(page: number = 1) {
+export async function getPostNotVerified(page: number = 1, search?: string) {
   try {
-    const response = await api.get(`/posts/noVerificados?page=${page}`, {
+    let url = `/posts/noVerificados?page=${page}`;
+
+    if (search && search.trim() !== "") {
+      url += `&search=${encodeURIComponent(search)}`;
+    }
+    const response = await api.get(url, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}` || "",
       },
