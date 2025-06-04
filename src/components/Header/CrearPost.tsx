@@ -1,9 +1,15 @@
 import useCreatePost from "../../Hooks/useCreatePost";
 import useImagenPreview from "../../Hooks/useImagenPreview";
 import { BotonCargando } from "../modals/Cargando";
-import { useRef } from "react";
+import { useRef, useId } from "react";
 export default function CrearPost() {
   const { error, cargando, mensaje, fecthCreatePost } = useCreatePost();
+  const nameAnimalID = useId();
+  const descriptionID = useId();
+  const typeAnimalID = useId();
+  const raceID = useId();
+  const imageID = useId();
+
   const { handleImageChange, imagePreview, setImagePreview } =
     useImagenPreview();
   const formRef = useRef<HTMLFormElement>(null);
@@ -34,7 +40,7 @@ export default function CrearPost() {
         {/* NOMBRE */}
         <div className="text-left">
           <label
-            htmlFor="nameAnimal"
+            htmlFor={nameAnimalID}
             className="block text-sm font-semibold text-pink-700 mb-1"
           >
             Nombre 🐕
@@ -42,7 +48,7 @@ export default function CrearPost() {
           <input
             className="w-full px-4 py-2 border border-pink-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500"
             type="text"
-            id="nameAnimal"
+            id={nameAnimalID}
             name="nameAnimal"
             placeholder="Nombre del animal"
             minLength={3}
@@ -53,14 +59,14 @@ export default function CrearPost() {
         {/* DESCRIPCION */}
         <div className="text-left">
           <label
-            htmlFor="description"
+            htmlFor={descriptionID}
             className="block text-sm font-semibold text-pink-700 mb-1"
           >
             Descripción 📝
           </label>
           <textarea
             className="w-full px-4 py-2 border border-pink-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500"
-            id="description"
+            id={descriptionID}
             name="description"
             placeholder="Descríbenos al animal"
             minLength={10}
@@ -72,14 +78,14 @@ export default function CrearPost() {
         {/* TIPO DE ANIMAL */}
         <div className="text-left">
           <label
-            htmlFor="typeAnimal"
+            htmlFor={typeAnimalID}
             className="block text-sm font-semibold text-pink-700 mb-1"
           >
             Tipo de Animal 🐾
           </label>
           <select
             name="typeAnimal"
-            id="typeAnimal"
+            id={typeAnimalID}
             className="w-full px-4 py-2 border border-pink-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500"
             required
           >
@@ -88,10 +94,82 @@ export default function CrearPost() {
             <option value="gato">Gato 🐱</option>
           </select>
         </div>
+        {/* RAZA */}
+        <div className="text-left">
+          <label
+            htmlFor={raceID}
+            className="block text-sm font-semibold text-pink-700 mb-1"
+          >
+            Raza del Animal 🐾
+          </label>
+          <input
+            className="w-full px-4 py-2 border border-pink-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500"
+            type="text"
+            id={raceID}
+            name="race"
+            placeholder="Labrador, pitbull, chihuahua..."
+            minLength={3}
+            maxLength={50}
+            required
+          />
+        </div>
+        {/* VACUNAS (checkboxes) */}
+        <fieldset className="text-left border border-pink-300 rounded-lg p-4">
+          <legend className="text-sm font-semibold text-pink-700 mb-2">
+            Selecciona las vacunas 🩺
+          </legend>
+          <div className="grid grid-cols-2 gap-4">
+            <label className="inline-flex items-center">
+              <input
+                type="checkbox"
+                name="vaccines[]"
+                value="rabia"
+                className="form-checkbox h-5 w-5 text-pink-600"
+              />
+              <span className="ml-2">Rabia</span>
+            </label>
+            <label className="inline-flex items-center">
+              <input
+                type="checkbox"
+                name="vaccines[]"
+                value="parvovirus"
+                className="form-checkbox h-5 w-5 text-pink-600"
+              />
+              <span className="ml-2">Parvovirus</span>
+            </label>
+            <label className="inline-flex items-center">
+              <input
+                type="checkbox"
+                name="vaccines[]"
+                value="moquillo"
+                className="form-checkbox h-5 w-5 text-pink-600"
+              />
+              <span className="ml-2">Moquillo</span>
+            </label>
+            <label className="inline-flex items-center">
+              <input
+                type="checkbox"
+                name="vaccines[]"
+                value="leucemia"
+                className="form-checkbox h-5 w-5 text-pink-600"
+              />
+              <span className="ml-2">Leucemia</span>
+            </label>
+            <label className="inline-flex items-center">
+              <input
+                type="checkbox"
+                name="vaccines[]"
+                value="parainfluen"
+                className="form-checkbox h-5 w-5 text-pink-600"
+              />
+              <span className="ml-2">Parainfluenza</span>
+            </label>
+          </div>
+        </fieldset>
         {/* IMAGEN DEL ANIMAL */}
         <div className="text-left">
           <label
-            htmlFor="image"
+            htmlFor={imageID}
             className="block text-sm font-semibold text-pink-700 mb-1"
           >
             Imagen del animal 📷
@@ -100,7 +178,7 @@ export default function CrearPost() {
             className="w-full file:py-2 file:px-4 file:border-0 file:rounded-lg file:bg-pink-500 file:text-white file:font-semibold hover:file:bg-pink-600"
             type="file"
             name="image"
-            id="image"
+            id={imageID}
             onChange={handleImageChange}
             required
           />

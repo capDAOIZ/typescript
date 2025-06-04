@@ -1,4 +1,4 @@
-import { useParams, useNavigate, Link } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useAuth } from "../../Hooks/useAuth";
 
 import useGetPost from "../../Hooks/useGetPost";
@@ -25,6 +25,21 @@ export default function VistaPost({ openLoginModal }: Props) {
       navigate(`/firmarContrato/${id}`);
     }
   }
+
+  const vaccineInfo: Record<string, string> = {
+    moquillo:
+      "También conocido como distemper canino, es una enfermedad viral altamente contagiosa que afecta a perros.",
+    parvovirus:
+      "Virus que provoca gastroenteritis grave, caracterizada por diarrea sanguinolenta, letal si no se trata rápidamente.",
+    hepatitis:
+      "Enfermedad inflamatoria del hígado que puede poner en riesgo la vida del animal si no se vacuna a tiempo.",
+    parainfluen:
+      "Virus respiratorio muy contagioso que causa traqueobronquitis infecciosa, conocida como “tos de las perreras”.",
+    rabia:
+      "Enfermedad zoonótica mortal que ataca el sistema nervioso central. La vacuna es obligatoria para prevenir contagios.",
+    leucemia:
+      "Vacuna contra la leucemia felina (en gatos) o la leucemia canina (en perros), importante para prevenir cánceres virales.",
+  };
 
   return (
     <div className=" flex xl:flex-row flex-col min-h-screen gap-6 m-12  ">
@@ -117,71 +132,34 @@ export default function VistaPost({ openLoginModal }: Props) {
                 </CargandoConMensaje>
               ) : (
                 <div>
-                  {" "}
-                  <p className="text-center mb-3 font-semibold ">
-                    Actualmente el animal cuanta con las siguientes vacunas:
+                  <p className="text-center mb-3 font-semibold">
+                    Actualmente {post?.nameAnimal} cuenta con las siguientes
+                    vacunas:
                   </p>
-                  <ul className="text-center ">
-                    <li>
-                      <details>
-                        <summary className="font-black cursor-pointer ">
-                          Distemper
-                        </summary>
-                        <p>
-                          También conocido como moquillo canino, es una
-                          enfermedad viral altamente contagiosa que afecta a
-                          perros y otros animales, especialmente cachorros.
-                        </p>
-                      </details>
-                    </li>
-                    <li>
-                      <details>
-                        <summary className="font-black cursor-pointer ">
-                          Parvovirus{" "}
-                        </summary>
-                        <p>
-                          Es una enfermedad altamente contagiosa y letal que
-                          afecta a los intestinos y que se manifiesta mediante
-                          una diarrea sanguinolienta.
-                        </p>
-                      </details>
-                    </li>
-                    <li>
-                      <details>
-                        <summary className="font-black cursor-pointer ">
-                          Hepatitis
-                        </summary>
-                        <p>
-                          Enfermedad inflamatoria del hígado que puede afectar a
-                          los perros.
-                        </p>
-                      </details>
-                    </li>
-                    <li>
-                      <details>
-                        <summary className="font-black cursor-pointer ">
-                          Parainfluenza{" "}
-                        </summary>
-                        <p>
-                          Es un virus respiratorio muy contagioso que causa la
-                          traqueobronquitis infecciosa, también conocida como
-                          tos de las perreras.
-                        </p>
-                      </details>
-                    </li>
-                    <li>
-                      <details>
-                        <summary className="font-black cursor-pointer ">
-                          Vacuna contra la rabia
-                        </summary>
-                        <p>
-                          es una enfermedad potencialmente mortal causada por un
-                          virus que ataca el sistema nervioso central (cerebro y
-                          médula espinal).
-                        </p>
-                      </details>
-                    </li>
-                  </ul>
+
+                  {/* Si no hay ninguna vacuna, mostramos un mensaje alternativo */}
+                  {post?.vaccines?.length === 0 ? (
+                    <p className="text-center font-medium">
+                      No se encontraron vacunas registradas.
+                    </p>
+                  ) : (
+                    <ul className="text-left list-disc list-inside space-y-2">
+                      {post?.vaccines.map((key) => (
+                        <li key={key}>
+                          <details>
+                            <summary className="font-black cursor-pointer">
+                              {/* Capitalizamos la primera letra de la clave */}
+                              {key.charAt(0).toUpperCase() + key.slice(1)}
+                            </summary>
+                            <p className="mt-2 text-justify">
+                              {vaccineInfo[key] ||
+                                "Descripción no disponible para esta vacuna."}
+                            </p>
+                          </details>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </div>
               )}
             </div>
