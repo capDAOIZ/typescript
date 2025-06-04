@@ -19,7 +19,7 @@ export default function useGetLastPosts({ user_id }: Props = {}) {
   async function fetchLastPost() {
     setCargando(true);
     try {
-      const response = await getLastPost();
+      const response = await getLastPost(user_id);
       const data = response.posts;
       console.log(data);
       setPosts(data);

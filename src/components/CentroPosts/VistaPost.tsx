@@ -12,7 +12,7 @@ export default function VistaPost({ openLoginModal }: Props) {
   // Obtenemos la id del post de la url
   const { id } = useParams();
   // Obtenemos los datos del post con la id
-  const { post, cargando, error } = useGetPost({ id: Number(id) });
+  const { post, cargando } = useGetPost({ id: Number(id) });
 
   const { isAuthenticated, user } = useAuth();
   const navigate = useNavigate();
@@ -188,27 +188,30 @@ export default function VistaPost({ openLoginModal }: Props) {
           </div>
 
           {/* Boton para firmar la adopcion */}
-          {post?.adopted == false && !cargando && user?.is_banned == false && (
-            <div className="w-full flex gap-6 justify-center">
-              <div className="p-6 text-black rounded-3xl text-center ">
-                <h3 className="font-bold text-2xl mb-10">
-                  Te gustaria darle otra oportunidad a {post?.nameAnimal}?
-                </h3>
-                <div className="relative inline-block">
-                  <button
-                    onClick={handleClick}
-                    className="bg-white text-black px-6 py-3 rounded-full text-lg font-semibold relative"
-                  >
-                    Firma para una segunda oportunidad
-                  </button>
-                  <span className="absolute top-0 right-0 flex size-3">
-                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-sky-400 opacity-75"></span>
-                    <span className="relative inline-flex size-3 rounded-full bg-sky-500"></span>
-                  </span>
+          {post.verificado == true &&
+            post?.adopted == false &&
+            !cargando &&
+            user?.is_banned == false && (
+              <div className="w-full flex gap-6 justify-center">
+                <div className="p-6 text-black rounded-3xl text-center ">
+                  <h3 className="font-bold text-2xl mb-10">
+                    Te gustaria darle otra oportunidad a {post?.nameAnimal}?
+                  </h3>
+                  <div className="relative inline-block">
+                    <button
+                      onClick={handleClick}
+                      className="bg-white text-black px-6 py-3 rounded-full text-lg font-semibold relative"
+                    >
+                      Firma para una segunda oportunidad
+                    </button>
+                    <span className="absolute top-0 right-0 flex size-3">
+                      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-sky-400 opacity-75"></span>
+                      <span className="relative inline-flex size-3 rounded-full bg-sky-500"></span>
+                    </span>
+                  </div>
                 </div>
               </div>
-            </div>
-          )}
+            )}
         </section>
         <hr className="mb-24 border-black "></hr>
         <footer className="absolute bottom-5 ">

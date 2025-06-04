@@ -46,7 +46,11 @@ export default function usePostsXPaginas() {
 
   useEffect(() => {
     fetchPosts(paginaActual, textoBusqueda, tipoBusqueda);
-  }, [paginaActual, refrescarFetch, fetchPosts]);
+  }, [paginaActual, fetchPosts]);
+
+  useEffect(() => {
+    fetchPosts(1, textoBusqueda, tipoBusqueda);
+  }, [refrescarFetch, fetchPosts]);
 
   function refrescar() {
     setRefrescarFetch(!refrescarFetch);

@@ -42,7 +42,11 @@ export default function useGetPostNotVerified() {
 
   useEffect(() => {
     fecthPostNotVerified(paginaActual, textoBusqueda);
-  }, [refrescarFetch, paginaActual, fecthPostNotVerified]);
+  }, [paginaActual, fecthPostNotVerified]);
+
+  useEffect(() => {
+    fecthPostNotVerified(1, textoBusqueda);
+  }, [refrescarFetch, fecthPostNotVerified]);
 
   function refrescar() {
     setRefrescarFetch((prevData) => !prevData);
