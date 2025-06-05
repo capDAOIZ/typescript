@@ -16,7 +16,7 @@ export default function VistaPost({ openLoginModal }: Props) {
 
   const { isAuthenticated, user } = useAuth();
   const navigate = useNavigate();
-  console.log(user?.is_banned);
+  console.log(post.user_id);
 
   function handleClick() {
     if (!isAuthenticated) {
@@ -143,8 +143,8 @@ export default function VistaPost({ openLoginModal }: Props) {
                       No se encontraron vacunas registradas.
                     </p>
                   ) : (
-                    <ul className="text-left list-disc list-inside space-y-2">
-                      {post?.vaccines.map((key) => (
+                    <ul className="text-left list-inside space-y-2">
+                      {post?.vaccines?.map((key) => (
                         <li key={key}>
                           <details>
                             <summary className="font-black cursor-pointer">
@@ -166,7 +166,8 @@ export default function VistaPost({ openLoginModal }: Props) {
           </div>
 
           {/* Boton para firmar la adopcion */}
-          {post.verificado == true &&
+          {post.user_id != user?.id &&
+            post.verificado == true &&
             post?.adopted == false &&
             !cargando &&
             user?.is_banned == false && (

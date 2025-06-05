@@ -8,7 +8,7 @@ import AnimalesPosteados from "./AnimalesPosteados";
 import AnimalesAdoptados from "./AnimalesAdoptados";
 
 export default function Perfil() {
-  const { user } = useAuth();
+  const { user, refrescarUsuario } = useAuth();
   const user_id = user?.id;
 
   const { mensaje, error, loading, fecthUpdateuser } = useUpdateUser();
@@ -31,7 +31,9 @@ export default function Perfil() {
       }
     }
 
-    await fecthUpdateuser({ user_id: user_id!, formData });
+    await fecthUpdateuser({ user_id: user_id!, formData, refrescarUsuario });
+
+    setTimeout(() => setEditando(false), 3000);
   }
 
   return (

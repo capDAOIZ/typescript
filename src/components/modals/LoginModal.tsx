@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useId } from "react";
 import { useNavigate } from "react-router-dom";
 import { BotonCargando } from "./Cargando";
 import { useAuth } from "../../Hooks/useAuth";
@@ -10,6 +10,9 @@ interface LoginModalProps {
 
 export default function LoginModal({ isOpen, closeModal }: LoginModalProps) {
   const gmailRef = useRef<HTMLInputElement>(null);
+
+  const passwordID = useId();
+  const emailID = useId();
 
   const [gmail, setGmail] = useState("");
   const [password, setPassword] = useState("");
@@ -78,13 +81,13 @@ export default function LoginModal({ isOpen, closeModal }: LoginModalProps) {
         <form onSubmit={handleSubmit}>
           {/* Inputs del form */}
           <div className="mb-4">
-            <label htmlFor="gmail" className="block mb-2 text-black">
-              Gmail:
+            <label htmlFor={emailID} className="block mb-2 text-black">
+              Email:
             </label>
             <input
               type="text"
-              id="gmail"
-              name="gmail"
+              id={emailID}
+              name="email"
               className="w-full p-2 border rounded"
               required
               ref={gmailRef}
@@ -94,12 +97,12 @@ export default function LoginModal({ isOpen, closeModal }: LoginModalProps) {
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="password" className="block mb-2 text-black">
+            <label htmlFor={passwordID} className="block mb-2 text-black">
               Contraseña:
             </label>
             <input
               type="password"
-              id="password"
+              id={passwordID}
               name="password"
               className="w-full p-2 border rounded"
               required

@@ -9,6 +9,7 @@ interface Props {
   handleCrearContrato: () => Promise<boolean>;
   datosContrato: FormData | null;
 }
+
 interface Post {
   nombre: string;
   tipo: string;
@@ -17,6 +18,7 @@ interface Post {
   imagen: File;
   user_id?: number;
   adopted?: boolean;
+  vacunas: string[];
 }
 
 interface Adoptante {
@@ -79,6 +81,7 @@ export default function ContratoFinal({
           tipo: data.typeAnimal,
           raza: data.race,
           imagen: data.image,
+          vacunas: data.vaccines,
         };
 
         setPost(nuevoData);
@@ -159,7 +162,24 @@ export default function ContratoFinal({
                 Raza del animal: <span className="font-bold">{post?.raza}</span>
               </p>
               <p>
-                Cartilla sanitaria: <span className="font-bold">CARTILLA</span>
+                Cartilla sanitaria:{" "}
+                <span className="font-bold">
+                  {post?.vacunas?.length === 0 ? (
+                    <p className="text-center font-medium">
+                      No se encontraron vacunas registradas.
+                    </p>
+                  ) : (
+                    <ul className="text-left list-inside space-y-2 ml-5 mt-5">
+                      {post?.vacunas?.map((key) => (
+                        <li key={key}>
+                          <span className="font-bold">
+                            {key.charAt(0).toUpperCase() + key.slice(1)}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </span>
               </p>
             </section>
             <section className="flex flex-col items-center w-1/2 ">

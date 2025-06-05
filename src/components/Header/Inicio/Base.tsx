@@ -1,6 +1,7 @@
 import UltimosPots from "./UltimosPots";
 import FotoPrincipal from "./FotoPrincipal";
 import ImageCarousel from "./ImageCarousel";
+import ProcesoAdopcion from "./ProcesoAdopcion";
 export default function Base() {
   const imagenes = [
     "/imagenes/Nike.png",
@@ -16,6 +17,8 @@ export default function Base() {
         Nuestras ultimas mascotas en adopcion 😊
       </h2>
       <UltimosPots />
+
+      <ProcesoAdopcion></ProcesoAdopcion>
       <h2 className="text-2xl font-semibold my-10 text-center ">
         Nuestros Colaboradores 🤝
       </h2>

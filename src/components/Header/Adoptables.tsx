@@ -2,7 +2,7 @@ import usePostsXPaginas from "../../Hooks/usePostsXPaginas";
 import PasadoresDePaginas from "../PasadoresDePaginas";
 import TarjetaAnimales from "../Tarjetas/TarjetaAnimales";
 import { Cargando } from "../modals/Cargando";
-import { useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 import debounce from "just-debounce-it";
 
 export default function Adoptables() {
@@ -18,6 +18,7 @@ export default function Adoptables() {
     setTextoBusqueda,
     tipoBusqueda,
     textoBusqueda,
+    refrescar,
   } = usePostsXPaginas();
 
   const debouncedFetchPosts = useCallback(
@@ -64,6 +65,7 @@ export default function Adoptables() {
         <section className="flex gap-x-8">
           <select
             // onFocus onBlur
+            value={tipoBusqueda}
             className="py-2 px-4 rounded-lg border-2 border-pink-600 font-semibold"
             onChange={handleChangeSelect}
           >
@@ -94,6 +96,10 @@ export default function Adoptables() {
         ) : error ? (
           <p className="text-red-600 flex justify-center items-center col-span-full">
             Problemas en la red, intentalo mas tarde
+          </p>
+        ) : posts.length === 0 ? (
+          <p className="col-span-full text-blue-600 text-center">
+            Actualmente no tenemos animales en adopcion
           </p>
         ) : (
           posts.map((post) => (

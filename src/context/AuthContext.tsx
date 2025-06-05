@@ -23,6 +23,7 @@ interface AuthContextType {
   errorLogin: string;
   cargandoLogin: boolean;
   cargandoContext: boolean;
+  refrescarUsuario: () => void;
 }
 
 interface Props {
@@ -42,7 +43,9 @@ export function AuthProvider({ children }: Props) {
     cargandoLogin,
   } = useLogin();
 
+  const [refrescar, setRefrescar] = useState(false);
   const [cargandoContext, setCargandoContext] = useState(false);
+
   function desloguearse() {
     setUser(undefined);
     setIsAuthenticated(false);
@@ -67,7 +70,11 @@ export function AuthProvider({ children }: Props) {
         setCargandoContext(false);
       }
     })();
-  }, [setUser, setIsAuthenticated]);
+  }, [setUser, setIsAuthenticated, refrescar]);
+
+  function refrescarUsuario() {
+    setRefrescar((prevData) => !prevData);
+  }
 
   return (
     <AuthContext.Provider
@@ -79,6 +86,7 @@ export function AuthProvider({ children }: Props) {
         errorLogin,
         cargandoLogin,
         cargandoContext,
+        refrescarUsuario,
       }}
     >
       {children}

@@ -107,7 +107,10 @@ export async function actualizarUsuario(id: number, formData: FormData) {
       },
     });
     return response.data;
-  } catch (error) {
+  } catch (error: any) {
+    if (error.response.status === 422) {
+      throw error.response.data;
+    }
     console.error("Error al actualizar el usuario", error);
     throw error;
   }

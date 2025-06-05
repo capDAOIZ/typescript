@@ -20,6 +20,7 @@ export default function ActualizarPost({ id }: Props) {
       try {
         const data = await getPost(id); // devuelve { post: { ..., vaccines: ["rabia","moquillo"], ... } }
         const p = data.post;
+        console.log(p);
         setSelectedVaccines(p.vaccines || []);
         // (opcional: podrías precargar otros campos si lo necesitas)
       } catch (err) {
@@ -29,21 +30,40 @@ export default function ActualizarPost({ id }: Props) {
     fetchPost();
   }, [id]);
 
+  function handleCheckboxChange(vacuna: string, estáChecked: boolean) {
+    setSelectedVaccines((prev) => {
+      if (estáChecked) {
+        // Agrego la vacuna si no estaba
+        return prev.includes(vacuna) ? prev : [...prev, vacuna];
+      } else {
+        // Quito la vacuna si estaba
+        return prev.filter((v) => v !== vacuna);
+      }
+    });
+  }
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     const original = new FormData(e.target as HTMLFormElement);
     const formDataCleaned = new FormData();
 
-    // destructuramos el FormData original
+    // Copiamos sólo los campos no vacíos
     for (const [key, value] of original) {
       const stringVacio = typeof value === "string" && value.trim() === "";
       const fileVacio = value instanceof File && value.size === 0;
       if (!stringVacio && !fileVacio) {
-        // ③ solo copiamos si NO está vacío
         formDataCleaned.append(key, value);
       }
     }
-    // Convertir un iterador en un array || Si cleaned tiene las claves "title" y "content", el iterador produce "title" → "content".
+
+    // Además, añadimos las vacunas actuales al FormData:
+    // (porque los inputs type="checkbox" usan name="vaccines[]" y React no los incluye automáticamente
+    //  si hemos hecho controlled components. Por eso si queremos mandarlo al servidor,
+    //  hay que construirlo “a mano”).
+    selectedVaccines.forEach((v) => {
+      formDataCleaned.append("vaccines[]", v);
+    });
+
     if (![...formDataCleaned.keys()].length) {
       setMensaje("No se detectaron cambios");
       return;
@@ -51,6 +71,7 @@ export default function ActualizarPost({ id }: Props) {
 
     await fecthUpdatePost({ id, formDataCleaned });
   }
+
   return (
     <>
       <h2 className="text-2xl font-semibold text-center ">
@@ -125,53 +146,77 @@ export default function ActualizarPost({ id }: Props) {
             Selecciona las vacunas 🩺
           </legend>
           <div className="grid grid-cols-2 gap-4">
+            {/* Rabia */}
             <label className="inline-flex items-center">
               <input
                 type="checkbox"
                 name="vaccines[]"
                 value="rabia"
                 className="form-checkbox h-5 w-5 text-pink-600"
-                defaultChecked={selectedVaccines.includes("rabia")}
+                checked={selectedVaccines.includes("rabia")}
+                onChange={(e) =>
+                  handleCheckboxChange("rabia", e.target.checked)
+                }
               />
               <span className="ml-2">Rabia</span>
             </label>
+
+            {/* Parvovirus */}
             <label className="inline-flex items-center">
               <input
                 type="checkbox"
                 name="vaccines[]"
                 value="parvovirus"
                 className="form-checkbox h-5 w-5 text-pink-600"
-                defaultChecked={selectedVaccines.includes("parvovirus")}
+                checked={selectedVaccines.includes("parvovirus")}
+                onChange={(e) =>
+                  handleCheckboxChange("parvovirus", e.target.checked)
+                }
               />
               <span className="ml-2">Parvovirus</span>
             </label>
+
+            {/* Moquillo */}
             <label className="inline-flex items-center">
               <input
                 type="checkbox"
                 name="vaccines[]"
                 value="moquillo"
                 className="form-checkbox h-5 w-5 text-pink-600"
-                defaultChecked={selectedVaccines.includes("moquillo")}
+                checked={selectedVaccines.includes("moquillo")}
+                onChange={(e) =>
+                  handleCheckboxChange("moquillo", e.target.checked)
+                }
               />
               <span className="ml-2">Moquillo</span>
             </label>
+
+            {/* Leucemia */}
             <label className="inline-flex items-center">
               <input
                 type="checkbox"
                 name="vaccines[]"
                 value="leucemia"
                 className="form-checkbox h-5 w-5 text-pink-600"
-                defaultChecked={selectedVaccines.includes("leucemia")}
+                checked={selectedVaccines.includes("leucemia")}
+                onChange={(e) =>
+                  handleCheckboxChange("leucemia", e.target.checked)
+                }
               />
               <span className="ml-2">Leucemia</span>
             </label>
+
+            {/* Parainfluenza */}
             <label className="inline-flex items-center">
               <input
                 type="checkbox"
                 name="vaccines[]"
                 value="parainfluen"
                 className="form-checkbox h-5 w-5 text-pink-600"
-                defaultChecked={selectedVaccines.includes("parainfluen")}
+                checked={selectedVaccines.includes("parainfluen")}
+                onChange={(e) =>
+                  handleCheckboxChange("parainfluen", e.target.checked)
+                }
               />
               <span className="ml-2">Parainfluenza</span>
             </label>

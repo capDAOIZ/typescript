@@ -4,6 +4,7 @@ import { actualizarUsuario } from "../services/ApiUsuario";
 interface PropsFetch {
   user_id: number;
   formData: FormData;
+  refrescarUsuario?: () => void;
 }
 
 export default function useUpdateUser() {
@@ -14,7 +15,11 @@ export default function useUpdateUser() {
   const timeoutRef = useRef<number>();
   const timeoutMensaje = useRef<number>();
 
-  async function fecthUpdateuser({ user_id, formData }: PropsFetch) {
+  async function fecthUpdateuser({
+    user_id,
+    formData,
+    refrescarUsuario,
+  }: PropsFetch) {
     try {
       setLoading(true);
       await actualizarUsuario(user_id, formData);
@@ -24,12 +29,14 @@ export default function useUpdateUser() {
       // Utilizamos windor.setTimeout para asegurarnos de que obtendremos un id de timeout válido
       // Si utilizamos setTimeout directamente, no obtendremos un id de timeout válido
       timeoutRef.current = window.setTimeout(() => {
-        window.location.reload();
+        setMensaje("");
+        refrescarUsuario && refrescarUsuario();
       }, 3000);
       return;
-    } catch (error: any) {
+    } catch (e: any) {
       let errores = "";
-      const errorObj = error.response.data.errores;
+      console.log(e);
+      const errorObj = e.errors;
       if (errorObj) {
         Object.keys(errorObj).forEach((key) => {
           errorObj[key].forEach((msg: string) => {

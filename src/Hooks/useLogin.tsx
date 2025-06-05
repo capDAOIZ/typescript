@@ -30,15 +30,21 @@ export default function useLogin() {
       setIsAuthenticated(true);
       return true;
     } catch (e: any) {
-      let errores = "";
-      console.log(e);
-      const errorObj = e.errors;
-      if (errorObj) {
-        Object.keys(errorObj).forEach((key) => {
-          errorObj[key].forEach((msg: string) => {
-            errores += `${msg}\n`;
+      let errores = "Usuario no registrado";
+      if (e.status == 401) {
+        setErrorLogin("Credenciales incorrectas");
+        return false;
+      }
+      if (e.errors) {
+        errores = "";
+        const errorObj = e.errors;
+        if (errorObj) {
+          Object.keys(errorObj).forEach((key) => {
+            errorObj[key].forEach((msg: string) => {
+              errores += `${msg}\n`;
+            });
           });
-        });
+        }
       }
       setErrorLogin(errores);
       return false;

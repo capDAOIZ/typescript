@@ -129,6 +129,28 @@ export default function BotonPDF({ PostId }: Props) {
     doc.text(`Raza: ${post?.race || ""}`, leftMargin + 15, cursorY);
     cursorY += lineHeight + 15;
 
+    // === NUEVA FORMA DE IMPRIMIR “VACUNAS” ===
+    // 1) Extraigo y capitalizo cada vacuna
+    const vacunasArray = post?.vaccines || [];
+    const vacunasCapitalizadas = vacunasArray.map(
+      (key) => key.charAt(0).toUpperCase() + key.slice(1)
+    );
+
+    // 2) Convierto ese array en un string, separado por comas:
+    const textoVacunas = vacunasCapitalizadas.join(", ");
+
+    // 3) Si cabe en una sola línea, uso `doc.text`; si es muy largo, puedo partirlo en varias líneas:
+    //    Por ejemplo, para que corte automáticamente:
+    const lineasVacunas = doc.splitTextToSize(
+      `Vacunas: ${textoVacunas}`,
+      usableWidth - 30
+    );
+
+    // 4) Lo muestro en el PDF
+    doc.text(lineasVacunas, leftMargin + 15, cursorY);
+
+    cursorY += lineasVacunas.length * lineHeight + 15;
+
     // ————— 5) IMAGEN ESTÁTICA DEL ANIMAL —————
     try {
       const imgBase64 = await getBase64FromLocalUrl("/imagenes/animales.jpg");

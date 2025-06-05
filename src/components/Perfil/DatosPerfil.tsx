@@ -34,7 +34,7 @@ export default function DatosPerfil({ user, children }: Props) {
 
       <section className="lg:px-10 xl:px-20">
         <div className="mb-10">
-          <h1 className="text-xl font-semibold">Sobre mi</h1>
+          <h1 className="text-xl font-semibold mb-3">Sobre mi</h1>
           <p id="biografia">
             {user?.biografia ? user?.biografia : "Pensando..."}
           </p>
