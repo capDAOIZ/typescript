@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useId } from "react";
 import { BotonCargando } from "../modals/Cargando";
+import useImagenPreview from "../../Hooks/useImagenPreview";
 interface Props {
   user: any;
   error: string;
@@ -18,6 +19,8 @@ export default function EditarDatosPerfil({
 }: Props) {
   const [mostrarContraseña, setMostrarContraseña] = useState(false);
   const [password, setPassword] = useState("");
+  const { imagePreview, setImagePreview, handleImageChange } =
+    useImagenPreview();
   function handleClick(e: React.FormEvent) {
     e.preventDefault();
     setMostrarContraseña(!mostrarContraseña);
@@ -144,7 +147,15 @@ export default function EditarDatosPerfil({
               name="image"
               id="image"
               className="hidden"
+              onChange={handleImageChange}
             ></input>
+            {imagePreview && (
+              <img
+                src={imagePreview}
+                alt="Preview"
+                className="mt-4 w-full h-64 object-contain rounded-lg border-2 border-pink-300 shadow"
+              />
+            )}
           </div>
           {/* Biografía */}
           <section className="flex flex-col gap-y-2 pb-4">

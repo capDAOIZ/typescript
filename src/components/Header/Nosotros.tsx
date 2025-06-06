@@ -42,8 +42,8 @@ export default function Nosotros() {
         </picture>
         <picture className="w-1/2 lg:w-2/6 bg-pink-200 flex flex-col items-center gap-4 p-4 rounded-3xl shadow-2xl">
           <img
-            src="../imagenes/JorgeZavaleta.jpg"
-            className="w-1/2 rounded-xl"
+            src="../imagenes/FotoMario.jpg"
+            className="w-1/2 rounded-xl h-1/2 object-cover"
           ></img>
           <section>
             <h2 className="text-center text-lg font-semibold">Mario Garrido</h2>

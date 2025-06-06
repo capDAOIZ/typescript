@@ -31,6 +31,7 @@ export default function useUpdateUser() {
       timeoutRef.current = window.setTimeout(() => {
         setMensaje("");
         refrescarUsuario && refrescarUsuario();
+        setLoading(false);
       }, 3000);
       return;
     } catch (e: any) {

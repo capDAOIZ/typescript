@@ -186,7 +186,7 @@ export default function CrearPost() {
             <img
               src={imagePreview}
               alt="Preview"
-              className="mt-4 w-full h-64 object-cover rounded-lg border-2 border-pink-300 shadow"
+              className="mt-4 w-full h-64 object-contain rounded-lg border-2 border-pink-300 shadow"
             />
           )}
         </div>
