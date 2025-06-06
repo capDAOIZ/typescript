@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost/ApiPost_PF/public/api";
+const API_URL = "https://apipost-pf.onrender.com/api";
 
 const api = axios.create({
   baseURL: API_URL,
