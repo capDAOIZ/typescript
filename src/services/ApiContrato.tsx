@@ -1,4 +1,4 @@
-const API_URL = "http://localhost/ApiContrato_PF/public/api";
+const API_URL = "https://api-usuarios-rend.onrender.com/api";
 
 // Recordar que fecth hay que pasarle el metodo, el body y el header
 // El body debe ser en JSON por lo que usamos la funcion JSON.stringify("contenido")
