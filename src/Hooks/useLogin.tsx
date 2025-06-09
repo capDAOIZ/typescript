@@ -18,7 +18,7 @@ export default function useLogin() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [cargandoLogin, setCargandoLogin] = useState(false);
 
-  const timeout = useRef<number | null>(null);
+const timeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   async function fecthLogin(email: string, password: string) {
     try {
       setCargandoLogin(true);
